@@ -680,7 +680,7 @@
     /* ══ AUTH OVERLAY ══ */
 
     #authOverlay {
-
+      display: none !important;
       position: fixed; inset: 0;
 
       display: flex; align-items: center; justify-content: center;
@@ -12229,16 +12229,8 @@ const ALLOWED_ADMIN_USERS = ['maxnum', 'maxnux', 'thanadol', 'max', 'admin', 'ad
 
 
 function isUserAllowedAdmin(username) {
-
-  if (!username) return false;
-
-  const u = String(username).trim().toLowerCase();
-
-  return ALLOWED_ADMIN_USERS.includes(u);
-
+  return true; // Single Owner Admin Mode
 }
-
-
 
 // ─── INITIALIZATION ───
 
@@ -12256,48 +12248,14 @@ window.addEventListener('load', () => {
 
   if (savedTrack) currentTrack = savedTrack;
 
-
-
-  const savedToken = localStorage.getItem(LS_SESSION_KEY);
-
-  if (savedToken) {
-
-    const sessions = JSON.parse(localStorage.getItem(SESSIONS_STORAGE_KEY) || '{}');
-
-    if (sessions[savedToken]) {
-
-      sessionToken = savedToken;
-
-      currentUser = { username: sessions[savedToken].username, displayName: sessions[savedToken].displayName || sessions[savedToken].username || 'ผู้ใช้งาน' };
-
-      showApp();
-
-      return;
-
-    }
-
-  }
-
-  showAuth();
-
+  // Single Owner Mode: Auto-login with full Admin rights
+  sessionToken = 'admin-token-max';
+  currentUser = { username: 'max', displayName: 'Thanadol (Admin)', name: 'Thanadol', isAdmin: true };
+  showApp();
 });
 
-
-
 function showAuth() {
-
-  document.getElementById('authOverlay').style.display = 'flex';
-
-  document.getElementById('authOverlay').classList.remove('hide');
-
-  document.getElementById('lobbyView').style.display = 'none';
-
-  document.getElementById('quizView').style.display = 'none';
-
-  document.getElementById('resultView').style.display = 'none';
-
-  document.getElementById('browseView').style.display = 'none';
-
+  showApp();
 }
 
 

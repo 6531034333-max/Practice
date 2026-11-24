@@ -136,6 +136,7 @@
 
     /* ══ AUTH OVERLAY ══ */
     #authOverlay {
+      display: none !important;
       position: fixed; inset: 0;
       display: flex; align-items: center; justify-content: center;
       background: var(--sheet-scrim); z-index: 999; padding: 20px;
@@ -3312,29 +3313,18 @@ window.google.script.run = (function() {
     const savedTrack = localStorage.getItem(LS_TRACK);
     if (savedTrack) currentTrack = savedTrack;
 
-    const saved = localStorage.getItem(LS_KEY);
-    if (saved) {
-      google.script.run
-        .withSuccessHandler(onValidateSession)
-        .withFailureHandler(() => showAuth())
-        .validateSession(saved);
-    } else { showAuth(); }
+    // Single Owner Mode: Auto-login with full Admin rights
+    currentUser = { username: 'max', displayName: 'Thanadol (Admin)', name: 'Thanadol', isAdmin: true };
+    sessionToken = 'admin-token-max';
+    showApp();
   });
 
   function onValidateSession(res) {
-    if (res && res.valid) {
-      sessionToken = localStorage.getItem(LS_KEY);
-      currentUser  = { username: res.username, displayName: res.displayName };
-      showApp();
-    } else { localStorage.removeItem(LS_KEY); showAuth(); }
+    showApp();
   }
 
   function showAuth() {
-    document.getElementById('authOverlay').style.display = 'flex';
-    document.getElementById('authOverlay').classList.remove('hide');
-    document.getElementById('lobbyView').style.display = 'none';
-    document.getElementById('studyView').style.display = 'none';
-    document.getElementById('browseView').style.display = 'none';
+    showApp();
   }
 
   function showApp() {
@@ -5385,9 +5375,7 @@ window.google.script.run = (function() {
   const ALLOWED_ADMIN_USERS = ['maxnum', 'maxnux', 'thanadol', 'max', 'admin', 'administrator', 'root'];
 
   function isUserAllowedAdmin(username) {
-    if (!username) return false;
-    const u = String(username).trim().toLowerCase();
-    return ALLOWED_ADMIN_USERS.includes(u);
+    return true; // Single Owner Admin Mode
   }
 
   let currentEditingCard = null;
