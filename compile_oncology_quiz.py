@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Compile PT2 Comprehensive Oncology Exam Question Bank into quiz-data-offline.js
+Compile PT2 Comprehensive Oncology Exam Question Bank + CASE PT2 Exam Questions into quiz-data-offline.js
 With PLE CC Multi-Section Explanation Template:
 - ✅ คำตอบที่ถูกต้อง
 - 🎯 ทำไมข้อนี้ถึงถูก
 - 🔍 ข้ออื่นผิดเพราะอะไร
 - 📌 จุดจำก่อนสอบ
-- 📖 Guideline อ้างอิง
+- 📖 Guideline อ้างอิง / บริบทเคสอาจารย์
 """
 import os, sys, re, json, datetime
 
@@ -26,6 +26,7 @@ print(f"  Source MD   : {MD_PATH}")
 print(f"  Target File : {OUTPUT_JS}")
 print("=" * 65)
 
+# --- 1. Load Question Bank (225 Questions) ---
 with open(MD_PATH, 'r', encoding='utf-8') as f:
     text = f.read()
 
@@ -98,11 +99,9 @@ def parse_explanation_sections(exp_raw, ans_num, ans_text, choices):
     if m_ref:
         guideline = m_ref.group(1).strip()
 
-    # Format why_correct: convert markdown sub-bullets
     why_correct_clean = why_correct.replace('\n  ', '\n').replace('\n- ', '\n• ').strip()
     why_correct_html = why_correct_clean.replace('\n\n', '<br><br>').replace('\n', '<br>')
 
-    # Format distractor_analysis:
     dist_lines = []
     for line in distractor_analysis.splitlines():
         line_s = line.strip()
@@ -112,25 +111,19 @@ def parse_explanation_sections(exp_raw, ans_num, ans_text, choices):
         for l_en, l_th in LETTER_MAP.items():
             if f'• ข้อ {l_en}.' in line_s:
                 c_idx = ord(l_en) - ord('A')
-                c_val = choices[c_idx] if choices and c_idx < len(choices) else ''
-                if c_val:
-                    c_short = c_val[:45] + ('...' if len(c_val) > 45 else '')
-                    line_s = line_s.replace(f'• ข้อ {l_en}.', f'• ข้อ {l_th}. ({c_short}):')
-                else:
-                    line_s = line_s.replace(f'• ข้อ {l_en}.', f'• ข้อ {l_th}.')
+                c_preview = choices[c_idx][:30] + '...' if c_idx < len(choices) and choices[c_idx] else ''
+                line_s = line_s.replace(f'• ข้อ {l_en}.', f'• ข้อ {l_th}. ({c_preview}):')
                 break
         dist_lines.append(line_s)
-    dist_html = '<br>'.join(dist_lines)
+    dist_clean = '\n'.join(dist_lines).strip()
+    dist_html = dist_clean.replace('\n\n', '<br><br>').replace('\n', '<br>')
 
-    # Format pearl
-    pearl_clean = re.sub(r'^-\s*\*\*[^:]+:\*\*\s*', '', pearl).replace('\n  ', '\n').replace('\n- ', '\n• ').strip()
+    pearl_clean = pearl.replace('\n  ', '\n').replace('\n- ', '\n• ').strip()
     pearl_html = pearl_clean.replace('\n\n', '<br><br>').replace('\n', '<br>')
 
-    # Format guideline
     guideline_clean = re.sub(r'^---\s*$', '', guideline).strip()
     guideline_html = guideline_clean.replace('\n', '<br>').strip()
 
-    # Build final PLE CC segmented template
     ans_th = INDEX_TO_THAI.get(ans_num, 'ก')
     sections = [
         f"✅ คำตอบที่ถูกต้อง: ข้อ {ans_th}. {ans_text}"
@@ -150,7 +143,6 @@ def parse_explanation_sections(exp_raw, ans_num, ans_text, choices):
 
     return '<br><br>'.join(sections)
 
-
 CATEGORY_NAME = '14. Oncologic'
 records = []
 
@@ -158,7 +150,6 @@ for idx, q in enumerate(questions):
     item_no = idx + 1
     body = q['body']
 
-    # Stem
     stem = ''
     m_stem = re.search(r'\*\*โจทย์[^*]*\:\*\*\s*(.*?)(?=\n\s*(?:-\s*[A-E]\.|\*\*ตัวเลือก))', body, re.DOTALL)
     if m_stem:
@@ -172,7 +163,6 @@ for idx, q in enumerate(questions):
 
     stem = re.sub(r'^[*\s]+โจทย์[^*]*\:[*\s]*', '', stem).strip()
 
-    # Choices A-E
     choices = []
     for c_letter in ['A', 'B', 'C', 'D', 'E']:
         m_opt = re.search(rf'-\s*{c_letter}\.\s*(.*?)(?=\n\s*-\s*[B-E]\.|\n\s*\*\*เฉลย|\n\n|\Z)', body, re.DOTALL)
@@ -182,7 +172,6 @@ for idx, q in enumerate(questions):
         else:
             choices.append('')
 
-    # Answer
     ans_key = 1
     m_ans = re.search(r'\*\*เฉลย[^*]*\:\*\*\s*([A-E1-5])', body)
     if m_ans:
@@ -191,10 +180,8 @@ for idx, q in enumerate(questions):
 
     correct_choice_text = choices[ans_key - 1] if ans_key - 1 < len(choices) else ''
 
-    # Explanation with PLE CC segmented template
     exp_formatted = parse_explanation_sections(body, ans_key, correct_choice_text, choices)
 
-    # Subtopic clean
     mod_clean = re.sub(r'Module\s+\d+\:\s*', '', q['module'])
     mod_clean = re.sub(r'—.*$', '', mod_clean)
     mod_clean = re.sub(r'\(ข้อ.*$', '', mod_clean).strip()
@@ -224,6 +211,16 @@ for idx, q in enumerate(questions):
     }
     records.append(rec)
 
+print(f"Loaded {len(records)} existing questions from MD question bank.")
+
+# --- 2. Append CASE PT2 Questions (26 Questions) ---
+import prepare_case_pt2_records as pcr
+case_records = pcr.build_case_records(start_item_no=len(records) + 1)
+print(f"Generated {len(case_records)} new CASE PT2 exam records.")
+
+records.extend(case_records)
+print(f"Total merged questions: {len(records)}")
+
 now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 categories_meta = [
@@ -242,7 +239,7 @@ header_comment = f"""/**
  * 📝 PLE-CC Quiz Practice -- Auto-compiled Offline Database (PLE CC Multi-Section Template)
  * Total Questions: {len(records)} across 1 Category ({CATEGORY_NAME})
  * Build Timestamp: {now_str} (UTC+7)
- * Build Source: PT2_ONCOLOGY_EXAM_QUESTION_BANK_COMPREHENSIVE.md
+ * Build Source: PT2 Comprehensive Oncology Exam Bank + CASE PT2 Simulation (26 Questions)
  * Google Sheet ID: {SPREADSHEET_ID}
  */
 
@@ -250,7 +247,7 @@ window.QUIZ_GOOGLE_SHEET_ID = "{SPREADSHEET_ID}";
 window.QUIZ_GAS_SCRIPT_ID = "{GAS_SCRIPT_ID}";
 window.QUIZ_GAS_WEBAPP_URL = "{GAS_WEBAPP_URL}";
 window.QUIZ_BUILD_TIMESTAMP = "{now_str}";
-window.QUIZ_BUILD_SOURCE = "PT2 Comprehensive Oncology Exam Bank (PLE CC Template)";
+window.QUIZ_BUILD_SOURCE = "PT2 Comprehensive Oncology Exam Bank + CASE PT2 Simulation (PLE CC Template)";
 window.QUIZ_TOTAL_QUESTIONS = {len(records)};
 
 window.QUIZ_OFFLINE_CATEGORIES = {json.dumps(categories_meta, ensure_ascii=False, indent=2)};
@@ -263,4 +260,4 @@ window.QUIZ_OFFLINE_DB = {json.dumps(records, ensure_ascii=False, indent=2)};
 with open(OUTPUT_JS, 'w', encoding='utf-8') as f:
     f.write(header_comment)
 
-print(f"✅ Successfully compiled {len(records)} oncology questions with PLE CC explanation template to {OUTPUT_JS} ({os.path.getsize(OUTPUT_JS):,} bytes)")
+print(f"✅ Successfully compiled {len(records)} oncology questions (225 bank + 26 cases) with PLE CC explanation template to {OUTPUT_JS} ({os.path.getsize(OUTPUT_JS):,} bytes)")

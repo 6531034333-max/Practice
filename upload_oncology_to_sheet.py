@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Upload PT2 Comprehensive Oncology Exam Question Bank to Quiz Google Sheet.
+Upload PT2 Comprehensive Oncology Exam Question Bank (225 Qs) + CASE PT2 Simulation (26 Qs) = 251 Qs
+to Quiz Google Sheet.
 With PLE CC Multi-Section Explanation Template.
 Spreadsheet ID: 1EEkYzLVM7yxVyXG1H3AZJgGw9v91tGFRH3bhtmnPVVY
 Tab Name: 14. Oncologic
@@ -11,17 +12,19 @@ from googleapiclient.discovery import build
 
 sys.stdout.reconfigure(encoding='utf-8')
 
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CREDS_FILE = 'C:/Users/thana/Desktop/PLE-CC/gemini-sheets-editor-497118-060a7f15daf9.json'
 SPREADSHEET_ID = '1EEkYzLVM7yxVyXG1H3AZJgGw9v91tGFRH3bhtmnPVVY'
 TARGET_SHEET = '14. Oncologic'
 MD_PATH = 'C:/Users/thana/Desktop/PharmaCU_Workspace/Pharmacy Book/IDT/Oncology/PT 2/PT2_ONCOLOGY_EXAM_QUESTION_BANK_COMPREHENSIVE.md'
 
 print("=" * 65)
-print("  🚀 Uploading PT2 Oncology Exam Bank (PLE CC Template) to Google Sheet")
+print("  🚀 Uploading PT2 Oncology Exam (251 Qs) to Google Sheets")
 print(f"  Spreadsheet : {SPREADSHEET_ID}")
 print(f"  Target Tab  : {TARGET_SHEET}")
 print("=" * 65)
 
+# --- 1. Load Question Bank (225 Questions) ---
 with open(MD_PATH, 'r', encoding='utf-8') as f:
     text = f.read()
 
@@ -54,9 +57,10 @@ if current_q and q_text_buffer:
     current_q['body'] = '\n'.join(q_text_buffer)
     questions.append(current_q)
 
-print(f"Parsed {len(questions)} questions from Markdown.")
+print(f"Parsed {len(questions)} raw questions from markdown.")
 
 LETTER_MAP = {'A': 'ก', 'B': 'ข', 'C': 'ค', 'D': 'ง', 'E': 'จ'}
+INDEX_TO_LETTER = {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E'}
 INDEX_TO_THAI = {1: 'ก', 2: 'ข', 3: 'ค', 4: 'ง', 5: 'จ'}
 
 def parse_explanation_sections(exp_raw, ans_num, ans_text, choices):
@@ -100,17 +104,13 @@ def parse_explanation_sections(exp_raw, ans_num, ans_text, choices):
         for l_en, l_th in LETTER_MAP.items():
             if f'• ข้อ {l_en}.' in line_s:
                 c_idx = ord(l_en) - ord('A')
-                c_val = choices[c_idx] if choices and c_idx < len(choices) else ''
-                if c_val:
-                    c_short = c_val[:45] + ('...' if len(c_val) > 45 else '')
-                    line_s = line_s.replace(f'• ข้อ {l_en}.', f'• ข้อ {l_th}. ({c_short}):')
-                else:
-                    line_s = line_s.replace(f'• ข้อ {l_en}.', f'• ข้อ {l_th}.')
+                c_preview = choices[c_idx][:30] + '...' if c_idx < len(choices) and choices[c_idx] else ''
+                line_s = line_s.replace(f'• ข้อ {l_en}.', f'• ข้อ {l_th}. ({c_preview}):')
                 break
         dist_lines.append(line_s)
-    dist_text = '\n'.join(dist_lines)
+    dist_text = '\n'.join(dist_lines).strip()
 
-    pearl_clean = re.sub(r'^-\s*\*\*[^:]+:\*\*\s*', '', pearl).replace('\n  ', '\n').replace('\n- ', '\n• ').strip()
+    pearl_clean = pearl.replace('\n  ', '\n').replace('\n- ', '\n• ').strip()
     guideline_clean = re.sub(r'^---\s*$', '', guideline).strip()
 
     ans_th = INDEX_TO_THAI.get(ans_num, 'ก')
@@ -195,6 +195,75 @@ for idx, q in enumerate(questions):
     ]
     rows.append(row)
 
+print(f"Built {len(rows)} sheet rows for question bank.")
+
+# --- 2. Append 26 CASE PT2 Questions ---
+sys.path.append('C:/Users/thana/Desktop/PharmaCU_Workspace/Pharmacy Book/IDT/Oncology/PT 2')
+import build_case_pt2_exam as b
+
+LETTER_TO_INDEX = {'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5}
+
+def get_subtopic(q_num):
+    if q_num <= 5:
+        return "CASE PT2: 1. Nasopharyngeal Carcinoma (NPC)"
+    elif q_num <= 9:
+        return "CASE PT2: 2. Relapsed APL (Acute Promyelocytic Leukemia)"
+    elif q_num <= 13:
+        return "CASE PT2: 3. NSCLC with Brain Metastases"
+    elif q_num <= 18:
+        return "CASE PT2: 4. Metastatic Colorectal Cancer (mCRC)"
+    elif q_num <= 22:
+        return "CASE PT2: 5. Relapsed Hodgkin Lymphoma in Obesity"
+    elif q_num <= 25:
+        return "CASE PT2: 6. Recurrent Renal Cell Carcinoma (RCC)"
+    else:
+        return "CASE PT2: 7. Comprehensive Case Synthesis"
+
+for idx, q in enumerate(b.QUESTIONS):
+    item_no = len(rows) + 1
+    ans_num = LETTER_TO_INDEX.get(q['answer'], 1)
+    ans_th = INDEX_TO_THAI.get(ans_num, 'ก')
+
+    cleaned_choices = []
+    for opt in q['options']:
+        c_text = re.sub(r'^[A-E]\.\s*', '', opt).strip()
+        cleaned_choices.append(c_text)
+
+    correct_choice_text = cleaned_choices[ans_num - 1]
+
+    sections = [
+        f"✅ คำตอบที่ถูกต้อง: ข้อ {ans_th}. {correct_choice_text}",
+        f"🎯 ทำไมข้อนี้ถึงถูก:\n{q['rationale'].strip()}",
+        f"📌 จุดจำก่อนสอบ / กับดักข้อสอบ:\n{q['trap'].strip()}",
+        f"📖 บริบทกรณีศึกษาจากอาจารย์ผู้สอน:\n{q['case'].strip()}\n{q['scenario'].strip()}"
+    ]
+    exp_formatted = '\n\n'.join(sections)
+
+    row = [
+        item_no,
+        q['scenario'].strip(),
+        q['question'].strip(),
+        "",
+        cleaned_choices[0] if len(cleaned_choices) > 0 else "",
+        cleaned_choices[1] if len(cleaned_choices) > 1 else "",
+        cleaned_choices[2] if len(cleaned_choices) > 2 else "",
+        cleaned_choices[3] if len(cleaned_choices) > 3 else "",
+        cleaned_choices[4] if len(cleaned_choices) > 4 else "",
+        ans_num,
+        exp_formatted,
+        "",
+        "14. Oncologic",
+        get_subtopic(q['q_num']),
+        "Clinic",
+        "PT2 Oncology Case Exam (เคสออกสอบจริง)",
+        "Case-Based MCQ",
+        "2567 / Final",
+        f"CASE_PT2_Q{q['q_num']}"
+    ]
+    rows.append(row)
+
+print(f"Total rows to upload: {len(rows)}")
+
 creds = service_account.Credentials.from_service_account_file(
     CREDS_FILE, scopes=['https://www.googleapis.com/auth/spreadsheets']
 )
@@ -219,4 +288,4 @@ service.spreadsheets().values().update(
     body={'values': all_sheet_values}
 ).execute()
 
-print(f"🎉 SUCCESS! {len(rows)} questions fully updated with PLE CC explanation templates in Google Sheet '{TARGET_SHEET}'!")
+print(f"🎉 SUCCESS! {len(rows)} questions fully updated in Google Sheet '{TARGET_SHEET}'!")
