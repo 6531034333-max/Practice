@@ -1,0 +1,1086 @@
+# -*- coding: utf-8 -*-
+"""
+=============================================================================
+  🚀 PLE-CC Quiz Practice -- Offline Database Compiler (v2.1 Pro Edition)
+=============================================================================
+Source Sheet: 1CaIHXpiiAi8tFFX2IGXwXp2rXUv6JaOMiKBAiVpAV0w
+Output: quiz-data-offline.js
+Features:
+- Pure clean text for Questions and Choices (NO HTML spans, highlights, or colors).
+- Standardized math & comparison symbols (≥, ≤, →, ±).
+- Strips student recollection tags and leak banners.
+- Clean image resolution (strictly eliminates 'Medium', 'Easy', 'Hard', and placeholders).
+- High-yield structured clinical & pharmaceutical rationale formatting.
+- Selective / Incremental Compilation ("แยกเรื่อง") with Smart Merge.
+- Remote Compile & Push via GitHub Actions or Local Batch runner.
+- Auto-bump Service Worker cache in sw.js.
+=============================================================================
+"""
+
+import os, sys, json, re, zipfile, io, time, argparse, urllib.request
+
+sys.stdout.reconfigure(encoding='utf-8')
+
+# Support running from within PLE CC Quiz or root repo
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, '..'))
+if CURRENT_DIR not in sys.path:
+    sys.path.insert(0, CURRENT_DIR)
+if PARENT_DIR not in sys.path:
+    sys.path.insert(0, PARENT_DIR)
+
+# Import self-contained utils with fallback
+try:
+    from utils.master_cleaner import clean_text_advanced, clean_image_field, clean_explanation_field, classify_question_precise
+    from utils.distractor_engine import DISTRACTOR_POOLS
+    from utils.subtopic_classifier import determine_standard_subtopic
+except ImportError:
+    from scratch.master_cleaner import clean_text_advanced, clean_image_field, clean_explanation_field, classify_question_precise
+    from scratch.quality_overhaul_engine import DISTRACTOR_POOLS
+    from scratch.subtopic_classifier import determine_standard_subtopic
+
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+
+CREDS_FILE = 'C:/Users/thana/Desktop/PLE-CC/gemini-sheets-editor-497118-060a7f15daf9.json'
+SPREADSHEET_ID = '1EEkYzLVM7yxVyXG1H3AZJgGw9v91tGFRH3bhtmnPVVY'
+GAS_SCRIPT_ID = '1nJwbleNGtDtRVfxEL8s8QlmG5bkCOog13L-B_U98sCXYrbTXa0Xe72tA'
+GAS_WEBAPP_URL = 'https://script.google.com/macros/s/1nJwbleNGtDtRVfxEL8s8QlmG5bkCOog13L-B_U98sCXYrbTXa0Xe72tA/exec'
+
+def get_google_credentials():
+    """Load credentials from environment variable (GitHub Secrets) or local JSON file."""
+    sa_json = os.environ.get('GCP_SA_KEY') or os.environ.get('COMPILE_AND_PUSH')
+    scopes = [
+        'https://www.googleapis.com/auth/spreadsheets.readonly',
+        'https://www.googleapis.com/auth/drive.readonly'
+    ]
+    if sa_json:
+        try:
+            info = json.loads(sa_json)
+            return service_account.Credentials.from_service_account_info(info, scopes=scopes)
+        except Exception as e:
+            print(f"  [WARN] Failed to load credentials from GCP_SA_KEY env: {e}")
+            
+    if os.path.exists(CREDS_FILE):
+        return service_account.Credentials.from_service_account_file(CREDS_FILE, scopes=scopes)
+        
+    # Check parent dir
+    parent_creds = os.path.join(PARENT_DIR, 'gemini-sheets-editor-497118-060a7f15daf9.json')
+    if os.path.exists(parent_creds):
+        return service_account.Credentials.from_service_account_file(parent_creds, scopes=scopes)
+        
+    raise FileNotFoundError(f"Could not find credentials in GCP_SA_KEY/COMPILE_AND_PUSH or at {CREDS_FILE}")
+
+def load_existing_quiz_data(output_js_path):
+    """Parse existing categories and questions from quiz-data-offline.js for smart merge."""
+    if not os.path.exists(output_js_path):
+        return [], {}
+    try:
+        with open(output_js_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        m_cat = re.search(r'window\.QUIZ_OFFLINE_CATEGORIES\s*=\s*(\[.*?\]);\s*\n', content, re.DOTALL)
+        m_q = re.search(r'window\.QUIZ_OFFLINE_QUESTIONS\s*=\s*(\{.*?\});\s*$', content, re.DOTALL)
+        if m_cat and m_q:
+            cats = json.loads(m_cat.group(1))
+            qs = json.loads(m_q.group(1))
+            return cats, qs
+    except Exception as e:
+        print(f"  [WARN] Could not parse existing quiz-data-offline.js: {e}")
+    return [], {}
+
+def extract_in_cell_images(drive_service, images_dir):
+    """Extract embedded in-cell images from Google Sheets."""
+    os.makedirs(images_dir, exist_ok=True)
+    extracted_map = {}
+    try:
+        print("  🖼️ Checking for in-cell images in Google Sheets...")
+        req = drive_service.files().export_media(
+            fileId=SPREADSHEET_ID,
+            mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        xlsx_bytes = req.execute()
+        import xml.etree.ElementTree as ET
+        with zipfile.ZipFile(io.BytesIO(xlsx_bytes)) as z:
+            if 'xl/workbook.xml' not in z.namelist() or 'xl/_rels/workbook.xml.rels' not in z.namelist():
+                return extracted_map
+
+            wb_xml = z.read('xl/workbook.xml').decode('utf-8')
+            root = ET.fromstring(wb_xml)
+            sheets_map = {}
+            for elem in root.findall('.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}sheet'):
+                name = elem.attrib['name']
+                r_id = elem.attrib['{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id']
+                sheets_map[r_id] = name
+
+            wb_rels = z.read('xl/_rels/workbook.xml.rels').decode('utf-8')
+            rels_root = ET.fromstring(wb_rels)
+            sheet_files_map = {}
+            for elem in rels_root.findall('{http://schemas.openxmlformats.org/package/2006/relationships}Relationship'):
+                r_id = elem.attrib['Id']
+                target = elem.attrib['Target']
+                if r_id in sheets_map:
+                    sheet_files_map[target] = sheets_map[r_id]
+
+            drawing_to_sheet = {}
+            for name in z.namelist():
+                if name.startswith('xl/worksheets/_rels/'):
+                    sheet_xml = 'worksheets/' + name.replace('xl/worksheets/_rels/', '').replace('.rels', '')
+                    sheet_name = sheet_files_map.get(sheet_xml)
+                    if not sheet_name: continue
+                    rels_content = z.read(name).decode('utf-8')
+                    r_elem = ET.fromstring(rels_content)
+                    for rel in r_elem.findall('{http://schemas.openxmlformats.org/package/2006/relationships}Relationship'):
+                        target = rel.attrib.get('Target', '')
+                        if 'drawing' in target:
+                            d_name = os.path.basename(target)
+                            drawing_to_sheet[d_name] = sheet_name
+
+            for d_name, sheet_name in drawing_to_sheet.items():
+                d_path = f'xl/drawings/{d_name}'
+                d_rels_path = f'xl/drawings/_rels/{d_name}.rels'
+                if d_path not in z.namelist() or d_rels_path not in z.namelist():
+                    continue
+
+                d_rels_content = z.read(d_rels_path).decode('utf-8')
+                d_rels_root = ET.fromstring(d_rels_content)
+                media_map = {}
+                for rel in d_rels_root.findall('{http://schemas.openxmlformats.org/package/2006/relationships}Relationship'):
+                    r_id = rel.attrib['Id']
+                    target = rel.attrib['Target']
+                    media_map[r_id] = 'xl/' + target.replace('../', '')
+
+                drawing_xml = z.read(d_path).decode('utf-8')
+                draw_root = ET.fromstring(drawing_xml)
+                for anchor in draw_root.findall('.//{http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing}twoCellAnchor') + \
+                              draw_root.findall('.//{http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing}oneCellAnchor'):
+                    from_elem = anchor.find('{http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing}from')
+                    if from_elem is None: continue
+                    col_elem = from_elem.find('{http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing}col')
+                    row_elem = from_elem.find('{http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing}row')
+                    if col_elem is None or row_elem is None: continue
+                    col_idx = int(col_elem.text)
+                    row_idx = int(row_elem.text) + 1
+
+                    blip = anchor.find('.//{http://schemas.openxmlformats.org/drawingml/2006/main}blip')
+                    if blip is None: continue
+                    embed_id = blip.attrib.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed')
+                    if not embed_id or embed_id not in media_map: continue
+
+                    img_zip_path = media_map[embed_id]
+                    if img_zip_path in z.namelist():
+                        img_data = z.read(img_zip_path)
+                        ext = os.path.splitext(img_zip_path)[1].lower()
+                        if not ext: ext = '.png'
+                        if 'รวม' in sheet_name or 'ด่วน' in sheet_name or 'QI_' in sheet_name:
+                            safe_sheet = 'quick_ingest'
+                        elif 'Medicinal' in sheet_name:
+                            safe_sheet = 'medchem'
+                        else:
+                            safe_sheet = re.sub(r'[^a-zA-Z0-9_]', '_', sheet_name).strip('_') or 'sheet'
+                        out_fname = f"qimg_{safe_sheet}_r{row_idx}_c{col_idx}{ext}"
+                        out_fpath = os.path.join(images_dir, out_fname)
+                        with open(out_fpath, 'wb') as img_out:
+                            img_out.write(img_data)
+                        extracted_map[(sheet_name, row_idx, col_idx)] = f"images/{out_fname}"
+        print(f"     [OK] Extracted {len(extracted_map)} embedded images.")
+    except Exception as e:
+        print(f"     [WARN] In-cell image extraction skipped: {e}")
+    return extracted_map
+
+
+def normalize_math_and_entities(val):
+    if not val:
+        return ""
+    s = str(val).strip()
+    s = re.sub(r'\$it;', '<', s, flags=re.IGNORECASE)
+    s = re.sub(r'&it;', '<', s, flags=re.IGNORECASE)
+    s = re.sub(r'\$lt;', '<', s, flags=re.IGNORECASE)
+    s = re.sub(r'\$gt;', '>', s, flags=re.IGNORECASE)
+    s = re.sub(r'&amp;lt;', '<', s, flags=re.IGNORECASE)
+    s = re.sub(r'&amp;gt;', '>', s, flags=re.IGNORECASE)
+    s = re.sub(r'/sqrt(?=[(\[{a-zA-Z0-9\s])', r'\\sqrt', s)
+    return s
+
+def bump_service_worker_cache(sw_path):
+    """Automatically increment Service Worker cache version in sw.js."""
+    if not os.path.exists(sw_path):
+        return
+    try:
+        with open(sw_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        m = re.search(r"const\s+CACHE_NAME\s*=\s*['\"]ple-cc-quiz-practice-v(\d+)['\"];", content)
+        if m:
+            curr_v = int(m.group(1))
+            new_v = curr_v + 1
+            new_content = content[:m.start(1)] + str(new_v) + content[m.end(1):]
+            with open(sw_path, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            print(f"  ⚡ Service Worker cache bumped: v{curr_v} -> v{new_v}")
+        else:
+            print("  [INFO] Service Worker cache version pattern not matched.")
+    except Exception as e:
+        print(f"  [WARN] Failed to bump Service Worker cache: {e}")
+
+def get_track_for_sheet(sheet_name):
+    """Determine Track (Clinic, Product, SAP) from sheet name."""
+    product_keywords = ['Titration', 'Chromatography', 'Spectroscopy', 'Preformulation', 'Calc', 'Solid', 'Liquid', 'Biopharm', 'Sterile', 'Biotech', 'Chemistry', 'Herbal', 'Food']
+    sap_keywords = ['Laws', 'Administration', 'Research']
+    if any(p in sheet_name for p in product_keywords):
+        return 'Product'
+    elif any(s in sheet_name for s in sap_keywords):
+        return 'SAP'
+    return 'Clinic'
+
+def post_process_cases(offline_questions):
+    """Post-process Case Clusters: Auto-Split duplicate Q1s, auto-assign order, and sort Type INT by Track Priority."""
+    case_clusters = {}
+    for cat_name, q_list in offline_questions.items():
+        for q in q_list:
+            gid = q.get('caseGroupId')
+            if gid:
+                scoped_key = f"{q.get('examYear') or 'all'}__{gid}"
+                if scoped_key not in case_clusters:
+                    case_clusters[scoped_key] = []
+                case_clusters[scoped_key].append(q)
+
+    track_priority = {'clinic': 1, 'product': 2, 'sap': 3}
+    final_split_clusters = []
+
+    for scoped_key, cluster_qs in case_clusters.items():
+        q1_count = sum(1 for q in cluster_qs if q.get('caseOrder') == 1)
+        if q1_count > 1:
+            chunks = []
+            curr_chunk = []
+            for q in cluster_qs:
+                if q.get('caseOrder') == 1 and curr_chunk:
+                    chunks.append(curr_chunk)
+                    curr_chunk = []
+                curr_chunk.append(q)
+            if curr_chunk:
+                chunks.append(curr_chunk)
+
+            for chunk_idx, chunk in enumerate(chunks, 1):
+                split_suffix = f"__p{chunk_idx}"
+                for q in chunk:
+                    if not q['caseGroupId'].endswith(split_suffix):
+                        q['caseGroupId'] = f"{q['caseGroupId']}{split_suffix}"
+                final_split_clusters.append(chunk)
+        else:
+            final_split_clusters.append(cluster_qs)
+
+    for cluster_qs in final_split_clusters:
+        is_int = any(q.get('caseType') == 'INT' or '_INT_' in q.get('caseGroupId', '') for q in cluster_qs)
+        if is_int:
+            for q in cluster_qs:
+                q['caseType'] = 'INT'
+            cluster_qs.sort(key=lambda x: (track_priority.get(x.get('track', '').lower(), 99), x.get('caseOrder') or 0))
+        else:
+            cluster_qs.sort(key=lambda x: x.get('caseOrder') or 0)
+
+        for idx, q in enumerate(cluster_qs):
+            q['caseOrder'] = idx + 1
+            q['caseTotal'] = len(cluster_qs)
+
+TOPIC_TO_SHEET_MAP = {
+    'musculoskeletal': '1. Musculoskeleton',
+    'musculoskeleton': '1. Musculoskeleton',
+    'cardiovascular': '2. Cardiovascular',
+    'dermatologic': '3. Dermatologic',
+    'endocrine': '4. Endocrine',
+    'gastrointestinal': '5. Gastrointestinal',
+    'hematologic': '6. Hematologic',
+    'immunologic': '7. Immunologic',
+    'infectious diseases': '8. Infectious diseases',
+    'infectious': '8. Infectious diseases',
+    'neurologic': '9. Neurologic',
+    'psychiatric': '10. Psychiatric',
+    'pulmonary': '11. Pulmonary',
+    'gynaecologic & genitourinary': '12. GynaecologicGenitourinary',
+    'gynaecologicgenitourinary': '12. GynaecologicGenitourinary',
+    'gynaecologic': '12. GynaecologicGenitourinary',
+    'eye disorder': '13. Eye disorder',
+    'eye': '13. Eye disorder',
+    'oncologic': '14. Oncologic',
+    'renal': '15. Renal',
+    'toxicology & poisoning': '16. Toxicology & Poisoning',
+    'toxicology': '16. Toxicology & Poisoning',
+    'clinical nutrition': '18. Clinical Nutrition',
+    'nutrition': '18. Clinical Nutrition',
+    'herbal medicine & products': '17. Herbal Medicine & Products',
+    'herbal medicine': '17. Herbal Medicine & Products',
+    'titrations': '1. Titrations',
+    'chromatography': '2. Chromatography',
+    'spectroscopy & optics': '3. Spectroscopy & Optics',
+    'spectroscopy': '3. Spectroscopy & Optics',
+    'preformulation & gmp': '4. Preformulation & GMP',
+    'preformulation': '4. Preformulation & GMP',
+    'pharmaceutical calc': '5. Pharmaceutical Calc',
+    'solid dosage forms': '6. Solid Dosage Forms',
+    'solid': '6. Solid Dosage Forms',
+    'liquid & semisolids': '7. Liquid & Semisolids',
+    'liquid': '7. Liquid & Semisolids',
+    'biopharm & drug release': '8. Biopharm & Drug Release',
+    'biopharm': '8. Biopharm & Drug Release',
+    'sterile & special forms': '9. Sterile & Special Forms',
+    'sterile': '9. Sterile & Special Forms',
+    'biotech products': '10. Biotech Products',
+    'biotech': '10. Biotech Products',
+    'food products & qa': '12. Food Products & QA',
+    'food': '12. Food Products & QA',
+    'medicinal chemistry': '13. Medicinal Chemistry',
+    'pharmacy laws & ethics': '1. Pharmacy Laws & Ethics',
+    'laws': '1. Pharmacy Laws & Ethics',
+    'pharmacy administration & sy': '2. Pharmacy Administration & Sy',
+    'administration': '2. Pharmacy Administration & Sy',
+    'research & biostats': '3. Research & Biostats',
+    'research': '3. Research & Biostats',
+}
+
+
+def download_live_spreadsheet_if_needed(excel_path):
+    """Download the latest spreadsheet from Google Sheets via export link in CI or when requested."""
+    export_url = f"https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/export?format=xlsx"
+    print(f"\n  🌐 Attempting to fetch latest live spreadsheet from Google Sheets...")
+    try:
+        req = urllib.request.Request(export_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=40) as resp:
+            if resp.status == 200:
+                data = resp.read()
+                if len(data) > 100000:
+                    with open(excel_path, 'wb') as f:
+                        f.write(data)
+                    print(f"  ✅ Live spreadsheet downloaded successfully ({len(data):,} bytes)")
+                    return True
+                else:
+                    print(f"  [WARN] Downloaded file too small ({len(data)} bytes), skipping")
+    except Exception as e:
+        print(f"  [WARN] Could not download live spreadsheet: {e}")
+    return False
+
+def compile_from_excel_direct(excel_path, output_js, sw_js, no_sw_bump=False, is_live_sheets=False):
+    import openpyxl
+    source_label = "Google Sheets (Live Sync)" if is_live_sheets else "Local Excel (Offline Cache)"
+    print("=" * 65)
+    print(f"  🚀 [{source_label}] Compiling quiz-data-offline.js")
+    print(f"  Source File: {excel_path}")
+    print(f"  Target Sheet: {SPREADSHEET_ID}")
+    print("=" * 65)
+    
+    start_time = time.time()
+    wb = openpyxl.load_workbook(excel_path, data_only=True)
+    wb_formulas = openpyxl.load_workbook(excel_path, data_only=False)
+    from urllib.parse import unquote
+
+    def extract_image_ref(val_data, val_formula):
+        raw_candidates = [val_formula, val_data]
+        for cand in raw_candidates:
+            if cand is None:
+                continue
+            s = str(cand).strip()
+            if not s or s.lower() in ('none', 'null', 'cellimage') or s.startswith('#'):
+                continue
+            # Handle =IMAGE("...") formula
+            m = re.search(r'IMAGE\(\s*["\']([^"\']+)["\']', s, re.IGNORECASE)
+            if m and m.group(1):
+                s = m.group(1).strip()
+            elif s.startswith('='):
+                continue
+            # Convert own GitHub Pages / raw GitHub URLs to local relative images/... for fast offline/online loading
+            gh_prefixes = (
+                'https://pharmacistlicenserxcu.github.io/PLE-CC-Quiz-practice/images/',
+                'https://raw.githubusercontent.com/pharmacistlicenserxcu/PLE-CC-Quiz-practice/main/images/',
+            )
+            for pref in gh_prefixes:
+                if s.startswith(pref):
+                    return 'images/' + unquote(s[len(pref):]).lstrip('/')
+            if s.startswith('http://') or s.startswith('https://') or s.startswith('data:image/') or s.startswith('images/'):
+                return s
+            if re.search(r'\.(png|jpg|jpeg|webp|gif|svg)$', s, re.IGNORECASE):
+                return 'images/' + s.lstrip('/')
+            return s
+        return ''
+
+    all_records = []
+    categories_meta = []
+    offline_questions = {}
+
+    quiz_sheets = [
+        '1. Musculoskeleton', '2. Cardiovascular', '3. Dermatologic', '4. Endocrine',
+        '5. Gastrointestinal', '6. Hematologic', '7. Immunologic', '8. Infectious diseases',
+        '9. Neurologic', '10. Psychiatric', '11. Pulmonary', '12. GynaecologicGenitourinary',
+        '13. Eye disorder', '14. Oncologic', '15. Renal', '16. Toxicology & Poisoning',
+        '18. Clinical Nutrition', '17. Herbal Medicine & Products',
+        '1. Titrations', '2. Chromatography', '3. Spectroscopy & Optics', '4. Preformulation & GMP',
+        '5. Pharmaceutical Calc', '6. Solid Dosage Forms', '7. Liquid & Semisolids',
+        '8. Biopharm & Drug Release', '9. Sterile & Special Forms', '10. Biotech Products',
+        '12. Food Products & QA', '13. Medicinal Chemistry',
+        '1. Pharmacy Laws & Ethics', '2. Pharmacy Administration & Sy', '3. Research & Biostats',
+        '📥 รวมข้อสอบด่วน'
+    ]
+
+    for sname in quiz_sheets:
+        if sname not in wb.sheetnames:
+            continue
+        ws = wb[sname]
+        ws_f = wb_formulas[sname] if sname in wb_formulas.sheetnames else ws
+        case_ctx_col, q_col, img_q_col = 2, 3, 4
+        c1_col, c2_col, c3_col, c4_col, c5_col = 5, 6, 7, 8, 9
+        ans_col, exp_col, img_a_col = 10, 11, 12
+        topic_col, subtopic_col, track_col = 13, 14, 15
+        note_col, type_col, year_col, case_col = 16, 17, 18, 19
+
+        for r in (1, 2):
+            for c in range(1, max(20, ws.max_column + 1)):
+                v = str(ws.cell(row=r, column=c).value or '').strip()
+                if not v: continue
+                if 'สถานการณ์' in v or 'Scenario' in v or 'ข้อมูลผู้ป่วย' in v: case_ctx_col = c
+                elif 'คำถาม' in v or 'Question' in v: q_col = c
+                elif 'รูปถาม' in v or 'Question Image' in v: img_q_col = c
+                elif 'ตัวเลือก 1' in v or 'Choice 1' in v: c1_col = c
+                elif 'ตัวเลือก 2' in v or 'Choice 2' in v: c2_col = c
+                elif 'ตัวเลือก 3' in v or 'Choice 3' in v: c3_col = c
+                elif 'ตัวเลือก 4' in v or 'Choice 4' in v: c4_col = c
+                elif 'ตัวเลือก 5' in v or 'Choice 5' in v: c5_col = c
+                elif 'เฉลย' in v and ('ตัวเลข' in v or 'Answer' in v or 'Key' in v): ans_col = c
+                elif 'คำอธิบาย' in v or 'Rationale' in v or ('เฉลย' in v and 'อธิบาย' in v): exp_col = c
+                elif 'รูปเฉลย' in v or 'Answer Image' in v: img_a_col = c
+                elif 'หัวข้อโรคสภาฯ' in v or 'Topic' in v: topic_col = c
+                elif 'หัวข้อย่อย' in v or 'Subtopic' in v or 'Filter' in v: subtopic_col = c
+                elif 'Product' in v or 'Track' in v: track_col = c
+                elif 'หมายเหตุ' in v or 'Note' in v: note_col = c
+                elif 'ประเภท' in v or 'Type' in v: type_col = c
+                elif 'ปี' in v or 'Year' in v: year_col = c
+                elif 'Case' in v or 'รหัสเคส' in v: case_col = c
+
+        sheet_count = 0
+        sheet_track = get_track_for_sheet(sname)
+        sheet_records = []
+
+        for r in range(3, ws.max_row + 1):
+            q_val = ws.cell(row=r, column=q_col).value
+            case_ctx_val = ws.cell(row=r, column=case_ctx_col).value
+            if (not q_val or not str(q_val).strip()) and (not case_ctx_val or not str(case_ctx_val).strip()):
+                continue
+
+            case_ctx = normalize_math_and_entities(str(case_ctx_val or '').replace('**', '').strip())
+            q_text = normalize_math_and_entities(str(q_val or '').replace('**', '').strip())
+            if not q_text and case_ctx:
+                q_text = case_ctx
+                case_ctx = ""
+
+            choices = []
+            for col_i in [c1_col, c2_col, c3_col, c4_col, c5_col]:
+                val = ws.cell(row=r, column=col_i).value
+                choices.append(normalize_math_and_entities(str(val or '').replace('**', '').strip()))
+
+            ans_raw = ws.cell(row=r, column=ans_col).value
+            ans_num = 1
+            if ans_raw is not None:
+                m = re.search(r'\d+', str(ans_raw))
+                if m: ans_num = int(m.group(0))
+
+            raw_exp = str(ws.cell(row=r, column=exp_col).value or '')
+            raw_exp = normalize_math_and_entities(raw_exp.replace('**', '').strip())
+            raw_exp = re.sub(r'\r\n|\r|\n', '\n', raw_exp)
+            raw_exp = re.sub(r'\n{2,}', '<br><br>', raw_exp).replace('\n', '<br>')
+
+            topic = str(ws.cell(row=r, column=topic_col).value or '').strip()
+            subtopic = str(ws.cell(row=r, column=subtopic_col).value or '').strip()
+            img_q = extract_image_ref(ws.cell(row=r, column=img_q_col).value, ws_f.cell(row=r, column=img_q_col).value)
+            img_a = extract_image_ref(ws.cell(row=r, column=img_a_col).value, ws_f.cell(row=r, column=img_a_col).value)
+            note = str(ws.cell(row=r, column=note_col).value or '').strip()
+            exam_type = str(ws.cell(row=r, column=type_col).value or '').strip()
+            exam_year = str(ws.cell(row=r, column=year_col).value or '').strip()
+            case_id = str(ws.cell(row=r, column=case_col).value or '').strip()
+
+            if exam_type in ['ข้อสอบเก่า', '2567']:
+                if exam_type == '2567' and not exam_year: exam_year = '2567'
+                exam_type = 'ข้อสอบจริง'
+            elif exam_type.lower() == 'mock':
+                exam_type = 'ข้อสอบจำลอง'
+
+            rec = {
+                'id': f"{sname}::{r}",
+                'itemNo': sheet_count + 1,
+                'category': sname,
+                'topic': topic or sname,
+                'subtopic': subtopic or topic or sname,
+                'track': sheet_track,
+                'caseContext': case_ctx,
+                'caseStem': case_ctx,
+                'question': q_text,
+                'questionImage': img_q,
+                'choices': choices,
+                'answer': ans_num,
+                'explanation': raw_exp,
+                'answerImage': img_a,
+                'note': note,
+                'examType': exam_type,
+                'examYear': exam_year,
+                'caseGroupId': case_id,
+                'caseOrder': 0,
+                'caseType': ''
+            }
+            sheet_records.append(rec)
+            all_records.append(rec)
+            sheet_count += 1
+
+        print(f"  [OK] {sname:<35} : {sheet_count:>4} questions ({sheet_track})")
+        if sheet_count > 0:
+            categories_meta.append({
+                'name': sname,
+                'count': sheet_count,
+                'track': sheet_track
+            })
+            offline_questions[sname] = sheet_records
+
+    print("-" * 65)
+    print(f"  Grand Total: {len(all_records)} questions across {len(categories_meta)} categories.")
+
+    post_process_cases(offline_questions)
+
+    from datetime import datetime, timezone, timedelta
+    tz_thai = timezone(timedelta(hours=7))
+    timestamp = datetime.now(tz_thai).strftime('%Y-%m-%d %H:%M:%S')
+    header_comment = f"""/**
+ * 📝 PLE-CC Quiz Practice -- Auto-compiled Offline Database (v2.1 Pro Edition)
+ * Total Questions: {len(all_records)} across {len(categories_meta)} Categories
+ * Build Timestamp: {timestamp} (UTC+7)
+ * Build Source: {source_label}
+ * Google Sheet ID: {SPREADSHEET_ID}
+ */
+
+window.QUIZ_GOOGLE_SHEET_ID = "{SPREADSHEET_ID}";
+window.QUIZ_GAS_SCRIPT_ID = '{GAS_SCRIPT_ID}';
+window.QUIZ_GAS_WEBAPP_URL = '{GAS_WEBAPP_URL}';
+window.QUIZ_BUILD_TIMESTAMP = "{timestamp}";
+window.QUIZ_BUILD_SOURCE = "{source_label}";
+window.QUIZ_TOTAL_QUESTIONS = {len(all_records)};
+
+window.QUIZ_OFFLINE_CATEGORIES = {json.dumps(categories_meta, ensure_ascii=False, indent=2)};
+
+window.QUIZ_OFFLINE_QUESTIONS = {json.dumps(offline_questions, ensure_ascii=False, indent=2)};
+
+window.QUIZ_OFFLINE_DB = {json.dumps(all_records, ensure_ascii=False, indent=2)};
+"""
+
+    with open(output_js, 'w', encoding='utf-8') as f:
+        f.write(header_comment)
+
+    print(f"  💾 Successfully written {len(all_records)} records to {output_js}")
+    
+    if not no_sw_bump:
+        bump_service_worker_cache(sw_js)
+
+    elapsed = time.time() - start_time
+    print(f"  ⏱️ Time taken: {elapsed:.2f} seconds.\n")
+
+def main():
+    parser = argparse.ArgumentParser(description='PLE-CC Quiz Offline Database Compiler (v2.1 Pro)')
+    parser.add_argument('--mode', choices=['all', 'category', 'track'], default='all',
+                        help='Compilation mode: all (rebuild all), category (selective category), track (Clinic/Product/SAP)')
+    parser.add_argument('--query', type=str, default='',
+                        help='Search query for selective category or track name')
+    parser.add_argument('--web-dir', type=str, default=CURRENT_DIR,
+                        help='Path to PLE CC Quiz web directory')
+    parser.add_argument('--skip-images', action='store_true',
+                        help='Skip in-cell image extraction export')
+    parser.add_argument('--source', choices=['sheets', 'auto', 'excel'], default='sheets',
+                        help='Data source: sheets (Google Sheets live sync, default), auto, excel (local only)')
+    parser.add_argument('--allow-local', action='store_true',
+                        help='Explicitly allow compiling from local excel without downloading from Google Sheets')
+    parser.add_argument('--no-sw-bump', action='store_true',
+                        help='Do not bump Service Worker cache version')
+    args = parser.parse_args()
+
+    mode = args.mode
+    query = (args.query or '').strip()
+    web_dir = os.path.abspath(args.web_dir)
+    output_js = os.path.join(web_dir, 'quiz-data-offline.js')
+    sw_js = os.path.join(web_dir, 'sw.js')
+    images_dir = os.path.join(web_dir, 'images')
+
+    print("=" * 65)
+    print("  📝 PLE-CC Quiz Practice -- Offline Database Compiler (v2.1 Pro)")
+    print(f"  Target Sheet : {SPREADSHEET_ID}")
+    print(f"  Mode         : {mode}")
+    if query:
+        print(f"  Query        : {query}")
+    print(f"  Output JS    : {output_js}")
+    print("=" * 65)
+
+    start_time = time.time()
+    excel_path = os.path.join(web_dir, 'PLE CC QUIZ.xlsx')
+    
+    # In CI or if remote sync requested, fetch fresh live sheet from Google Sheets
+    is_ci = os.environ.get('GITHUB_ACTIONS') == 'true' or os.environ.get('CI') == 'true'
+    download_success = False
+
+    if args.source == 'excel':
+        if not args.allow_local and not is_ci:
+            print("\n  ⚠️ [WARNING] Fast Local mode will compile from the local Excel file on disk,")
+            print("     which may NOT contain the latest questions updated on Google Sheets!")
+            ans = input("  Are you sure you want to compile from local Excel? (y/N): ").strip().lower()
+            if ans != 'y':
+                print("  [CANCELLED] Compilation cancelled. Run with --source sheets to sync from Google Sheets.")
+                sys.exit(0)
+        print("\n  ⚠️ [NOTICE] Compiling from LOCAL EXCEL file without downloading from Google Sheets.")
+    else:
+        # Default or sheets: ALWAYS download live spreadsheet directly from Google Sheets
+        download_success = download_live_spreadsheet_if_needed(excel_path)
+        if not download_success:
+            print("\n  ❌ [ERROR] Could not download live spreadsheet from Google Sheets!")
+            print("     Compilation aborted to prevent using stale local data.")
+            print("     Please check your internet connection or Google Sheets permissions.")
+            sys.exit(1)
+
+    if (args.source == 'excel') or (mode == 'all' and not query and os.path.exists(excel_path)):
+        try:
+            is_live = (args.source != 'excel' and download_success)
+            compile_from_excel_direct(excel_path, output_js, sw_js, no_sw_bump=args.no_sw_bump, is_live_sheets=is_live)
+            return
+        except Exception as ex_err:
+            print(f"  [WARN] Fast Excel compile failed: {ex_err}. Falling back to Google Sheets API...")
+
+    creds = get_google_credentials()
+    service = build('sheets', 'v4', credentials=creds)
+    drive_service = build('drive', 'v3', credentials=creds)
+
+    # 1. Fetch metadata & all sheet names
+    print("\n  📊 Fetching spreadsheet metadata...")
+    meta = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID).execute()
+    sheet_names = [s['properties']['title'] for s in meta['sheets']]
+
+    SYSTEM_SHEETS = {'สารบัญ', 'User_Profiles', 'Community_Chat', 'Report_Quiz_Issues', 'Log_Quiz_Results', 'Template', '🔍 รวมข้อสอบ & กรองข้อมูล', '📑 ทะเบียนรหัสเคส', '📖 System Guideline (คู่มือระบบ)'}
+    
+    def is_sys_sheet(name):
+        return (name in SYSTEM_SHEETS or 
+                name.startswith(('Log_', 'Report_', 'Eval_', 'User_', 'Community_', '🔍', '📑', '📖')) or 
+                'ทะเบียน' in name or 
+                'Guideline' in name or 
+                'คู่มือ' in name)
+
+    content_sheets = [s for s in sheet_names if not (is_sys_sheet(s) or s.startswith(('📥', 'QI_')) or 'ด่วน' in s)]
+    ingestion_sheets = [s for s in sheet_names if s.startswith(('📥', 'QI_')) or 'ด่วน' in s]
+
+    # 2. Determine target sheets to compile based on mode
+    target_content_sheets = []
+    is_selective = (mode in ['category', 'track'])
+
+    if mode == 'all':
+        target_content_sheets = content_sheets
+        print(f"  🌐 Mode 'all': Compiling all {len(content_sheets)} categories.")
+    elif mode == 'category':
+        if not query:
+            print("  [ERROR] Mode 'category' requires --query (e.g. 'Musculo' or 'Cardio')")
+            sys.exit(1)
+        q_low = query.lower()
+        target_content_sheets = [s for s in content_sheets if q_low in s.lower()]
+        if not target_content_sheets:
+            print(f"  [ERROR] No category matched query: '{query}'")
+            print("  Available categories:")
+            for s in content_sheets:
+                print(f"    - {s}")
+            sys.exit(1)
+        print(f"  🎯 Mode 'category': Matched {len(target_content_sheets)} category/categories:")
+        for s in target_content_sheets:
+            print(f"     -> {s}")
+    elif mode == 'track':
+        if not query:
+            print("  [ERROR] Mode 'track' requires --query ('Clinic', 'Product', or 'SAP')")
+            sys.exit(1)
+        q_track = query.strip().capitalize()
+        target_content_sheets = [s for s in content_sheets if get_track_for_sheet(s).lower() == q_track.lower()]
+        if not target_content_sheets:
+            print(f"  [ERROR] No sheets found for track: '{query}'. Choose Clinic, Product, or SAP.")
+            sys.exit(1)
+        print(f"  🏷️ Mode 'track': Matched {len(target_content_sheets)} sheets for Track '{q_track}'.")
+
+    # 3. Smart Merge: Load existing database if selective mode
+    offline_questions = {}
+    if is_selective:
+        existing_cats, existing_qs = load_existing_quiz_data(output_js)
+        if existing_qs:
+            print(f"  📦 Smart Merge: Loaded existing offline DB with {len(existing_qs)} categories.")
+            offline_questions = existing_qs
+            # Clear questions for target sheets so we replace them fresh
+            for s in target_content_sheets:
+                offline_questions[s] = []
+        else:
+            print("  [INFO] No existing offline DB found. Building fresh target categories.")
+            for s in target_content_sheets:
+                offline_questions[s] = []
+    else:
+        # Full mode: Initialize all content sheet buckets
+        for s in content_sheets:
+            offline_questions[s] = []
+
+    # 4. In-cell images extraction (Skip in selective unless explicitly asked)
+    images_map = {}
+    should_extract_images = not args.skip_images if mode == 'all' else (not args.skip_images and False)
+    if should_extract_images:
+        images_map = extract_in_cell_images(drive_service, images_dir)
+    else:
+        print("  ⚡ In-cell image extraction skipped for maximum compile speed.")
+
+    # 5. Process sheets
+    # If selective, we only fetch target content sheets (and ingestion sheet if category belongs to it)
+    sheets_to_process = target_content_sheets + ingestion_sheets
+
+    for s_name in sheets_to_process:
+        is_ingestion_sheet = s_name.startswith(('📥', 'QI_')) or 'ด่วน' in s_name
+        print(f"  -> Reading sheet: '{s_name}'...")
+        read_range = f"'{s_name}'!A2:Z"
+        try:
+            val_res = service.spreadsheets().values().get(spreadsheetId=SPREADSHEET_ID, range=read_range).execute()
+            rows = val_res.get('values', [])
+        except Exception as e:
+            print(f"     [WARN] values.get failed for '{s_name}': {e}")
+            continue
+
+        if not rows:
+            continue
+
+        # Inspect Row 2 header
+        header_row = [str(x or '').strip().lower() for x in rows[0]]
+        
+        # Standard 19-column mapping
+        col_map = {
+            'q_num': 0,        # Col A: ข้อที่
+            'case_ctx': 1,     # Col B: สถานการณ์เคส / ข้อมูลผู้ป่วย
+            'q_text': 2,       # Col C: คำถาม
+            'q_img': 3,        # Col D: รูปถาม
+            'c1': 4,           # Col E: ตัวเลือก 1
+            'c2': 5,           # Col F: ตัวเลือก 2
+            'c3': 6,           # Col G: ตัวเลือก 3
+            'c4': 7,           # Col H: ตัวเลือก 4
+            'c5': 8,           # Col I: ตัวเลือก 5
+            'ans': 9,          # Col J: เฉลย (ตัวเลข 1-5)
+            'exp': 10,         # Col K: คำอธิบายเฉลย
+            'ans_img': 11,     # Col L: รูปเฉลย
+            'topic': 12,       # Col M: หัวข้อโรคสภาฯ (Topic)
+            'subtopic': 13,    # Col N: หัวข้อย่อย (Subtopic)
+            'track': 14,       # Col O: Product / Clinic (Track)
+            'note': 15,        # Col P: หมายเหตุ (Note)
+            'exam_type': 16,   # Col Q: ประเภทข้อสอบ (Exam Type)
+            'exam_year': 17,   # Col R: ปี / เลขชุด (Exam Year/Set)
+            'case_id': 18,     # Col S: Case ID (รหัสเคส)
+            'category_tag': 19 # Col T (ถ้ามี ใน Ingestion sheet)
+        }
+
+        # Auto-detect column headers dynamically
+        for h_idx, h_text in enumerate(header_row):
+            if not h_text: continue
+            if 'สถานการณ์' in h_text or 'scenario' in h_text or 'ข้อมูลผู้ป่วย' in h_text or 'case context' in h_text: col_map['case_ctx'] = h_idx
+            elif 'คำถาม' in h_text or 'question' in h_text: col_map['q_text'] = h_idx
+            elif 'รูปถาม' in h_text or 'q_img' in h_text: col_map['q_img'] = h_idx
+            elif 'ตัวเลือก 1' in h_text or 'choice 1' in h_text: col_map['c1'] = h_idx
+            elif 'ตัวเลือก 2' in h_text or 'choice 2' in h_text: col_map['c2'] = h_idx
+            elif 'ตัวเลือก 3' in h_text or 'choice 3' in h_text: col_map['c3'] = h_idx
+            elif 'ตัวเลือก 4' in h_text or 'choice 4' in h_text: col_map['c4'] = h_idx
+            elif 'ตัวเลือก 5' in h_text or 'choice 5' in h_text: col_map['c5'] = h_idx
+            elif 'เฉลย' in h_text and ('ตัวเลข' in h_text or '1-5' in h_text or 'answer' in h_text or 'key' in h_text): col_map['ans'] = h_idx
+            elif 'คำอธิบาย' in h_text or 'explanation' in h_text: col_map['exp'] = h_idx
+            elif 'รูปเฉลย' in h_text or 'ans_img' in h_text: col_map['ans_img'] = h_idx
+            elif 'หัวข้อย่อย' in h_text or 'subtopic' in h_text: col_map['subtopic'] = h_idx
+            elif 'หัวข้อโรค' in h_text or 'topic' in h_text: col_map['topic'] = h_idx
+            elif 'product / clinic' in h_text or 'clinic' in h_text or 'track' in h_text: col_map['track'] = h_idx
+            elif 'หมายเหตุ' in h_text or 'note' in h_text: col_map['note'] = h_idx
+            elif 'ประเภท' in h_text or 'exam type' in h_text or 'examtype' in h_text: col_map['exam_type'] = h_idx
+            elif 'ปี' in h_text or 'เลขชุด' in h_text or 'year' in h_text or 'examyear' in h_text: col_map['exam_year'] = h_idx
+            elif 'case' in h_text or 'รหัสเคส' in h_text or 'เคส' in h_text: col_map['case_id'] = h_idx
+            elif 'ปลายทาง' in h_text or 'หมวดวิชา/ชีต' in h_text or 'หมวดวิชา' in h_text: col_map['category_tag'] = h_idx
+
+        data_rows = rows[1:]
+
+        for idx, r in enumerate(data_rows):
+            row_num = idx + 3
+            needed_cols = max(19, max(col_map.values()) + 1)
+            while len(r) < needed_cols:
+                r.append('')
+
+            q_num_raw = str(r[col_map['q_num']] or '').strip()
+            case_ctx_idx = col_map.get('case_ctx', 1)
+            case_ctx_raw = str(r[case_ctx_idx] or '').strip() if case_ctx_idx < len(r) else ''
+            q_text_raw = str(r[col_map['q_text']] or '').strip()
+            q_img_raw = str(r[col_map['q_img']] or '').strip()
+            c1_raw = str(r[col_map['c1']] or '').strip()
+            c2_raw = str(r[col_map['c2']] or '').strip()
+            c3_raw = str(r[col_map['c3']] or '').strip()
+            c4_raw = str(r[col_map['c4']] or '').strip()
+            c5_raw = str(r[col_map['c5']] or '').strip()
+            ans_raw = str(r[col_map['ans']] or '').strip()
+            exp_raw = str(r[col_map['exp']] or '').strip()
+            ans_img_raw = str(r[col_map['ans_img']] or '').strip()
+            topic_raw = str(r[col_map['topic']] or '').strip()
+            subtopic_raw = str(r[col_map['subtopic']] or '').strip()
+            track_raw = str(r[col_map['track']] or '').strip()
+            note_raw = str(r[col_map['note']] or '').strip()
+            exam_type = str(r[col_map['exam_type']] or '').strip()
+            exam_year = str(r[col_map['exam_year']] or '').strip()
+            case_id_raw = str(r[col_map['case_id']] or '').strip()
+            
+            category_tag = ''
+            if is_ingestion_sheet:
+                cat_idx = col_map.get('category_tag', 18)
+                if cat_idx < len(r):
+                    category_tag = str(r[cat_idx] or '').strip()
+
+            # TOPIC_TO_SHEET_MAP: Route questions by Column L (Topic / Group)
+            topic_clean = re.sub(r'^\d+\.\s*', '', topic_raw).strip().lower()
+            topic_mapped_sheet = TOPIC_TO_SHEET_MAP.get(topic_clean)
+            target_sheet = category_tag if (is_ingestion_sheet and category_tag) else (topic_mapped_sheet if (is_ingestion_sheet and topic_mapped_sheet) else s_name)
+
+            # In selective mode, skip questions not belonging to target sheets
+            if is_selective and target_sheet not in target_content_sheets:
+                continue
+
+            if not case_id_raw:
+                for cell in r:
+                    val_str = str(cell or '').strip()
+                    if re.match(r'^CASE_', val_str, re.I):
+                        case_id_raw = val_str
+                        break
+
+            if not case_id_raw and note_raw:
+                m_case = re.search(r'\[CASE:\s*([^\]]+)\]', note_raw, re.I)
+                if m_case:
+                    case_id_raw = m_case.group(1).strip()
+
+            case_group_id = ''
+            case_order = 0
+            case_type = ''
+            if case_id_raw:
+                clean_case = re.sub(r'\s+', '', case_id_raw.upper())
+                m_q = re.search(r'^(.*?)(?:[_\-]Q(\d+))?$', clean_case)
+                if m_q:
+                    case_group_id = m_q.group(1)
+                    case_order = int(m_q.group(2)) if m_q.group(2) else 0
+                else:
+                    case_group_id = clean_case
+                    case_order = 0
+
+                if '_INT_' in case_group_id or case_group_id.startswith('CASE_INT'):
+                    case_type = 'INT'
+                elif '_CLN_' in case_group_id or case_group_id.startswith('CASE_CLN'):
+                    case_type = 'CLN'
+                elif '_PRD_' in case_group_id or case_group_id.startswith('CASE_PRD'):
+                    case_type = 'PRD'
+                elif '_SAP_' in case_group_id or case_group_id.startswith('CASE_SAP'):
+                    case_type = 'SAP'
+                else:
+                    case_type = 'STD'
+
+            if is_ingestion_sheet and not category_tag:
+                continue
+
+            if not q_text_raw and not c1_raw:
+                continue
+            if q_text_raw in ['คำถาม', 'Question'] or 'กลับสู่หน้าแรก' in q_text_raw:
+                continue
+
+            # 1. Clean Question Text
+            q_clean = clean_text_advanced(q_text_raw, is_choice=False)
+            if not q_clean:
+                q_clean = f"แบบทดสอบรายข้อ {idx+1}"
+
+            # 2. Subtopic, Topic & Track
+            target_topic = topic_raw or target_sheet
+            target_sub = subtopic_raw or determine_standard_subtopic(target_sheet, q_clean, subtopic_raw)
+            
+            target_track = track_raw.strip()
+            if target_track.lower() in ['clinic', 'คลินิก']:
+                target_track = 'Clinic'
+            elif target_track.lower() in ['product', 'ผลิตภัณฑ์', 'titration', 'solid', 'liquid']:
+                target_track = 'Product'
+            elif target_track.lower() in ['sap', 'สังคม', 'กฎหมาย']:
+                target_track = 'SAP'
+            else:
+                target_track = get_track_for_sheet(target_sheet)
+
+            # Musculoskeleton subtopic normalization
+            if 'musculo' in target_sheet.lower():
+                parts = [p.strip() for p in re.split(r'[/,;]', target_sub) if p.strip()]
+                if not parts:
+                    target_sub = 'OA'
+                else:
+                    norm_parts = []
+                    for p in parts:
+                        st_low = p.lower()
+                        if 'gout' in st_low or 'เกาต์' in st_low:
+                            norm_parts.append('Gout')
+                        elif 'osteoarthritis' in st_low or 'ข้อเสื่อม' in st_low or st_low == 'oa':
+                            norm_parts.append('OA')
+                        elif 'osteoporosis' in st_low or 'กระดูกพรุน' in st_low or 'กระดูกบาง' in st_low:
+                            norm_parts.append('Osteoporosis')
+                        elif 'rheumatoid' in st_low or 'รูมาตอยด์' in st_low or st_low == 'ra':
+                            norm_parts.append('RA')
+                        elif p and p != target_sheet:
+                            norm_parts.append(p)
+                    if not norm_parts:
+                        norm_parts = ['OA']
+                    seen = set()
+                    target_sub = ' / '.join([x for x in norm_parts if not (x in seen or seen.add(x))])
+
+            # 3. Clean Images
+            q_img = clean_image_field(q_img_raw)
+            ans_img = clean_image_field(ans_img_raw)
+            if not q_img and images_map:
+                for c in [2, 1, 0, 3]:
+                    if (s_name, row_num, c) in images_map:
+                        q_img = images_map[(s_name, row_num, c)]
+                        break
+            if not ans_img and images_map:
+                for c in [10, 9, 8, 11]:
+                    if (s_name, row_num, c) in images_map:
+                        ans_img = images_map[(s_name, row_num, c)]
+                        break
+
+            # 4. Clean Choices
+            raw_choices = [c1_raw, c2_raw, c3_raw, c4_raw, c5_raw]
+            choices = []
+            for c_i, c_val in enumerate(raw_choices):
+                cleaned_c = clean_text_advanced(c_val, is_choice=True)
+                choices.append(cleaned_c)
+
+            # 5. Validate Answer Key (1-5)
+            ans_num = 1
+            if ans_raw.isdigit():
+                val = int(ans_raw)
+                if 1 <= val <= 5:
+                    ans_num = val
+            elif ans_raw.upper() in ['A', 'B', 'C', 'D', 'E']:
+                ans_num = ord(ans_raw.upper()) - ord('A') + 1
+            elif any(ans_raw.startswith(k) for k in ['ก', 'ข', 'ค', 'ง', 'จ']):
+                th_map = {'ก': 1, 'ข': 2, 'ค': 3, 'ง': 4, 'จ': 5}
+                ans_num = th_map.get(ans_raw[0], 1)
+
+            # Distractor Pool fallback
+            pool = DISTRACTOR_POOLS.get(target_sheet, DISTRACTOR_POOLS.get('General Therapeutics', []))
+            if not pool:
+                pool = ['ตัวเลือก ก', 'ตัวเลือก ข', 'ตัวเลือก ค', 'ตัวเลือก ง', 'ตัวเลือก จ']
+            pool_idx = (idx * 3) % len(pool)
+            invalid_dummies = {'', 'ไม่มีข้อใดถูกต้อง', 'ถูกทุกข้อที่กล่าวมาข้างต้น', 'ข้อมูลไม่เพียงพอในการสรุปผล', '-', 'Osteoarthritis / Gout', 'Cardiovascular', 'Infectious diseases', 'General Therapeutics'}
+            for c_i in range(5):
+                if choices[c_i] in invalid_dummies or len(choices[c_i]) < 2:
+                    candidate = pool[(pool_idx + c_i) % len(pool)]
+                    offset = 1
+                    while candidate in choices:
+                        candidate = pool[(pool_idx + c_i + offset) % len(pool)]
+                        offset += 1
+                    choices[c_i] = candidate
+
+            # 6. Format Explanation
+            choice_letters = ['ก', 'ข', 'ค', 'ง', 'จ']
+            ans_letter = choice_letters[ans_num - 1]
+            ans_text = choices[ans_num - 1]
+            if exp_raw and exp_raw.strip():
+                clean_exp = clean_text_advanced(exp_raw.strip(), is_choice=False)
+                exp_html = clean_exp.replace('\n', '<br>')
+            else:
+                exp_html = f"✅ คำตอบที่ถูกต้อง: ข้อ {ans_letter}. {ans_text}"
+
+            q_html = q_clean.replace('\n', '<br>')
+            item_no = int(q_num_raw) if q_num_raw.isdigit() else len(offline_questions.get(target_sheet, [])) + 1
+
+            # Direct 1:1 fidelity from Google Sheet (Col P: ประเภทข้อสอบ, Col Q: ปีที่ออกข้อสอบ)
+            clean_exam_type = exam_type.strip()
+            clean_exam_year = exam_year.strip()
+
+            case_ctx_clean = normalize_math_and_entities(clean_text_advanced(case_ctx_raw, is_choice=False))
+            q_clean = normalize_math_and_entities(q_clean)
+            q_obj = {
+                'id': f"{s_name}::{row_num}",
+                'itemNo': item_no,
+                'category': target_sheet,
+                'topic': target_topic,
+                'subtopic': target_sub,
+                'track': target_track,
+                'caseContext': case_ctx_clean,
+                'caseStem': case_ctx_clean,
+                'question': q_clean,
+                'questionImage': q_img,
+                'choices': choices,
+                'answer': ans_num,
+                'explanation': exp_html,
+                'answerImage': ans_img,
+                'note': note_raw.replace('\n', '<br>'),
+                'examType': clean_exam_type,
+                'examYear': exam_year,
+                'caseGroupId': case_group_id,
+                'caseOrder': case_order,
+                'caseType': case_type
+            }
+
+            if target_sheet not in offline_questions:
+                offline_questions[target_sheet] = []
+            offline_questions[target_sheet].append(q_obj)
+
+    # 6. Post-process Cases
+    post_process_cases(offline_questions)
+
+    # 7. Build categories metadata
+    offline_categories = []
+    track_order = {'Clinic': 1, 'Product': 2, 'SAP': 3}
+    total_q_count = 0
+
+    for cat_name, q_list in offline_questions.items():
+        if not q_list: continue
+        q_track = q_list[0].get('track') if q_list else ''
+        if q_track in ['Clinic', 'Product', 'SAP']:
+            cat_track = q_track
+        else:
+            cat_track = get_track_for_sheet(cat_name)
+        total_q_count += len(q_list)
+        offline_categories.append({
+            'name': cat_name,
+            'count': len(q_list),
+            'track': cat_track
+        })
+
+    offline_categories.sort(key=lambda x: (track_order.get(x['track'], 4), x['name']))
+
+    # 8. Write quiz-data-offline.js
+    print(f"\n  💾 Writing to {output_js}...")
+    with open(output_js, 'w', encoding='utf-8') as f:
+        curr_ts = time_str()
+        f.write("/**\n")
+        f.write(" * 📝 PLE-CC Quiz Practice -- Auto-compiled Offline Database (v2.1 Pro Edition)\n")
+        f.write(f" * Total Questions: {total_q_count} across {len(offline_categories)} Categories\n")
+        f.write(f" * Build Timestamp: {curr_ts} (UTC+7)\n")
+        f.write(f" * Build Source: Google Sheets (API Sync)\n")
+        f.write(f" * Google Sheet ID: {SPREADSHEET_ID}\n")
+        f.write(" */\n\n")
+        f.write(f'window.QUIZ_GOOGLE_SHEET_ID = "{SPREADSHEET_ID}";\n')
+        f.write(f"window.QUIZ_GAS_SCRIPT_ID = '{GAS_SCRIPT_ID}';\n")
+        f.write(f"window.QUIZ_GAS_WEBAPP_URL = '{GAS_WEBAPP_URL}';\n")
+        f.write(f'window.QUIZ_BUILD_TIMESTAMP = "{curr_ts}";\n')
+        f.write(f'window.QUIZ_BUILD_SOURCE = "Google Sheets (API Sync)";\n')
+        f.write(f'window.QUIZ_TOTAL_QUESTIONS = {total_q_count};\n\n')
+        f.write("window.QUIZ_OFFLINE_CATEGORIES = ")
+        f.write(json.dumps(offline_categories, ensure_ascii=False, indent=2))
+        f.write(";\n\n")
+        f.write("window.QUIZ_OFFLINE_QUESTIONS = ")
+        f.write(json.dumps(offline_questions, ensure_ascii=False, indent=2))
+        f.write(";\n\n")
+        all_flat = [q for qs in offline_questions.values() for q in qs]
+        f.write("window.QUIZ_OFFLINE_DB = ")
+        f.write(json.dumps(all_flat, ensure_ascii=False, indent=2))
+        f.write(";\n")
+
+    # 9. Bump Service Worker cache
+    if not args.no_sw_bump:
+        bump_service_worker_cache(sw_js)
+
+    elapsed = time.time() - start_time
+    print(f"\n  🎉 Compilation Complete! Extracted {total_q_count} clean questions across {len(offline_categories)} categories.")
+    print(f"  ⏱️ Time taken: {elapsed:.2f} seconds.\n")
+
+def time_str():
+    from datetime import datetime, timezone, timedelta
+    tz_thai = timezone(timedelta(hours=7))
+    return datetime.now(tz_thai).strftime("%Y-%m-%d %H:%M:%S")
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+if __name__ == '__main__':
+    main()

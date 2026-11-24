@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>PharmaCU Practice — คลังข้อสอบ & แฟลชการ์ดเตรียมสอบใบประกอบวิชาชีพ</title>
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --border: #E2E8F0;
+      --border-focus: #38BDF8;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --primary: #0284C7;
+      --primary-hover: #0369A1;
+      --primary-light: #E0F2FE;
+      --quiz-accent: #2563EB;
+      --quiz-light: #EFF6FF;
+      --flashcard-accent: #0D9488;
+      --flashcard-light: #F0FDFA;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Bai Jamjuree', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══ UNIFIED TOP NAV BAR ══ */
+    .unified-portal-nav {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .upn-container {
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .upn-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 600;
+      transition: opacity 0.15s;
+    }
+    .upn-brand:hover { opacity: 0.85; }
+    .upn-brand-icon { font-size: 20px; }
+    .upn-brand-text strong { color: var(--primary); }
+    .upn-tabs {
+      display: flex;
+      gap: 6px;
+      background: #F1F5F9;
+      padding: 3px;
+      border-radius: 12px;
+    }
+    .upn-tab {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 9px;
+      transition: all 0.2s ease;
+    }
+    .upn-tab:hover {
+      color: var(--text-main);
+    }
+    .upn-tab.active {
+      background: #FFFFFF;
+      color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    /* ══ MAIN HERO CONTAINER ══ */
+    .portal-main {
+      flex: 1;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .hero-banner {
+      text-align: center;
+      padding: 24px 16px 8px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      background: #E0F2FE;
+      color: #0369A1;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      margin-bottom: 14px;
+    }
+    .hero-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #0F172A;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* ══ CORE APPLICATION LAUNCH CARDS ══ */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .app-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .app-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(2, 132, 199, 0.3);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .card-icon-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .card-icon-quiz {
+      background: var(--quiz-light);
+      color: var(--quiz-accent);
+      border: 1px solid #BFDBFE;
+    }
+    .card-icon-flashcard {
+      background: var(--flashcard-light);
+      color: var(--flashcard-accent);
+      border: 1px solid #99F6E4;
+    }
+
+    .card-title-group h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 4px;
+    }
+    .card-tagline {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .card-description {
+      font-size: 14.5px;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .card-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .card-features li {
+      font-size: 13.5px;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feature-check {
+      color: #10B981;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .card-stats-row {
+      display: flex;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #F8FAFC;
+      border-radius: 12px;
+      margin-bottom: 22px;
+      border: 1px solid #F1F5F9;
+    }
+    .card-stat {
+      flex: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #94A3B8;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .stat-val {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F172A;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .launch-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .launch-btn-quiz {
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    .launch-btn-quiz:hover {
+      background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .launch-btn-flashcard {
+      background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+    }
+    .launch-btn-flashcard:hover {
+      background: linear-gradient(135deg, #0F766E 0%, #115E59 100%);
+      box-shadow: 0 6px 16px rgba(13, 148, 136, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* ══ CLOUD SYNC & CONFIG INFO ══ */
+    .sync-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .sync-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sync-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sync-badge {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: #DCFCE7;
+      color: #166534;
+      padding: 3px 10px;
+      border-radius: 9999px;
+    }
+    .sync-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .sync-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .sync-box-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748B;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sync-box-link {
+      font-size: 12px;
+      color: #0284C7;
+      text-decoration: none;
+      word-break: break-all;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .sync-box-link:hover { text-decoration: underline; }
+
+    /* ══ FOOTER ══ */
+    .portal-footer {
+      text-align: center;
+      padding: 24px 20px;
+      font-size: 13px;
+      color: #94A3B8;
+      border-top: 1px solid #E2E8F0;
+      background: #FFFFFF;
+    }
+    .portal-footer a {
+      color: #64748B;
+      text-decoration: none;
+    }
+    .portal-footer a:hover { color: #0284C7; }
+
+    @media (max-width: 640px) {
+      .hero-title { font-size: 26px; }
+      .portal-main { padding: 24px 16px 40px; }
+      .app-card { padding: 20px; }
+      .upn-brand-text strong { display: inline; }
+      .upn-tab span.upn-label { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ UNIFIED TOP NAV BAR ══ -->
+  <header class="unified-portal-nav">
+    <div class="upn-container">
+      <a href="index.html" class="upn-brand">
+        <span class="upn-brand-icon">🎓</span>
+        <span class="upn-brand-text">PharmaCU <strong>Practice</strong></span>
+      </a>
+      <nav class="upn-tabs">
+        <a href="index.html" class="upn-tab active">
+          <span class="upn-icon">🏠</span>
+          <span class="upn-label">หน้าหลัก</span>
+        </a>
+        <a href="quiz.html" class="upn-tab">
+          <span class="upn-icon">📝</span>
+          <span class="upn-label">คลังข้อสอบ</span>
+        </a>
+        <a href="flashcard.html" class="upn-tab">
+          <span class="upn-icon">🗂️</span>
+          <span class="upn-label">แฟลชการ์ด</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ══ MAIN PORTAL CONTENT ══ -->
+  <main class="portal-main">
+
+    <section class="hero-banner">
+      <div class="hero-badge">
+        <span>⚡</span> Personal Study Hub (2-in-1 Platform)
+      </div>
+      <h1 class="hero-title">
+        PharmaCU <span>Practice Portal</span>
+      </h1>
+      <p class="hero-desc">
+        ระบบคลังข้อสอบและแฟลชการ์ดเตรียมสอบใบประกอบวิชาชีพเภสัชกรรม รวมครบในเว็บเดียว เชื่อมต่อ Google Sheets สด พร้อมระบบ Offline PWA ใช้งานได้ทุกที่
+      </p>
+    </section>
+
+    <!-- ══ APP LAUNCH CARDS ══ -->
+    <section class="cards-grid">
+      
+      <!-- QUIZ CARD -->
+      <article class="app-card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-box card-icon-quiz">
+              📝
+            </div>
+            <div class="card-title-group">
+              <h2>คลังข้อสอบจำลอง</h2>
+              <div class="card-tagline">PLE-CC Quiz Practice Engine</div>
+            </div>
+          </div>
+          <p class="card-description">
+            ฝึกทำข้อสอบปรนัย 5 ตัวเลือก ครอบคลุมทั้งสายบริบาลและสายผลิต จับเวลาเสมือนจริง พร้อมเฉลยละเอียดและเหตุผลประกอบทางคลินิก/เภสัชศาสตร์
+          </p>
+          <ul class="card-features">
+            <li><span class="feature-check">✓</span> โหมดจำลองสอบจับเวลาจริง (30, 60, 100 ข้อ)</li>
+            <li><span class="feature-check">✓</span> ระบบกรอง 32 หมวดวิชา (Clinic, Product, SAP)</li>
+            <li><span class="feature-check">✓</span> รองรับสมการเคมีและคณิตศาสตร์ด้วย KaTeX</li>
+            <li><span class="feature-check">✓</span> สถิติวิเคราะห์จุดแข็ง-จุดอ่อนแยกตามหมวด</li>
+          </ul>
+          <div class="card-stats-row">
+            <div class="card-stat">
+              <span class="stat-label">คลังข้อสอบ</span>
+              <span class="stat-val">4,897 ข้อ</span>
+            </div>
+            <div class="card-stat">
+              <span class="stat-label">หมวดวิชา</span>
+              <span class="stat-val">32 หมวด</span>
+            </div>
+            <div class="card-stat">
+              <span class="stat-label">ระบบสอบ</span>
+              <span class="stat-val">Live & Offline</span>
+            </div>
+          </div>
+        </div>
+        <a href="quiz.html" class="launch-btn launch-btn-quiz">
+          <span>🚀 เริ่มทำข้อสอบ (Launch Quiz)</span>
+        </a>
+      </article>
+
+      <!-- FLASHCARD CARD -->
+      <article class="app-card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-box card-icon-flashcard">
+              🗂️
+            </div>
+            <div class="card-title-group">
+              <h2>แฟลชการ์ดสรุปประเด็น</h2>
+              <div class="card-tagline">PLE-CC Spaced Repetition Flashcards</div>
+            </div>
+          </div>
+          <p class="card-description">
+            ท่องจำประเด็นสำคัญ High-Yield, กลไกยา, Drug of Choice, ข้อห้ามใช้ และสูตรคำนวณ ด้วยระบบการ์ด 3D พลิกหน้า-หลัง สัมผัสปัดคล่องมือ
+          </p>
+          <ul class="card-features">
+            <li><span class="feature-check">✓</span> แอนิเมชัน 3D Flip Card พลิกดูคำตอบได้ทันที</li>
+            <li><span class="feature-check">✓</span> จัดหมวดหมู่ 28 รายวิชา (16 Clinic + 12 Product)</li>
+            <li><span class="feature-check">✓</span> กรองย่อยตาม Subtopics รายโรค/รายตำรับ</li>
+            <li><span class="feature-check">✓</span> บันทึกสถานะการจำ (ยังจำไม่ได้ / จำได้แม่นยำ)</li>
+          </ul>
+          <div class="card-stats-row">
+            <div class="card-stat">
+              <span class="stat-label">การ์ดทบทวน</span>
+              <span class="stat-val">1,000+ ใบ</span>
+            </div>
+            <div class="card-stat">
+              <span class="stat-label">หมวดหมู่</span>
+              <span class="stat-val">28 หมวด</span>
+            </div>
+            <div class="card-stat">
+              <span class="stat-label">รูปแบบ</span>
+              <span class="stat-val">3D Touch Card</span>
+            </div>
+          </div>
+        </div>
+        <a href="flashcard.html" class="launch-btn launch-btn-flashcard">
+          <span>🚀 เริ่มท่องแฟลชการ์ด (Launch Cards)</span>
+        </a>
+      </article>
+
+    </section>
+
+    <!-- ══ CLOUD CONNECTION & STATUS ══ -->
+    <section class="sync-card">
+      <div class="sync-header">
+        <div class="sync-title">
+          <span>🔗</span> ข้อมูลการเชื่อมต่อระบบคลาวด์ส่วนตัว (Personal Config)
+        </div>
+        <span class="sync-badge">✓ Configured</span>
+      </div>
+      <div class="sync-items">
+        <div class="sync-box">
+          <div class="sync-box-label">
+            <span>📝</span> Quiz Google Sheet
+          </div>
+          <a href="https://docs.google.com/spreadsheets/d/1EEkYzLVM7yxVyXG1H3AZJgGw9v91tGFRH3bhtmnPVVY/edit" target="_blank" class="sync-box-link">
+            1EEkYzLVM7yxVyXG1H3AZJgGw9v91tGFRH3bhtmnPVVY ↗
+          </a>
+        </div>
+        <div class="sync-box">
+          <div class="sync-box-label">
+            <span>🗂️</span> Flashcard Google Sheet
+          </div>
+          <a href="https://docs.google.com/spreadsheets/d/1yY5Gnjv0vvtj0036V0bB5wa6kfalPHVFcjFZg1uDXEY/edit" target="_blank" class="sync-box-link">
+            1yY5Gnjv0vvtj0036V0bB5wa6kfalPHVFcjFZg1uDXEY ↗
+          </a>
+        </div>
+        <div class="sync-box">
+          <div class="sync-box-label">
+            <span>🐙</span> GitHub Repository
+          </div>
+          <a href="https://github.com/6531034333-max/Practice" target="_blank" class="sync-box-link">
+            6531034333-max/Practice ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="portal-footer">
+    <p>PharmaCU Practice Hub — Personal Edition for 6531034333@student.chula.ac.th</p>
+    <p style="margin-top: 4px; font-size: 11.5px;">Powered by GitHub Pages & Google Sheets Engine</p>
+  </footer>
+
+</body>
+</html>
