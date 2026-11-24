@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 >nul
 cd /d "%~dp0"
 
 echo ================================================================
@@ -15,7 +14,7 @@ if errorlevel 1 (
     echo [ERROR] Flashcard Compilation failed!
     echo Please make sure your Google Sheet is shared with:
     echo   senior-projects@gemini-sheets-editor-497118.iam.gserviceaccount.com
-    echo or set to 'Anyone with the link can view'.
+    echo or set to Anyone with the link can view.
     echo.
     pause
     exit /b 1
