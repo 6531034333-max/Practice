@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 Compile PT2 Comprehensive Oncology Exam Question Bank into quiz-data-offline.js
-Total 225 high-yield oncology questions.
+With PLE CC Multi-Section Explanation Template:
+- ✅ คำตอบที่ถูกต้อง
+- 🎯 ทำไมข้อนี้ถึงถูก
+- 🔍 ข้ออื่นผิดเพราะอะไร
+- 📌 จุดจำก่อนสอบ
+- 📖 Guideline อ้างอิง
 """
 import os, sys, re, json, datetime
 
@@ -16,7 +21,7 @@ GAS_SCRIPT_ID = '1nJwbleNGtDtRVfxEL8s8QlmG5bkCOog13L-B_U98sCXYrbTXa0Xe72tA'
 GAS_WEBAPP_URL = f'https://script.google.com/macros/s/{GAS_SCRIPT_ID}/exec'
 
 print("=" * 65)
-print("  🚀 Compiling PT2 Oncology Exam Question Bank into Offline JS")
+print("  🚀 Compiling PT2 Oncology Exam Question Bank (PLE CC Template)")
 print(f"  Source MD   : {MD_PATH}")
 print(f"  Target File : {OUTPUT_JS}")
 print("=" * 65)
@@ -55,6 +60,97 @@ if current_q and q_text_buffer:
 
 print(f"Parsed {len(questions)} raw questions from markdown.")
 
+LETTER_MAP = {'A': 'ก', 'B': 'ข', 'C': 'ค', 'D': 'ง', 'E': 'จ'}
+INDEX_TO_LETTER = {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E'}
+INDEX_TO_THAI = {1: 'ก', 2: 'ข', 3: 'ค', 4: 'ง', 5: 'จ'}
+
+def parse_explanation_sections(exp_raw, ans_num, ans_text, choices):
+    if not exp_raw:
+        ans_th = INDEX_TO_THAI.get(ans_num, 'ก')
+        return f"✅ คำตอบที่ถูกต้อง: ข้อ {ans_th}. {ans_text}"
+
+    why_correct = ""
+    distractor_analysis = ""
+    pearl = ""
+    guideline = ""
+
+    # 1. Why correct
+    m_correct = re.search(r'-\s*\*\*เหตุผลข้อที่ถูก[^*]*\:\*\*\s*(.*?)(?=\n-\s*\*\*วิเคราะห์ตัวเลือก|\n-\s*\*\*ประเด็น|\Z)', exp_raw, re.DOTALL)
+    if m_correct:
+        why_correct = m_correct.group(1).strip()
+    
+    # 2. Distractor analysis
+    m_dist = re.search(r'-\s*\*\*วิเคราะห์ตัวเลือกที่ผิด[^*]*\:\*\*\s*(.*?)(?=\n-\s*\*\*ประเด็น|\nอ้างอิง|\Z)', exp_raw, re.DOTALL)
+    if m_dist:
+        distractor_analysis = m_dist.group(1).strip()
+    
+    # 3. Clinical Pearl
+    m_pearl = re.search(r'-\s*\*\*ประเด็นทางเภสัชบำบัด[^*]*\:\*\*\s*(.*?)(?=\nอ้างอิง|\Z)', exp_raw, re.DOTALL)
+    if m_pearl:
+        pearl = m_pearl.group(1).strip()
+    else:
+        m_pearl2 = re.search(r'\*\*ประเด็น[^*]*\:\*\*\s*(.*?)(?=\nอ้างอิง|\Z)', exp_raw, re.DOTALL)
+        if m_pearl2:
+            pearl = m_pearl2.group(1).strip()
+            
+    # 4. Guideline / Ref
+    m_ref = re.search(r'อ้างอิง\s*:\s*(.*)', exp_raw, re.DOTALL)
+    if m_ref:
+        guideline = m_ref.group(1).strip()
+
+    # Format why_correct: convert markdown sub-bullets
+    why_correct_clean = why_correct.replace('\n  ', '\n').replace('\n- ', '\n• ').strip()
+    why_correct_html = why_correct_clean.replace('\n\n', '<br><br>').replace('\n', '<br>')
+
+    # Format distractor_analysis:
+    dist_lines = []
+    for line in distractor_analysis.splitlines():
+        line_s = line.strip()
+        if not line_s:
+            continue
+        line_s = re.sub(r'^-\s*\*\*ตัวเลือก\s*([A-E])\s*(?:ผิดเพราะ)?\s*:\*\*', r'• ข้อ \1.', line_s)
+        for l_en, l_th in LETTER_MAP.items():
+            if f'• ข้อ {l_en}.' in line_s:
+                c_idx = ord(l_en) - ord('A')
+                c_val = choices[c_idx] if choices and c_idx < len(choices) else ''
+                if c_val:
+                    c_short = c_val[:45] + ('...' if len(c_val) > 45 else '')
+                    line_s = line_s.replace(f'• ข้อ {l_en}.', f'• ข้อ {l_th}. ({c_short}):')
+                else:
+                    line_s = line_s.replace(f'• ข้อ {l_en}.', f'• ข้อ {l_th}.')
+                break
+        dist_lines.append(line_s)
+    dist_html = '<br>'.join(dist_lines)
+
+    # Format pearl
+    pearl_clean = re.sub(r'^-\s*\*\*[^:]+:\*\*\s*', '', pearl).replace('\n  ', '\n').replace('\n- ', '\n• ').strip()
+    pearl_html = pearl_clean.replace('\n\n', '<br><br>').replace('\n', '<br>')
+
+    # Format guideline
+    guideline_clean = re.sub(r'^---\s*$', '', guideline).strip()
+    guideline_html = guideline_clean.replace('\n', '<br>').strip()
+
+    # Build final PLE CC segmented template
+    ans_th = INDEX_TO_THAI.get(ans_num, 'ก')
+    sections = [
+        f"✅ คำตอบที่ถูกต้อง: ข้อ {ans_th}. {ans_text}"
+    ]
+    
+    if why_correct_html:
+        sections.append(f"🎯 ทำไมข้อนี้ถึงถูก:<br>{why_correct_html}")
+    
+    if dist_html:
+        sections.append(f"🔍 ข้ออื่นผิดเพราะอะไร:<br>{dist_html}")
+        
+    if pearl_html:
+        sections.append(f"📌 จุดจำก่อนสอบ:<br>{pearl_html}")
+        
+    if guideline_html:
+        sections.append(f"📖 Guideline อ้างอิง:<br>{guideline_html}")
+
+    return '<br><br>'.join(sections)
+
+
 CATEGORY_NAME = '14. Oncologic'
 records = []
 
@@ -74,18 +170,14 @@ for idx, q in enumerate(questions):
         else:
             stem = body[:200].strip()
 
-    # Clean stem formatting
-    stem = re.sub(r'^[*\s]+โจทย์[^*]*\:[*\s]*', '', stem)
-    stem = stem.strip()
+    stem = re.sub(r'^[*\s]+โจทย์[^*]*\:[*\s]*', '', stem).strip()
 
     # Choices A-E
     choices = []
     for c_letter in ['A', 'B', 'C', 'D', 'E']:
         m_opt = re.search(rf'-\s*{c_letter}\.\s*(.*?)(?=\n\s*-\s*[B-E]\.|\n\s*\*\*เฉลย|\n\n|\Z)', body, re.DOTALL)
         if m_opt:
-            c_text = m_opt.group(1).strip()
-            # Clean trailing asterisks
-            c_text = re.sub(r'\*+$', '', c_text).strip()
+            c_text = re.sub(r'\*+$', '', m_opt.group(1).strip()).strip()
             choices.append(c_text)
         else:
             choices.append('')
@@ -94,22 +186,13 @@ for idx, q in enumerate(questions):
     ans_key = 1
     m_ans = re.search(r'\*\*เฉลย[^*]*\:\*\*\s*([A-E1-5])', body)
     if m_ans:
-        letter = m_ans.group(1).upper()
         mapping = {'A':1, 'B':2, 'C':3, 'D':4, 'E':5, '1':1, '2':2, '3':3, '4':4, '5':5}
-        ans_key = mapping.get(letter, 1)
+        ans_key = mapping.get(m_ans.group(1).upper(), 1)
 
-    # Explanation
-    exp = ''
-    m_exp = re.search(r'\*\*คำอธิบาย[^*]*\:\*\*\s*(.*)', body, re.DOTALL)
-    if m_exp:
-        exp = m_exp.group(1).strip()
-    else:
-        m_exp2 = re.search(r'####\s+คำอธิบาย[^\n]*\n(.*)', body, re.DOTALL)
-        if m_exp2:
-            exp = m_exp2.group(1).strip()
-    
-    # Format explanation to HTML paragraphs/bullets
-    exp_html = exp.replace('\n\n', '<br><br>').replace('\n- ', '<br>• ').replace('\n', '<br>')
+    correct_choice_text = choices[ans_key - 1] if ans_key - 1 < len(choices) else ''
+
+    # Explanation with PLE CC segmented template
+    exp_formatted = parse_explanation_sections(body, ans_key, correct_choice_text, choices)
 
     # Subtopic clean
     mod_clean = re.sub(r'Module\s+\d+\:\s*', '', q['module'])
@@ -131,7 +214,7 @@ for idx, q in enumerate(questions):
         "questionImage": "",
         "choices": choices,
         "answer": ans_key,
-        "explanation": exp_html,
+        "explanation": exp_formatted,
         "answerImage": "",
         "examType": "PT2 Oncology Exam",
         "examYear": "2567 / Final",
@@ -156,7 +239,7 @@ questions_by_cat = {
 }
 
 header_comment = f"""/**
- * 📝 PLE-CC Quiz Practice -- Auto-compiled Offline Database (Clean PT2 Oncology Edition)
+ * 📝 PLE-CC Quiz Practice -- Auto-compiled Offline Database (PLE CC Multi-Section Template)
  * Total Questions: {len(records)} across 1 Category ({CATEGORY_NAME})
  * Build Timestamp: {now_str} (UTC+7)
  * Build Source: PT2_ONCOLOGY_EXAM_QUESTION_BANK_COMPREHENSIVE.md
@@ -167,7 +250,7 @@ window.QUIZ_GOOGLE_SHEET_ID = "{SPREADSHEET_ID}";
 window.QUIZ_GAS_SCRIPT_ID = "{GAS_SCRIPT_ID}";
 window.QUIZ_GAS_WEBAPP_URL = "{GAS_WEBAPP_URL}";
 window.QUIZ_BUILD_TIMESTAMP = "{now_str}";
-window.QUIZ_BUILD_SOURCE = "PT2 Comprehensive Oncology Exam Bank";
+window.QUIZ_BUILD_SOURCE = "PT2 Comprehensive Oncology Exam Bank (PLE CC Template)";
 window.QUIZ_TOTAL_QUESTIONS = {len(records)};
 
 window.QUIZ_OFFLINE_CATEGORIES = {json.dumps(categories_meta, ensure_ascii=False, indent=2)};
@@ -180,4 +263,4 @@ window.QUIZ_OFFLINE_DB = {json.dumps(records, ensure_ascii=False, indent=2)};
 with open(OUTPUT_JS, 'w', encoding='utf-8') as f:
     f.write(header_comment)
 
-print(f"✅ Successfully wrote {len(records)} oncology questions to {OUTPUT_JS} ({os.path.getsize(OUTPUT_JS):,} bytes)")
+print(f"✅ Successfully compiled {len(records)} oncology questions with PLE CC explanation template to {OUTPUT_JS} ({os.path.getsize(OUTPUT_JS):,} bytes)")
