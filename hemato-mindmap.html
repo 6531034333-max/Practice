@@ -1,0 +1,4117 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hematology & Stem Cell Comprehensive Mind Map — Thanadol Maxnum</title>
+  <style>
+    :root,
+    html[data-theme="light"] {
+      --font-sans: 'Sarabun', 'Noto Sans Thai', 'Thonburi', 'Leelawadee UI', 'Tahoma', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-display: 'Prompt', 'Kanit', 'Sarabun', 'Noto Sans Thai', 'Leelawadee UI', 'Segoe UI', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace;
+
+      /* Canvas & Chrome */
+      --bg-canvas: #f8fafc;
+      --bg-dot: #cbd5e1;
+      --bg-header: #ffffff;
+      --bg-toolbar: #f1f5f9;
+      --bg-dock: #ffffff;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f8fafc;
+      --bg-control: #ffffff;
+      --bg-control-hover: #e2e8f0;
+
+      /* Borders & Shadows */
+      --border-chrome: #cbd5e1;
+      --border-card: #cbd5e1;
+      --border-subtle: #e2e8f0;
+      --shadow-card: 0 2px 6px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-card-hover: 0 8px 20px rgba(15, 23, 42, 0.10);
+      --shadow-chrome: 0 1px 3px rgba(15, 23, 42, 0.06);
+
+      /* Typography */
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent-primary: #0284c7;
+      --accent-primary-soft: #e0f2fe;
+      --accent-primary-text: #0369a1;
+
+      /* Root Card */
+      --root-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      --root-text: #ffffff;
+      --root-subtext: #cbd5e1;
+      --root-border: #38bdf8;
+
+      /* Semantic Category Colors */
+      --cat-criteria-accent: #2563eb;
+      --cat-criteria-bg: #eff6ff;
+      --cat-criteria-text: #1d4ed8;
+
+      --cat-regimen-accent: #059669;
+      --cat-regimen-bg: #ecfdf5;
+      --cat-regimen-text: #047857;
+
+      --cat-trap-accent: #dc2626;
+      --cat-trap-bg: #fef2f2;
+      --cat-trap-text: #b91c1c;
+
+      --cat-nccn-accent: #7c3aed;
+      --cat-nccn-bg: #f5f3ff;
+      --cat-nccn-text: #6d28d9;
+
+      /* Search & Filter States */
+      --match-bg: #fef9c3;
+      --match-border: #eab308;
+      --match-mark-bg: #fde047;
+      --match-mark-text: #0f172a;
+      --match-active-ring: 0 0 0 3px rgba(234, 179, 8, 0.55);
+      --jump-ring: 0 0 0 4px rgba(2, 132, 199, 0.45);
+      --dim-opacity: 0.24;
+      --connector-default: #64748b;
+    }
+
+    html[data-theme="dark"] {
+      --bg-canvas: #0b1120;
+      --bg-dot: #1e293b;
+      --bg-header: #0f172a;
+      --bg-toolbar: #162033;
+      --bg-dock: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-surface-alt: #162033;
+      --bg-control: #1e293b;
+      --bg-control-hover: #334155;
+
+      --border-chrome: #334155;
+      --border-card: #334155;
+      --border-subtle: #293548;
+      --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-card-hover: 0 10px 24px rgba(0, 0, 0, 0.50);
+      --shadow-chrome: 0 2px 6px rgba(0, 0, 0, 0.35);
+
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --accent-primary: #38bdf8;
+      --accent-primary-soft: rgba(56, 189, 248, 0.16);
+      --accent-primary-text: #7dd3fc;
+
+      --root-bg: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      --root-text: #ffffff;
+      --root-subtext: #e0f2fe;
+      --root-border: #7dd3fc;
+
+      --cat-criteria-accent: #60a5fa;
+      --cat-criteria-bg: rgba(37, 99, 235, 0.16);
+      --cat-criteria-text: #93c5fd;
+
+      --cat-regimen-accent: #34d399;
+      --cat-regimen-bg: rgba(5, 150, 105, 0.16);
+      --cat-regimen-text: #6ee7b7;
+
+      --cat-trap-accent: #f87171;
+      --cat-trap-bg: rgba(220, 38, 38, 0.18);
+      --cat-trap-text: #fca5a5;
+
+      --cat-nccn-accent: #a78bfa;
+      --cat-nccn-bg: rgba(124, 58, 237, 0.18);
+      --cat-nccn-text: #ddd6fe;
+
+      --match-bg: rgba(234, 179, 8, 0.18);
+      --match-border: #facc15;
+      --match-mark-bg: #facc15;
+      --match-mark-text: #0f172a;
+      --match-active-ring: 0 0 0 3px rgba(250, 204, 21, 0.50);
+      --jump-ring: 0 0 0 4px rgba(56, 189, 248, 0.50);
+      --dim-opacity: 0.22;
+      --connector-default: #64748b;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font-sans);
+      background: var(--bg-canvas);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #portal-shell {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 1. Header & Cluster Switcher */
+    #portal-header {
+      flex-shrink: 0;
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border-chrome);
+      padding: 10px 18px 0 18px;
+      box-shadow: var(--shadow-chrome);
+      z-index: 30;
+    }
+
+    .header-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .brand-block {
+      min-width: 0;
+    }
+
+    .brand-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .brand-pill {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: var(--accent-primary-soft);
+      color: var(--accent-primary-text);
+    }
+
+    .brand-pill-mode {
+      background: var(--bg-toolbar);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    #portal-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    #portal-subtitle {
+      font-size: 12.5px;
+      line-height: 1.35;
+      margin: 2px 0 0 0;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    #cluster-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .cluster-tab {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      padding: 7px 12px;
+      border: 1px solid transparent;
+      border-bottom: 2px solid transparent;
+      border-radius: 8px 8px 0 0;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-display);
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .cluster-tab[hidden] {
+      display: none;
+    }
+
+    .cluster-tab:hover {
+      background: var(--bg-toolbar);
+      color: var(--text-primary);
+    }
+
+    .cluster-tab.is-active,
+    .cluster-tab[aria-selected="true"] {
+      background: var(--bg-canvas);
+      color: var(--accent-primary-text);
+      border-color: var(--border-chrome);
+      border-bottom-color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    .tab-code { font-weight: 700; }
+    .tab-ch { font-size: 11px; color: var(--text-muted); }
+
+    /* 2. Control Toolbar */
+    #portal-toolbar {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+      padding: 8px 18px;
+      background: var(--bg-toolbar);
+      border-bottom: 1px solid var(--border-chrome);
+      z-index: 25;
+    }
+
+    .toolbar-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 9px;
+      color: var(--text-muted);
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    #search-input {
+      width: 220px;
+      padding: 5px 10px 5px 26px;
+      border-radius: 6px;
+      border: 1px solid var(--border-chrome);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+    }
+
+    #search-input:focus {
+      outline: 2px solid var(--accent-primary);
+      outline-offset: -1px;
+    }
+
+    .match-count {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-muted);
+      min-width: 56px;
+      text-align: center;
+    }
+
+    .filter-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .ctrl-btn, .tag-pill {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-chrome);
+      background: var(--bg-control);
+      color: var(--text-primary);
+      cursor: pointer;
+      line-height: 1.2;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .ctrl-btn:hover, .tag-pill:hover {
+      background: var(--bg-control-hover);
+    }
+
+    .ctrl-btn-icon {
+      min-width: 28px;
+      padding: 5px 7px;
+      text-align: center;
+    }
+
+    .ctrl-btn-sm {
+      padding: 3px 9px;
+      font-size: 11.5px;
+    }
+
+    .ctrl-btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-pill.is-active,
+    .tag-pill[aria-pressed="true"] {
+      background: var(--accent-primary);
+      color: #ffffff;
+      border-color: var(--accent-primary);
+    }
+
+    .zoom-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      min-width: 44px;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    /* 3. Non-Colliding Chapter Quick-Nav & Legend Dock */
+    #chapter-legend-dock {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 14px;
+      padding: 6px 18px;
+      background: var(--bg-dock);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 20;
+    }
+
+    .chapter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .chapter-pill {
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border-chrome);
+      background: var(--bg-surface-alt);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+
+    .chapter-pill:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary-text);
+      background: var(--accent-primary-soft);
+    }
+
+    .legend-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .legend-swatch {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .swatch-lineage  { background: #e11d48; }
+    .swatch-disease  { background: var(--bg-surface); border: 2px solid #0284c7; }
+    .swatch-criteria { background: var(--cat-criteria-accent); }
+    .swatch-regimen  { background: var(--cat-regimen-accent); }
+    .swatch-trap     { background: var(--cat-trap-accent); }
+    .swatch-nccn     { background: var(--cat-nccn-accent); }
+
+    /* 4. Main Workspace & Org-Chart Viewport */
+    #portal-workspace {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      display: flex;
+      overflow: hidden;
+    }
+
+    #tree-viewport {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+      overflow: auto;
+      cursor: grab;
+      background-color: var(--bg-canvas);
+      background-image: radial-gradient(var(--bg-dot) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    #tree-viewport.is-panning {
+      cursor: grabbing;
+      user-select: none;
+    }
+
+    #tree-sizer {
+      position: relative;
+      min-width: 100%;
+      min-height: 100%;
+    }
+
+    #tree-stage {
+      position: relative;
+      transform-origin: 0 0;
+      padding: 0;
+    }
+
+    #tree-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 1;
+    }
+
+    #tree-nodes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    path.tree-connector {
+      fill: none;
+      stroke: var(--connector-default);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: opacity 0.15s ease;
+    }
+
+    path.tree-connector.is-dimmed {
+      opacity: 0.18;
+    }
+
+    /* Empty State Overlay inside #tree-viewport */
+    #empty-state {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      z-index: 15;
+      pointer-events: auto;
+    }
+
+    #empty-state[hidden] {
+      display: none;
+    }
+
+    .empty-state-box {
+      max-width: 380px;
+      padding: 20px 24px;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-chrome);
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    .empty-state-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      margin: 0 0 6px 0;
+      color: var(--text-primary);
+    }
+
+    .empty-state-desc {
+      font-size: 13px;
+      margin: 0 0 14px 0;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* Toggleable Floating Minimap (hidden by default) */
+    #tree-minimap {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      width: 212px;
+      background: var(--bg-header);
+      border: 1px solid var(--border-chrome);
+      border-radius: 10px;
+      box-shadow: var(--shadow-card-hover);
+      z-index: 22;
+      overflow: hidden;
+    }
+
+    #tree-minimap[hidden] {
+      display: none;
+    }
+
+    .minimap-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 9px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-toolbar);
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+    }
+
+    .minimap-close {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      padding: 0 3px;
+    }
+
+    .minimap-close:hover {
+      color: var(--text-primary);
+    }
+
+    .minimap-body {
+      position: relative;
+      width: 210px;
+      height: 126px;
+      background: var(--bg-canvas);
+      cursor: crosshair;
+      overflow: hidden;
+    }
+
+    #minimap-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    #minimap-viewport-rect {
+      position: absolute;
+      border: 1.5px solid var(--accent-primary);
+      background: rgba(2, 132, 199, 0.14);
+      pointer-events: none;
+    }
+
+    /* Zero-Clipping Node Cards */
+    .node-card {
+      position: absolute;
+      box-sizing: border-box;
+      min-width: 210px;
+      max-width: 270px;
+      width: max-content;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 9px 11px;
+      border-radius: 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      border-top: 3px solid var(--branch-color, var(--accent-primary));
+      box-shadow: var(--shadow-card);
+      color: var(--text-primary);
+      cursor: default;
+      user-select: text;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      overflow: visible;
+      height: auto;
+      transition: box-shadow 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+    }
+
+    .node-card > *,
+    .node-card .node-header,
+    .node-card .node-badges,
+    .node-card .node-badge,
+    .node-card .node-title,
+    .node-card .node-subtitle,
+    .node-card .node-summary,
+    .node-card .node-details,
+    .node-card .node-details li {
+      min-width: 0;
+      max-width: 100%;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      overflow: visible;
+      height: auto;
+    }
+
+    .node-card:hover {
+      box-shadow: var(--shadow-card-hover);
+      z-index: 5;
+    }
+
+    .node-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .node-card.has-children .node-header {
+      cursor: pointer;
+    }
+
+    .node-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .node-badge {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 1.25;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--bg-toolbar);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .node-badge.badge-nccn {
+      background: var(--cat-nccn-bg);
+      color: var(--cat-nccn-text);
+      border-color: var(--cat-nccn-accent);
+    }
+
+    .node-badge.badge-trap {
+      background: var(--cat-trap-bg);
+      color: var(--cat-trap-text);
+      border-color: var(--cat-trap-accent);
+    }
+
+    .node-toggle-btn {
+      flex-shrink: 0;
+      min-width: 26px;
+      width: auto;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border-chrome);
+      background: var(--bg-surface-alt);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 18px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .node-toggle-btn:hover {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: #ffffff;
+    }
+
+    .node-title {
+      font-family: var(--font-display);
+      font-size: 13.5px;
+      font-weight: 700;
+      line-height: 1.32;
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    .node-subtitle {
+      font-size: 11.5px;
+      font-weight: 600;
+      line-height: 1.35;
+      margin: 0;
+      color: var(--text-secondary);
+    }
+
+    .node-summary {
+      font-size: 11.5px;
+      line-height: 1.4;
+      margin: 0;
+      color: var(--text-secondary);
+    }
+
+    .node-details {
+      margin: 2px 0 0 0;
+      padding-left: 15px;
+      font-size: 11.5px;
+      line-height: 1.42;
+      color: var(--text-secondary);
+    }
+
+    .node-details li {
+      margin: 2px 0;
+    }
+
+    /* Category Visual Tiers */
+    .node-card[data-category="root"] {
+      min-width: 240px;
+      max-width: 270px;
+      background: var(--root-bg);
+      color: var(--root-text);
+      border: 2px solid var(--root-border);
+      text-align: center;
+      padding: 12px 14px;
+    }
+    .node-card[data-category="root"] .node-title {
+      font-size: 15.5px;
+      color: var(--root-text);
+    }
+    .node-card[data-category="root"] .node-subtitle,
+    .node-card[data-category="root"] .node-summary,
+    .node-card[data-category="root"] .node-details {
+      color: var(--root-subtext);
+    }
+    .node-card[data-category="root"] .node-badge {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .node-card[data-category="lineage"] {
+      border-top-width: 4px;
+      background: var(--bg-surface);
+    }
+    .node-card[data-category="lineage"] .node-title {
+      font-size: 14px;
+      color: var(--branch-color, var(--text-primary));
+    }
+
+    .node-card[data-category="disease"] {
+      border-top-width: 3px;
+    }
+
+    .node-card[data-category="criteria"] {
+      border-top-color: var(--cat-criteria-accent);
+      border-left: 3px solid var(--cat-criteria-accent);
+      background: var(--cat-criteria-bg);
+    }
+
+    .node-card[data-category="regimen"] {
+      border-top-color: var(--cat-regimen-accent);
+      border-left: 3px solid var(--cat-regimen-accent);
+      background: var(--cat-regimen-bg);
+    }
+
+    .node-card[data-category="trap"] {
+      border-top-color: var(--cat-trap-accent);
+      border-left: 3px solid var(--cat-trap-accent);
+      background: var(--cat-trap-bg);
+    }
+    .node-card[data-category="trap"] .node-title {
+      color: var(--cat-trap-text);
+    }
+
+    .node-card[data-category="nccn"] {
+      border-top-color: var(--cat-nccn-accent);
+      border-left: 3px dashed var(--cat-nccn-accent);
+      background: var(--cat-nccn-bg);
+    }
+
+    /* Interactive Search & Filter States */
+    .node-card.is-match {
+      background: var(--match-bg);
+      border-color: var(--match-border);
+    }
+
+    .node-card.is-active-match {
+      box-shadow: var(--match-active-ring);
+      z-index: 10;
+    }
+
+    .node-card.is-jump-target {
+      box-shadow: var(--jump-ring);
+      z-index: 11;
+    }
+
+    .node-card.is-dimmed {
+      opacity: var(--dim-opacity);
+    }
+
+    mark.search-mark {
+      background: var(--match-mark-bg);
+      color: var(--match-mark-text);
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    
+  </style>
+</head>
+<body class="portal-body">
+  <div id="portal-shell">
+
+    <!-- 1. Top Header Bar -->
+    <header id="portal-header">
+      <div class="header-top-row">
+        <div class="brand-block">
+          <div class="brand-pills">
+            <span class="brand-pill brand-pill-primary">RxCU80 • PT2 Oncology &amp; Hematology</span>
+            <span class="brand-pill brand-pill-mode" id="portal-mode-badge">Master Portal Hub (19 Chapters)</span>
+          </div>
+          <h1 id="portal-title">PT2 Oncology &amp; Hematology Master Portal Hub</h1>
+          <p id="portal-subtitle">Thanadol (Maxnum) • Top-Down Clinical Org-Chart &amp; Exam Study Map (Clusters 0–4)</p>
+        </div>
+        <div class="header-actions">
+          <a href="index.html" class="ctrl-btn ctrl-btn-ghost" style="text-decoration: none; font-size: 11px; font-weight: 600; color: #f1f5f9; border: 1px solid rgba(148, 163, 184, 0.4); padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" title="กลับหน้าหลัก Hub">
+            <span>🏠 Hub</span>
+          </a>
+          <a href="PT2_ONCOLOGY_MASTER_PORTAL_HUB.html" class="ctrl-btn ctrl-btn-ghost" style="text-decoration: none; font-size: 11px; font-weight: 600; color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.4); padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" title="เปิด Master Portal Hub">
+            <span>🧬 Portal Hub</span>
+          </a>
+          <a href="ALL_ONCOLOGY_DRUGS_AND_REGIMENS_MINDMAP.html" class="ctrl-btn ctrl-btn-ghost" style="text-decoration: none; font-size: 11px; font-weight: 600; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;" title="เปิดแผนผังสูตรยาทั้งหมดและ Biomarkers">
+            <span>🗺 ผังยามะเร็ง</span>
+          </a>
+          <button type="button" id="btn-theme-toggle" class="ctrl-btn ctrl-btn-ghost" aria-pressed="false" title="Toggle Light / Dark Theme">
+            <span class="theme-icon" aria-hidden="true">☀</span>
+            <span class="theme-label">Light</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cluster Switcher Tabs -->
+      <nav id="cluster-tabs" aria-label="Curriculum Clusters">
+        <button type="button" class="cluster-tab is-active" data-cluster-tab="cluster0" aria-selected="true">
+          <span class="tab-code">Cluster 0</span>
+          <span class="tab-name">Hemato &amp; HSC</span>
+          <span class="tab-ch">Ch02, 05–08</span>
+        </button>
+        <button type="button" class="cluster-tab" data-cluster-tab="cluster1" aria-selected="false">
+          <span class="tab-code">Cluster 1</span>
+          <span class="tab-name">Solid Tumors I</span>
+          <span class="tab-ch">Ch11, 14–16</span>
+        </button>
+        <button type="button" class="cluster-tab" data-cluster-tab="cluster2" aria-selected="false">
+          <span class="tab-code">Cluster 2</span>
+          <span class="tab-name">Solid Tumors II</span>
+          <span class="tab-ch">Ch09–10, 12–13, 17–18</span>
+        </button>
+        <button type="button" class="cluster-tab" data-cluster-tab="cluster3" aria-selected="false">
+          <span class="tab-code">Cluster 3</span>
+          <span class="tab-name">Principles &amp; ADR</span>
+          <span class="tab-ch">Ch01, 03–04</span>
+        </button>
+        <button type="button" class="cluster-tab" data-cluster-tab="cluster4" aria-selected="false">
+          <span class="tab-code">Cluster 4</span>
+          <span class="tab-name">Palliative &amp; Pain</span>
+          <span class="tab-ch">Ch19</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- 2. Secondary Control Toolbar -->
+    <section id="portal-toolbar" aria-label="Tree Controls">
+      <div class="toolbar-group toolbar-search">
+        <div class="search-input-wrap">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input type="search" id="search-input" placeholder="ค้นหาโรค / ยา / ยีน / เกณฑ์ / Trap..." autocomplete="off">
+        </div>
+        <span id="match-count" class="match-count" aria-live="polite">0 / 0</span>
+        <button type="button" id="btn-search-prev" class="ctrl-btn ctrl-btn-icon" title="Previous match" aria-label="Previous match">▲</button>
+        <button type="button" id="btn-search-next" class="ctrl-btn ctrl-btn-icon" title="Next match" aria-label="Next match">▼</button>
+        <label class="filter-check" for="chk-filter-matches">
+          <input type="checkbox" id="chk-filter-matches">
+          <span>Filter matches</span>
+        </label>
+      </div>
+
+      <div id="tag-filters" class="toolbar-group" role="group" aria-label="Category Filters">
+        <button type="button" class="tag-pill is-active" data-filter-tag="all" aria-pressed="true">All</button>
+        <button type="button" class="tag-pill" data-filter-tag="criteria" aria-pressed="false">Criteria</button>
+        <button type="button" class="tag-pill" data-filter-tag="regimen" aria-pressed="false">Regimen</button>
+        <button type="button" class="tag-pill" data-filter-tag="trap" aria-pressed="false">Exam Trap</button>
+        <button type="button" class="tag-pill" data-filter-tag="nccn" aria-pressed="false">NCCN 24-25</button>
+      </div>
+
+      <div class="toolbar-group toolbar-tree">
+        <button type="button" id="btn-expand-all" class="ctrl-btn">Expand All</button>
+        <button type="button" id="btn-collapse-l2" class="ctrl-btn">Collapse L2</button>
+        <button type="button" id="btn-collapse-l3" class="ctrl-btn">Collapse L3</button>
+      </div>
+
+      <div class="toolbar-group toolbar-zoom">
+        <button type="button" id="btn-zoom-out" class="ctrl-btn ctrl-btn-icon" title="Zoom out" aria-label="Zoom out">−</button>
+        <span id="zoom-label" class="zoom-label">100%</span>
+        <button type="button" id="btn-zoom-in" class="ctrl-btn ctrl-btn-icon" title="Zoom in" aria-label="Zoom in">+</button>
+        <button type="button" id="btn-fit" class="ctrl-btn">Fit</button>
+        <button type="button" id="btn-reset-zoom" class="ctrl-btn">100%</button>
+      </div>
+    </section>
+
+    <!-- 3. Non-Colliding Chapter Quick-Nav & Legend Dock -->
+    <div id="chapter-legend-dock" aria-label="Chapter Quick Navigation and Legend">
+      <div id="chapter-pills" class="chapter-pills" role="navigation" aria-label="Chapter Quick Jump"></div>
+      <div id="legend-bar" class="legend-bar" aria-label="Color &amp; Category Legend">
+        <span class="legend-item"><i class="legend-swatch swatch-lineage"></i>Lineage / Group</span>
+        <span class="legend-item"><i class="legend-swatch swatch-disease"></i>Disease</span>
+        <span class="legend-item"><i class="legend-swatch swatch-criteria"></i>Criteria</span>
+        <span class="legend-item"><i class="legend-swatch swatch-regimen"></i>Regimen</span>
+        <span class="legend-item"><i class="legend-swatch swatch-trap"></i>Exam Trap</span>
+        <span class="legend-item"><i class="legend-swatch swatch-nccn"></i>NCCN 24-25</span>
+      </div>
+      <button type="button" id="btn-minimap-toggle" class="ctrl-btn ctrl-btn-sm" aria-expanded="false" aria-controls="tree-minimap">
+        Minimap
+      </button>
+    </div>
+
+    <!-- 4. Main Workspace & Scrollable/Pannable Org-Chart Viewport -->
+    <main id="portal-workspace">
+      <div id="tree-viewport" tabindex="0" aria-label="Org-Chart Tree Canvas">
+        <div id="tree-sizer">
+          <div id="tree-stage">
+            <svg id="tree-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+            <div id="tree-nodes"></div>
+          </div>
+        </div>
+
+        <div id="empty-state" hidden role="status" aria-live="polite">
+          <div class="empty-state-box">
+            <h2 class="empty-state-title">ไม่พบข้อมูลที่ตรงกับเงื่อนไข</h2>
+            <p class="empty-state-desc">ลองล้างคำค้นหาหรือรีเซ็ตตัวกรองหมวดหมู่เพื่อแสดงแผนผังทั้งหมดอีกครั้ง</p>
+            <button type="button" id="btn-reset-filters" class="ctrl-btn">Reset Filters</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toggleable Floating Minimap (collapsed/hidden by default) -->
+      <aside id="tree-minimap" data-open="false" hidden aria-label="Tree Overview Minimap">
+        <div class="minimap-header">
+          <span>Overview</span>
+          <button type="button" id="btn-minimap-close" class="minimap-close" aria-label="Close minimap">×</button>
+        </div>
+        <div class="minimap-body">
+          <svg id="minimap-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div id="minimap-viewport-rect"></div>
+        </div>
+      </aside>
+    </main>
+
+  </div>
+
+  <script>
+window.PT2_PORTAL_CONFIG = {
+  "mode": "hemato",
+  "defaultCluster": "cluster0",
+  "clusterOrder": [
+    "cluster0"
+  ],
+  "smokeClusters": [],
+  "brandTitle": "Hematology & Stem Cell Comprehensive Mind Map",
+  "brandSubtitle": "แผนผังความคิดจัดหมวดหมู่เชื่อมโยงโรคทางโลหิตวิทยา (Ch02, Ch05–Ch08 + NCCN 24-25) เข้ากับ HSC และการปลูกถ่ายไขกระดูก (HSCT) • RxCU80 | ธนดล (Maxnum)",
+  "modeBadge": "Standalone Cluster 0 — Hemato & HSC",
+  "buildTimestamp": "2026-11-24T16:09:59Z"
+};
+</script>
+  <script>/* cluster0 */
+window.PT2_CLUSTERS = window.PT2_CLUSTERS || {};
+window.PT2_CLUSTERS["cluster0"] = {
+  "id": "cluster0",
+  "title": "Cluster 0 — Hematology & Stem Cell (HSC-Linked)",
+  "shortLabel": "Cluster 0: Hemato & HSC",
+  "chapters": [
+    "Ch02",
+    "Ch05",
+    "Ch06",
+    "Ch07",
+    "Ch08"
+  ],
+  "root": {
+    "id": "c0-root-hsc",
+    "title": "Hematopoietic Stem Cell (HSC / CD34+ Differentiation Tree)",
+    "category": "root",
+    "chapter": "Cluster 0",
+    "collapsed": false,
+    "subtitle": "ต้นกำเนิดเซลล์เม็ดเลือด 2 สายหลัก (Myeloid vs Lymphoid) เชื่อมโยงโรคทางโลหิตวิทยาและการปลูกถ่ายเซลล์ต้นกำเนิด (HSCT)",
+    "branchColor": "#0284c7",
+    "badges": [
+      "Cluster 0",
+      "HSC Tree",
+      "Ch02",
+      "Ch05-08"
+    ],
+    "tags": null,
+    "details": null,
+    "children": [
+      {
+        "id": "c0-myeloid-lineage",
+        "title": "Myeloid Lineage (CMP) & Disorders",
+        "category": "lineage",
+        "chapter": "Ch05",
+        "collapsed": false,
+        "subtitle": "Common Myeloid Progenitor • Ch02 DIHD, Ch05 AML, APL, CML",
+        "branchColor": "#e11d48",
+        "badges": [
+          "Myeloid",
+          "CMP",
+          "Ch02",
+          "Ch05"
+        ],
+        "tags": null,
+        "details": null,
+        "children": [
+          {
+            "id": "c0-ch02-main",
+            "title": "Ch02: Drug-Induced Hematologic Disorders Overview",
+            "category": "disease",
+            "chapter": "Ch02",
+            "collapsed": false,
+            "subtitle": "TIMELINE & Naranjo algorithm • ลำดับการเสียชีวิต: AA > Thrombocytopenia > Agranulocytosis > Hemolysis",
+            "branchColor": "#dc2626",
+            "badges": [
+              "Ch02",
+              "DIHD"
+            ],
+            "tags": null,
+            "details": [
+              "ห้าม Re-challenge ยาที่เป็นสาเหตุเด็ดขาด",
+              "Timeline Mapping ร่วมกับ Naranjo Algorithm ประเมินความสัมพันธ์",
+              "Supportive care และหยุดยาสงสัยทันที"
+            ],
+            "children": [
+              {
+                "id": "c0-ch02-aa-dx",
+                "title": "Drug-Induced Aplastic Anemia (Camitta Criteria)",
+                "category": "criteria",
+                "chapter": "Ch02",
+                "collapsed": false,
+                "subtitle": "Pancytopenia ร่วมกับ Empty Bone Marrow",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch02",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "เกณฑ์ Camitta: WBC < 3,500/mm³, Plt < 55,000/mm³, Hb < 10 ร่วมกับ Reticulocyte < 30,000",
+                  "Severe AA: ANC < 500, Plt < 20,000, Reticulocyte < 1%",
+                  "Very Severe AA: เข้าเกณฑ์ SAA + ANC < 200/mm³",
+                  "Aplastic Anemia criteria: WBC < 3,500/mm³ (or 3,500 wbc), Platelet < 55,000/mm³ (plt 55,000), Reticulocytes < 30,000/mm³ (retic 30,000).",
+                  "Camitta criteria: SAA definition requires bone marrow hypocellularity plus at least 2 of: ANC < 500/mm³, Platelet < 20,000/mm³, Reticulocyte < 1% (ANC 500, plt 20,000, 1%).",
+                  "vSAA definition: ANC < 200/mm³ (vSAA 200).",
+                  "Camitta criteria: SAA definition requires bone marrow hypocellularity plus at least 2 of: ANC < 500/mm³, Platelet < 20,000/mm³, Reticulocyte < 1% (SAA: ANC 500, 20,000, 1%).",
+                  "vSAA definition: vSAA < 200/mm³ (vSAA 200)."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch02-aa-rx",
+                    "title": "Aplastic Anemia Therapy (Allo-HSCT vs ATG + CSA)",
+                    "category": "regimen",
+                    "chapter": "Ch02",
+                    "collapsed": false,
+                    "subtitle": "Allo-HSCT ในคนอายุน้อย หรือ IST (ATG + CSA)",
+                    "branchColor": "#059669",
+                    "badges": [
+                      "Ch02",
+                      "Regimen"
+                    ],
+                    "tags": [
+                      "regimen"
+                    ],
+                    "details": [
+                      "Severe AA ทางเลือกแรก: Allogeneic HSCT (Allo-HSCT) ในผู้ป่วยอายุน้อยที่มี HLA-matched donor",
+                      "Immunosuppressive Therapy: Antithymocyte Globulin (ATG) + Cyclosporine (CSA)",
+                      "Moderate AA: Anabolic steroid Oxymetholone หรือ Nandrolone กระตุ้น telomerase",
+                      "MAA therapy: Androgens such as oxymetholone or nandrolone stimulate residual erythropoiesis.",
+                      "SAA/vSAA first-line: Matched sibling donor Allo-HSCT (allo hsct) for young patients; or immunosuppression with ATG + CSA (or CSA + ATG)."
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "c0-ch02-agran-dx",
+                "title": "Drug-Induced Agranulocytosis (ANC < 500 cells/mm³)",
+                "category": "criteria",
+                "chapter": "Ch02",
+                "collapsed": false,
+                "subtitle": "Onset มักเกิด 19–60 วันหลังเริ่มยา",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch02",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "นิยาม: Granulocytes ลดลงจน ANC < 500 cells/mm³",
+                  "Onset สำคัญ: มักเกิดอย่างน้อย 1 เดือน (19–60 วัน) หลังเริ่มยา",
+                  "ยาสาเหตุ: Clozapine, Antithyroid (PTU, Methimazole), Sulfasalazine, Deferiprone",
+                  "Agranulocytosis diagnostic criteria: Profound drop in absolute neutrophil count to ANC < 500 cells/mm³.",
+                  "Typical onset: 19-60 days (19-60) after drug initiation."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch02-agran-gcsf",
+                    "title": "Agranulocytosis G-CSF Support Criteria",
+                    "category": "regimen",
+                    "chapter": "Ch02",
+                    "collapsed": false,
+                    "subtitle": "ข้อบ่งชี้ G-CSF เมื่อ ANC < 100 cells/mm³ หรือติดเชื้อ",
+                    "branchColor": "#059669",
+                    "badges": [
+                      "Ch02",
+                      "Regimen"
+                    ],
+                    "tags": [
+                      "regimen"
+                    ],
+                    "details": [
+                      "ให้ G-CSF เมื่อ ANC < 100 cells/mm³ หรือมีอาการติดเชื้อรุนแรง",
+                      "ช่วยลดระยะเวลา neutropenia, ลดวันนอนโรงพยาบาล, และลดการใช้ยาปฏิชีวนะ",
+                      "G-CSF support: Indicated if ANC < 100 cells/mm³, infection present, or high-risk features.",
+                      "G-CSF support: Indicated if ANC < 100 cells/mm³ (G-CSF < 100), infection present, or high-risk features."
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "c0-ch02-diha-hapten",
+                "title": "Immune Hemolytic Anemia: Hapten Mechanism (DAT / Coombs+)",
+                "category": "criteria",
+                "chapter": "Ch02",
+                "collapsed": false,
+                "subtitle": "Penicillin & Cephalosporin Adsorption",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch02",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "Direct Antiglobulin Test (DAT / Coombs test) ให้ผลบวก",
+                  "Hapten / Drug adsorption: Penicillin หรือ Cephalosporin จับโควาเลนต์บนผิวเม็ดเลือดแดงกระตุ้น IgG",
+                  "Direct Coombs Test (DAT): Positive in drug-induced immune hemolytic anemia.",
+                  "Hapten mechanism (Penicillin, Cephalosporins): Drug binds RBC membrane.",
+                  "Immune complex (Innocent bystander) mechanism: Quinidine/Rifampin forms drug-Ab complex binding RBC.",
+                  "Non-immunologic protein adsorption: Cisplatin modifies erythrocyte membrane causing non-immunologic protein coating.",
+                  "Immune complex (innocent bystander) mechanism: Quinidine/Rifampin forms drug-Ab complex binding RBC."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch02-diha-autoab",
+                    "title": "Autoantibody-Induced Hemolytic Anemia: Methyldopa & Fludarabine",
+                    "category": "criteria",
+                    "chapter": "Ch02",
+                    "collapsed": false,
+                    "subtitle": "True RBC Autoantibodies กระตุ้น DAT บวก",
+                    "branchColor": "#2563eb",
+                    "badges": [
+                      "Ch02",
+                      "Criteria"
+                    ],
+                    "tags": [
+                      "criteria"
+                    ],
+                    "details": [
+                      "Methyldopa และ Fludarabine เหนี่ยวนำให้เกิด Autoantibodies ต่อ Rh antigen บนผิวเม็ดเลือดแดง",
+                      "DAT ให้ผลบวกแม้ไม่มียาอยู่ในซีรั่ม",
+                      "Autoantibody mechanism: Methyldopa or Fludarabine induces warm-reacting IgG autoantibodies against Rh antigens."
+                    ],
+                    "children": []
+                  },
+                  {
+                    "id": "c0-ch02-diha-g6pd",
+                    "title": "Metabolic Hemolytic Anemia: G6PD Deficiency Traps",
+                    "category": "trap",
+                    "chapter": "Ch02",
+                    "collapsed": false,
+                    "subtitle": "Dapsone, Rasburicase, Sulfamethoxazole (DAT ลบ)",
+                    "branchColor": "#dc2626",
+                    "badges": [
+                      "Ch02",
+                      "Exam Trap"
+                    ],
+                    "tags": [
+                      "trap"
+                    ],
+                    "details": [
+                      "G6PD deficiency สัมพันธ์กับ Oxidative stress: Dapsone, Rasburicase, Sulfamethoxazole ทำให้เม็ดเลือดแดงแตกเฉียบพลัน",
+                      "DAT ให้ผลลบ ตรวจพบ Heinz bodies และ Bite cells",
+                      "ห้าม Re-challenge และต้องหลีกเลี่ยงยา oxidant ทุกชนิด",
+                      "G6PD deficiency: Oxidative hemolysis triggered by dapsone, rasburicase, primaquine, methylene blue."
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "c0-ch02-megalo",
+                "title": "Megaloblastic Anemia (DHFR, B12 & Folate Interference)",
+                "category": "criteria",
+                "chapter": "Ch02",
+                "collapsed": false,
+                "subtitle": "Macrocytic Anemia MCV > 100 fL",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch02",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "ยับยั้ง DHFR: Methotrexate, Trimethoprim, Pyrimethamine ขัดขวาง Folate metabolism",
+                  "ลดการดูดซึม Vitamin B12: Metformin, PPIs, Colchicine, Neomycin",
+                  "ลดการดูดซึม Folate: Phenytoin, Phenobarbital",
+                  "Purine and pyrimidine antimetabolites: 5-FU, MTX, azathioprine, allopurinol impair DNA synthesis.",
+                  "Folate malabsorption/depletion: Phenytoin and aspirin reduce intestinal folate absorption or plasma binding.",
+                  "DHFR inhibitors: MTX, trimethoprim, pyrimethamine block dihydrofolate reductase.",
+                  "Vitamin B12 malabsorption: Metformin, PPI, colchicine interfere with ileal B12 uptake."
+                ],
+                "children": []
+              },
+              {
+                "id": "c0-ch02-hit-types",
+                "title": "Heparin-Induced Thrombocytopenia: HIT Type I vs Type II (4Ts & PF4)",
+                "category": "trap",
+                "chapter": "Ch02",
+                "collapsed": false,
+                "subtitle": "Type I Non-immune vs Type II Immune Anti-PF4 / Heparin",
+                "branchColor": "#dc2626",
+                "badges": [
+                  "Ch02",
+                  "Exam Trap"
+                ],
+                "tags": [
+                  "trap"
+                ],
+                "details": [
+                  "HIT Type I (Non-immune): เกิดเร็ว 1–4 วัน, Plt > 80,000, หายเองได้ ไม่ต้องหยุด heparin",
+                  "HIT Type II (Immune): เกิด 5–10 วัน, Anti-PF4/Heparin antibody, Plt ตก >50%, เกิดภาวะ THROMBOSIS 30–80%",
+                  "4Ts Score: Thrombocytopenia, Timing, Thrombosis, oTher causes",
+                  "HIT Type I: Non-immune, days 1-4, mild drop to 80,000/mm³ (1-4 80,000), benign.",
+                  "HIT Type II: Immune-mediated, 4Ts score evaluation, drops 5-10 days after heparin by > 50% or down to 100k, mediated by anti-PF4 antibodies."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch02-hit-rx",
+                    "title": "HIT Anticoagulation: Argatroban, Bivalirudin & Warfarin Trap",
+                    "category": "regimen",
+                    "chapter": "Ch02",
+                    "collapsed": false,
+                    "subtitle": "หยุด Heparin ทุกชนิดทันที และห้ามให้ Warfarin ในระยะเฉียบพลัน",
+                    "branchColor": "#059669",
+                    "badges": [
+                      "Ch02",
+                      "Regimen"
+                    ],
+                    "tags": [
+                      "regimen"
+                    ],
+                    "details": [
+                      "หยุด Heparin และ LMWH ทุกชนิดทันที ห้ามใช้ LMWH ทดแทนเด็ดขาด",
+                      "ห้ามให้ Warfarin ในระยะเฉียบพลัน เสี่ยง Venous limb gangrene และ Skin necrosis จาก Protein C depletion",
+                      "ให้ยา Non-heparin: Argatroban (ขับทางตับ), Bivalirudin (ขับทางไต), หรือ Fondaparinux",
+                      "ให้ Warfarin ได้เมื่อเกล็ดเลือดฟื้น > 150,000/mm³ และต้อง overlap กับ DTI อย่างน้อย 5 วัน",
+                      "Anticoagulation: Immediately stop all heparin, start direct thrombin inhibitor (argatroban, bivalirudin) or fondaparinux.",
+                      "Warfarin reversal/overlap trap: Do not start warfarin until platelet count recovers to >= 150,000/mm³ (warfarin 150,000) to prevent venous limb gangrene and skin necrosis.",
+                      "Duration of anticoagulation: Isolated HIT 4 wk (4 week); HIT with thrombosis (HITT) 3 mo (3 month)."
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "c0-ch05-aml-main",
+            "title": "AML Diagnostic Criteria & Blast Cutoff Exceptions",
+            "category": "criteria",
+            "chapter": "Ch05",
+            "collapsed": false,
+            "subtitle": "Myeloblasts >= 20% หรือพบคู่ยีน CBF / APL วินิจฉัยได้ทันที",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch05",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "เกณฑ์ทั่วไป: พบ Myeloblasts >= 20% ในเลือดรอบนอกหรือไขกระดูก",
+              "ข้อยกเว้นออกสอบ: หากตรวจพบ t(8;21), inv(16)/t(16;16), หรือ t(15;17) วินิจฉัยเป็น AML ทันที แม้ blast < 20%!",
+              "Auer rods: ก้อนผลึกรูปแท่งเกิดจาก primary granules หลอมรวม พบเฉพาะในสาย Myeloid",
+              "AML diagnosis: Bone marrow or peripheral blood blast count >= 20% (>= 20% blast).",
+              "Blast < 20% exceptions: AML diagnosed regardless of blast count if recurrent cytogenetic abnormalities present: t(8;21), inv(16), or t(15;17).",
+              "Auer rods: Pathognomonic cytoplasmic inclusions in myeloblasts (auer rod).",
+              "ELN 2017 / 2022 risk stratification: FLT3-ITD allelic ratio, NPM1, and adverse cytogenetics dictate post-remission therapy (ELN 2017 2022, FLT3-ITD)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch05-aml-eln",
+                "title": "AML ELN Risk Stratification (Favorable / Intermediate / Adverse)",
+                "category": "criteria",
+                "chapter": "Ch05",
+                "collapsed": false,
+                "subtitle": "ELN 2017/2022 Cytogenetics & Molecular Classification",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch05",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "Favorable: t(8;21) RUNX1-RUNX1T1, inv(16) CBFB-MYH11, NPM1 mut without FLT3-ITD, bZIP in-frame CEBPA",
+                  "Intermediate: NPM1 mut with FLT3-ITD, Wild-type NPM1 without FLT3-ITD, t(9;11)",
+                  "Adverse: TP53 mut, Complex karyotype >=3, Monosomal, -5, -7, inv(3)"
+                ],
+                "children": []
+              },
+              {
+                "id": "c0-ch05-aml-37",
+                "title": "Intensive Induction 3+7 & FLT3 Midostaurin / Quizartinib",
+                "category": "regimen",
+                "chapter": "Ch05",
+                "collapsed": false,
+                "subtitle": "Cytarabine D1–7 + Daunorubicin D1–3 ± Midostaurin D8–21",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch05",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "Cytarabine 100–200 mg/m²/day IV continuous infusion D1–7",
+                  "Daunorubicin 60–90 mg/m² (หรือ Idarubicin 12 mg/m²) IV D1–3",
+                  "FLT3+ AML: เติม Midostaurin 50 mg PO BID D8–21 (RATIFY trial เพิ่ม Overall Survival)",
+                  "FLT3-ITD+: Quizartinib (QuANTUM-First trial) D8–21 ร่วมกับ 3+7",
+                  "3+7 Induction: Anthracycline (Daunorubicin 60-90 mg/m² x 3d) + Cytarabine continuous infusion (100-200 mg/m² x 7d).",
+                  "FLT3-mutated AML: Add Midostaurin D8-21 (midostaurin D8-21) to 3+7 induction and consolidation.",
+                  "R/R FLT3 AML: Gilteritinib monotherapy provides superior OS over salvage chemotherapy.",
+                  "Secondary / Therapy-related AML: CPX-351 (liposomal daunorubicin/cytarabine) packaged in copper-gluconate liposomes (CPX-351 copper).",
+                  "CD33-targeted: Gemtuzumab ozogamicin carries black-box warning for hepatic VOD/SOS (gemtuzumab VOD / SOS)."
+                ],
+                "children": []
+              },
+              {
+                "id": "c0-ch05-aml-hidac",
+                "title": "AML Consolidation: High-Dose Cytarabine (HiDAC / HD-AraC)",
+                "category": "regimen",
+                "chapter": "Ch05",
+                "collapsed": false,
+                "subtitle": "HiDAC 1.5–3 g/m² q12h D1, 3, 5 x 3–4 รอบใน Favorable Risk",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch05",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "HiDAC 1.5–3 g/m² IV drip 3 ชม. ทุก 12 ชม. ในวัน D1, 3, 5 (รวม 6 doses ต่อรอบ)",
+                  "Favorable Risk ได้ประโยชน์สูงสุดจาก HiDAC consolidation เดี่ยวๆ โดยไม่ต้องทำ Allo-HSCT ใน CR1",
+                  "Intermediate และ Adverse risk ใช้ HiDAC เป็น Bridge สู่ Allogeneic HSCT",
+                  "High-Dose Cytarabine (HiDAC / HD-AraC 3 g/m²): Cerebellar toxicity risk (nystagmus, dysmetria, ataxia)."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch05-aml-traps",
+                    "title": "HiDAC Toxicity Traps: Cerebellar Neurotoxicity & Conjunctivitis",
+                    "category": "trap",
+                    "chapter": "Ch05",
+                    "collapsed": false,
+                    "subtitle": "Cerebellar Ataxia / Nystagmus & Dexamethasone 0.1% eye drops",
+                    "branchColor": "#dc2626",
+                    "badges": [
+                      "Ch05",
+                      "Exam Trap"
+                    ],
+                    "tags": [
+                      "trap"
+                    ],
+                    "details": [
+                      "Cerebellar Neurotoxicity: เสี่ยงสูงในคนไข้ CrCl < 45 mL/min หรืออายุ >= 60 ปี; ต้องตรวจ Finger-to-Nose และ Nystagmus ก่อนให้ยาทุก dose หากผิดปกติให้หยุดยาทันที",
+                      "Chemical Conjunctivitis: หยอด Dexamethasone 0.1% eye drops 1–2 หยด QID ตั้งแต่เริ่มยาจนถึง 24–48 ชม. หลังหมดยา",
+                      "Ocular toxicity prophylaxis: Dexamethasone 0.1% ophthalmic eye drops BID-QID (dexamethasone 0.1% eye / conjunctivitis) during cytarabine therapy."
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "c0-ch05-aml-unfit",
+                "title": "Non-Intensive AML & R/R Targeted: Venetoclax & Gilteritinib",
+                "category": "regimen",
+                "chapter": "Ch05",
+                "collapsed": false,
+                "subtitle": "Azacitidine + Venetoclax ในคนไข้ Unfit และ Gilteritinib ใน FLT3+ R/R",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch05",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "Unfit (อายุ >=75 ปี หรือ ECOG >=2): Azacitidine/Decitabine + Venetoclax (BCL-2i) 5-day ramp up ป้องกัน TLS",
+                  "Relapsed/Refractory FLT3+ AML: Gilteritinib 120 mg QD monotherapy (ADMIRAL trial ชนะ salvage chemo)",
+                  "Secondary AML: CPX-351 (Vyxeos) liposomal Daunorubicin + Cytarabine",
+                  "Oral azacitidine (CC-486): Approved for AML post-induction maintenance.",
+                  "Venetoclax DDI: Venetoclax is metabolized by CYP3A4; strong azole antifungals (posaconazole, voriconazole) require 75% dose reduction (venetoclax azole / CYP3A4, posaconazole).",
+                  "TLS prophylaxis: Rasburicase for high tumor burden; check G6PD status (rasburicase G6PD)."
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "c0-ch05-apl-main",
+            "title": "APL Diagnosis, Sanz Risk & t(15;17) PML-RARA",
+            "category": "criteria",
+            "chapter": "Ch05",
+            "collapsed": false,
+            "subtitle": "t(15;17) PML-RARA • Auer rods มากมาย (Bundle of faggots)",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch05",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "พันธุกรรม: t(15;17) PML-RARA fusion gene ทำให้เซลล์หยุดเจริญที่ระยะ promyelocyte",
+              "Sanz Risk: Low/Intermediate (WBC <= 10,000/mm³) vs High Risk (WBC > 10,000/mm³)",
+              "ฉุกเฉินทางโลหิตวิทยา: หากสงสัย APL ให้เริ่ม ATRA ทันทีเพื่อป้องกัน DIC เสียชีวิต",
+              "APL hallmark: Translocation t(15;17) generating PML-RARA fusion oncoprotein.",
+              "Sanz risk: Low/Intermediate if WBC <= 10,000/mcL; High risk if WBC > 10,000/mcL."
+            ],
+            "children": [
+              {
+                "id": "c0-ch05-apl-rx",
+                "title": "APL Chemotherapy-Free Standard: ATRA + ATO Regimen",
+                "category": "regimen",
+                "chapter": "Ch05",
+                "collapsed": false,
+                "subtitle": "All-trans retinoic acid + Arsenic trioxide (Low/Int Risk)",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch05",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "Low/Intermediate Risk: ATRA 45 mg/m²/day PO + ATO (Arsenic trioxide) 0.15 mg/kg/day IV drip 2 ชม. (Chemo-free 100%)",
+                  "High Risk (WBC > 10,000): ต้องเพิ่ม Anthracycline (Idarubicin หรือ Daunorubicin) ร่วมกับ ATRA + ATO",
+                  "กลไก: ATRA จับ RARA และ ATO จับ PML สลาย Oncoprotein ปล่อยให้เซลล์เจริญเติบโตปกติ",
+                  "Chemo-free induction: ATRA + ATO (all-trans retinoic acid + arsenic trioxide)."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch05-apl-traps",
+                    "title": "APL Traps: Differentiation Syndrome & ATO QTc Prolongation",
+                    "category": "trap",
+                    "chapter": "Ch05",
+                    "collapsed": false,
+                    "subtitle": "Dexamethasone 10 mg IV q12h & รักษาระดับ K+ > 4.0, Mg2+ > 1.8",
+                    "branchColor": "#dc2626",
+                    "badges": [
+                      "Ch05",
+                      "Exam Trap"
+                    ],
+                    "tags": [
+                      "trap"
+                    ],
+                    "details": [
+                      "Differentiation Syndrome (DS): ไข้ หอบเหนื่อย ปอดบวมน้ำ บวมน้ำ ไตวาย -> รักษาด้วย Dexamethasone 10 mg IV q12h x 3–5 วัน ไม่ต้องหยุด ATRA/ATO",
+                      "ATO Cardiotoxicity Trap: เกิด QTc Prolongation และ Torsades de pointes; ต้องตรวจ EKG และรักษาระดับ K+ > 4.0 mEq/L และ Mg2+ > 1.8 mg/dL เสมอ",
+                      "Differentiation Syndrome: Promptly start Dexamethasone 10 mg q12h IV (dex 10 mg q12h) at earliest sign.",
+                      "ATO electrolyte monitoring: Maintain K+ >= 4.0 mEq/L and Mg >= 1.8 to 2.0 mg/dL (K+ 4.0, Mg 1.8 2.0) to avoid fatal torsades de pointes."
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "c0-ch05-cml-dx",
+            "title": "CML Diagnosis: Philadelphia Chromosome t(9;22) BCR-ABL1",
+            "category": "criteria",
+            "chapter": "Ch05",
+            "collapsed": false,
+            "subtitle": "t(9;22)(q34;q11) BCR-ABL1 Constitutive Tyrosine Kinase",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch05",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "พันธุกรรม: t(9;22) BCR-ABL1 fusion gene สร้างเอนไซม์ Tyrosine Kinase ส่งสัญญาณแบ่งตัวไม่หยุด",
+              "อาการแสดง: ม้ามโตมาก (Splenomegaly), เม็ดเลือดขาวสูงทุกระยะ, Basophilia, Eosinophilia",
+              "ระยะโรค: Chronic Phase (Blasts <10%), Accelerated Phase (10–19%), Blast Crisis (>=20%)",
+              "CML hallmark: Philadelphia chromosome t(9;22)(q34;q11) encoding BCR-ABL1 tyrosine kinase."
+            ],
+            "children": [
+              {
+                "id": "c0-ch05-cml-milestones",
+                "title": "CML ELN Response Milestones (EMR, MMR & TFR)",
+                "category": "criteria",
+                "chapter": "Ch05",
+                "collapsed": false,
+                "subtitle": "EMR (<=10% IS ที่ 3 เดือน), MMR (<=0.1% IS ที่ 12 เดือน), TFR",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch05",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "Early Molecular Response (EMR) ที่ 3 เดือน: BCR-ABL1 <= 10% (IS)",
+                  "Major Molecular Response (MMR) ที่ 12 เดือน: BCR-ABL1 <= 0.1% (IS) หรือ 3-log reduction",
+                  "Treatment-Free Remission (TFR): พิจารณาหยุดยา TKI ได้เมื่อได้ Deep Molecular Response (MR4/MR4.5) ต่อเนื่อง >= 2–3 ปี",
+                  "Molecular milestones: Early Molecular Response (EMR) BCR-ABL1 <= 10% at 3 mo; Major Molecular Response (MMR) <= 0.1% at 12 mo (10%, 0.1%)."
+                ],
+                "children": []
+              },
+              {
+                "id": "c0-ch05-cml-tkis",
+                "title": "CML TKIs: Imatinib, Nilotinib, Dasatinib & Bosutinib",
+                "category": "regimen",
+                "chapter": "Ch05",
+                "collapsed": false,
+                "subtitle": "Imatinib (pc), Nilotinib (ac ท้องว่าง), Dasatinib (ac/pc), Bosutinib (pc)",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch05",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "Imatinib 400 mg QD พร้อมอาหารมื้อใหญ่และน้ำแก้วใหญ่ (pc) ลดระคายเคืองกระเพาะ",
+                  "Nilotinib 300 mg BID กินตอนท้องว่าง (ac) อาหารไขมันสูงเพิ่ม AUC 82% เสี่ยง QTc prolongation!",
+                  "Dasatinib 100 mg QD กินก่อนหรือหลังอาหารก็ได้ (ระวัง Pleural effusion)",
+                  "Bosutinib 400 mg QD พร้อมอาหาร (เด่น Diarrhea ในสัปดาห์แรก)",
+                  "Nilotinib administration: Must be taken on empty stomach (nilotinib ac) due to food increasing bioavailability and QTc risk.",
+                  "Dasatinib PPI interaction: Dasatinib solubility is pH-dependent; avoid PPI and H2RA (dasatinib PPI)."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch05-cml-t315i",
+                    "title": "CML T315I Mutation Solutions: Ponatinib & Asciminib",
+                    "category": "trap",
+                    "chapter": "Ch05",
+                    "collapsed": false,
+                    "subtitle": "T315I Gatekeeper Mutation ดื้อยา 1st/2nd Gen ทุกตัว",
+                    "branchColor": "#dc2626",
+                    "badges": [
+                      "Ch05",
+                      "Exam Trap"
+                    ],
+                    "tags": [
+                      "trap"
+                    ],
+                    "details": [
+                      "T315I Gatekeeper Mutation Trap: ดื้อต่อ Imatinib, Nilotinib, Dasatinib, Bosutinib ทั้งหมด!",
+                      "ทางเลือกที่ 1: Ponatinib 45 mg QD (ระวัง Arterial Occlusive Events ลิ่มเลือดอุดตันหัวใจ/สมอง ต้องลดโดสเหลือ 15 mg เมื่อได้ผล)",
+                      "ทางเลือกที่ 2: Asciminib (STAMP Inhibitor) 200 mg BID จับที่ Myristoyl pocket",
+                      "T315I gatekeeper mutation: Resistant to 1G/2G TKIs; overcome by Ponatinib (pan-BCR-ABL inhibitor) or Asciminib (STAMP allosteric inhibitor) (T315I ponatinib asciminib)."
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "c0-ch05-all-subtypes",
+            "title": "ALL Lineages: B-ALL vs T-ALL & CNS Prophylaxis",
+            "category": "criteria",
+            "chapter": "Ch05",
+            "collapsed": false,
+            "subtitle": "B-cell ALL (CD19/CD20) vs T-cell ALL (CD3/CD7) • บุกรุก CNS บ่อย",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch05",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "B-ALL (~80%): แสดง CD19, CD20, CD22, CD10; T-ALL (~20%): Mediastinal mass",
+              "Ph+ ALL: พบ t(9;22) BCR-ABL1 ในผู้ใหญ่ ~25% ต้องเติม TKI ในทุกสูตร",
+              "CNS Prophylaxis: Intrathecal Methotrexate + Cytarabine + Hydrocortisone จำเป็นในผู้ป่วยทุกราย"
+            ],
+            "children": [
+              {
+                "id": "c0-ch05-all-nccn",
+                "title": "ALL Regimens: Hyper-CVAD & Blinatumomab (NCCN 24-25)",
+                "category": "nccn",
+                "chapter": "Ch05",
+                "collapsed": false,
+                "subtitle": "Hyper-CVAD Intensive Chemo & Blinatumomab BiTE Antibody",
+                "branchColor": "#7c3aed",
+                "badges": [
+                  "Ch05",
+                  "NCCN 24-25 Supplement",
+                  "NCCN"
+                ],
+                "tags": [
+                  "nccn"
+                ],
+                "details": [
+                  "Hyper-CVAD: Course A (Cyclophosphamide + Vincristine + Doxorubicin + Dexamethasone) สลับ Course B (High-Dose MTX + Cytarabine)",
+                  "Blinatumomab (BiTE anti-CD19/CD3): ใช้กำจัด Minimal Residual Disease (MRD+) และใน Relapsed/Refractory B-ALL (ระวัง CRS และพิษต่อระบบประสาท ICANS)",
+                  "ALL (Acute Lymphoblastic Leukemia) regimens: Hyper-CVAD and Pegaspargase backbone; targeted bispecific Blinatumomab (BiTE) and ADC Inotuzumab ozogamicin (anti-CD22) for relapsed/refractory disease (Hyper-CVAD, Pegaspargase, Blinatumomab, Inotuzumab).",
+                  "ALL (Acute Lymphoblastic Leukemia) regimens: Hyper-CVAD and Pegaspargase backbone; targeted bispecific Blinatumomab (BiTE) and ADC Inotuzumab ozogamicin (anti-CD22) for relapsed/refractory disease (ALL: Hyper-CVAD, Pegaspargase, Blinatumomab, Inotuzumab)."
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "c0-lymphoid-lineage",
+        "title": "Lymphoid Lineage (CLP) & Disorders",
+        "category": "lineage",
+        "chapter": "Ch06",
+        "collapsed": false,
+        "subtitle": "Common Lymphoid Progenitor • Ch06 Lymphoma & CLL, Ch07 Multiple Myeloma",
+        "branchColor": "#7c3aed",
+        "badges": [
+          "Lymphoid",
+          "CLP",
+          "Ch06",
+          "Ch07"
+        ],
+        "tags": null,
+        "details": null,
+        "children": [
+          {
+            "id": "c0-ch06-hl-dx",
+            "title": "Hodgkin Lymphoma (cHL): Reed-Sternberg Cells & IPS Score",
+            "category": "criteria",
+            "chapter": "Ch06",
+            "collapsed": false,
+            "subtitle": "Reed-Sternberg Cells (CD15+, CD30+) • International Prognostic Score (IPS)",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch06",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "Reed-Sternberg cells: เซลล์ยักษ์หลายนิวเคลียสรูปตาเสือ/ตานกฮูก (Owl-eyes) ย้อมติด CD15+ และ CD30+",
+              "Ann Arbor Staging: Stage I–IV พร้อมประเมิน B-Symptoms (ไข้ เหงื่อออกกลางคืน น้ำหนักลด >10%)",
+              "IPS Score (Advanced HL): Albumin <4, Hb <10.5, ชาย, อายุ >=45, Stage IV, WBC >=15,000, Lymphopenia",
+              "cHL pathology: Reed-Sternberg cells on background of reactive inflammatory cells.",
+              "Prognostic scoring: International Prognostic Score (IPS) for advanced Hodgkin lymphoma."
+            ],
+            "children": [
+              {
+                "id": "c0-ch06-hl-abvd",
+                "title": "Hodgkin Lymphoma Standard Regimens: ABVD, A+AVD & N+AVD",
+                "category": "regimen",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "ABVD vs Brentuximab + AVD (ECHELON-1) vs Nivolumab + AVD",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch06",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "ABVD มาตรฐาน: Doxorubicin 25 mg/m² + Bleomycin 10 U/m² + Vinblastine 6 mg/m² + Dacarbazine 375 mg/m² D1, 15 q28d",
+                  "A+AVD (ECHELON-1): Brentuximab vedotin 1.2 mg/kg + AVD ใน Stage III/IV เลี่ยงพิษปอดจาก Bleomycin",
+                  "N+AVD (SWOG S1826 Landmark): Nivolumab + AVD ให้ผล PFS เหนือกว่า A+AVD ใน Advanced cHL",
+                  "Regimens: ABVD (Doxorubicin, Bleomycin, Vinblastine, Dacarbazine).",
+                  "Bleomycin monitoring: Cumulative dose cap 400 U, baseline DLCO; avoid G-CSF during ABVD due to severe pulmonary fibrosis (bleomycin 400, DLCO, G-CSF).",
+                  "PET-adapted RATHL trial: Omission of bleomycin after negative interim PET-2 (ABVD -> AVD) eliminates pulmonary toxicity without compromising PFS (RATHL).",
+                  "Targeted / Novel regimens: Brentuximab vedotin + AVD (A+AVD), Nivolumab + AVD (N+AVD), and BrECADD."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch06-hl-traps",
+                    "title": "ABVD Toxicity Traps: Bleomycin Pulmonary Fibrosis & Lifetime Cap",
+                    "category": "trap",
+                    "chapter": "Ch06",
+                    "collapsed": false,
+                    "subtitle": "Bleomycin < 400 Units ตลอดชีวิต & ห้าม High FiO2",
+                    "branchColor": "#dc2626",
+                    "badges": [
+                      "Ch06",
+                      "Exam Trap"
+                    ],
+                    "tags": [
+                      "trap"
+                    ],
+                    "details": [
+                      "Bleomycin Cumulative Limit: สะสมตลอดชีวิตห้ามเกิน 400 Units เสี่ยงต่อ Fatal Pulmonary Fibrosis; ต้องตรวจ DLCO",
+                      "Hyperoxia Hazard: ห้ามให้ออกซิเจนความเข้มข้นสูง (High FiO2) ขณะดมยาสลบผ่าตัด เพราะจะเร่ง Free radical ทำลายปอดเฉียบพลัน",
+                      "Doxorubicin Cardiotoxicity: ขนาดยาสะสมตลอดชีวิตห้ามเกิน 450–550 mg/m²; ต้องตรวจ LVEF"
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "c0-ch06-dlbcl-dx",
+            "title": "DLBCL: IPI Prognostic Index, Hans Algorithm & Double-Hit",
+            "category": "criteria",
+            "chapter": "Ch06",
+            "collapsed": false,
+            "subtitle": "International Prognostic Index (IPI) • Hans Algorithm (GCB vs Non-GCB) • Double-Hit Lymphoma",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch06",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "IPI Score: Age >60, Stage III/IV, Extranodal sites >=2, ECOG >=2, LDH > normal",
+              "Hans Algorithm: จำแนก Germinal Center B-cell (GCB) vs Non-GCB/ABC ด้วย CD10, BCL6, MUM1",
+              "Double-Hit Lymphoma: มีการสลับที่ของยีน MYC ร่วมกับ BCL2 และ/หรือ BCL6 ดุร้ายมาก ดื้อต่อ R-CHOP ต้องใช้ Dose-adjusted EPOCH-R",
+              "DLBCL stratification: International Prognostic Index (IPI); Hans algorithm classifies into GCB vs non-GCB (ABC)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch06-dlbcl-rx",
+                "title": "DLBCL Regimens: R-CHOP, Pola-R-CHP & R-CEOP",
+                "category": "regimen",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "R-CHOP มาตรฐาน vs Pola-R-CHP (POLARIX trial) vs R-CEOP ในโรคหัวใจ",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch06",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "R-CHOP 21 (6 รอบ): Rituximab 375 mg/m² + Cyclophosphamide 750 mg/m² + Doxorubicin 50 mg/m² + Vincristine 1.4 mg/m² (cap 2 mg) + Prednisone 100 mg D1–5",
+                  "Pola-R-CHP (POLARIX): Polatuzumab vedotin (anti-CD79b) แทนที่ Vincristine เพิ่ม PFS ใน IPI 2–5",
+                  "R-CEOP: ใช้ Etoposide แทน Doxorubicin ในผู้ป่วยที่มีปัญหาโรคหัวใจหรือ LVEF ต่ำ",
+                  "POLARIX trial: Polatuzumab vedotin + R-CHP (Pola-R-CHP) superior PFS in IPI 2-5.",
+                  "High-risk / Double-hit lymphoma: Dose-adjusted EPOCH-R (DA-R-EPOCH) with target nadir ANC < 500 cells/mm³ or platelets < 96,000 (DA-R-EPOCH 500 / 96).",
+                  "Anthracycline cardiotoxicity alternatives: R-CEOP (etoposide), R-GCVP (gemcitabine), or R-CDOP (liposomal doxorubicin)."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch06-dlbcl-hbv",
+                    "title": "Rituximab Traps: HBsAg / anti-HBc Screening & Entecavir",
+                    "category": "trap",
+                    "chapter": "Ch06",
+                    "collapsed": false,
+                    "subtitle": "Hepatitis B Reactivation Prophylaxis & Vincristine 2 mg Cap",
+                    "branchColor": "#dc2626",
+                    "badges": [
+                      "Ch06",
+                      "Exam Trap"
+                    ],
+                    "tags": [
+                      "trap"
+                    ],
+                    "details": [
+                      "HBV Screening Trap: ต้องตรวจ HBsAg และ anti-HBc ในคนไข้ทุกรายก่อนเริ่ม Rituximab เสมอ!",
+                      "หากผลบวก: ต้องให้ยาต้านไวรัส Entecavir หรือ Tenofovir ป้องกันล่วงหน้า และให้ต่อเนื่องอย่างน้อย 12 เดือนหลังจบยา",
+                      "Vincristine Cap Trap: ต้อง Cap ขนาดยา Vincristine ไม่เกิน 2 mg ต่อ dose เสมอ เพื่อป้องกัน Paralytic ileus และ Severe Peripheral Neuropathy",
+                      "Rituximab hepatitis B reactivation: Mandatory screening with HBsAg and anti-HBc; give Entecavir prophylaxis (HBsAg anti-HBc HBV)."
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "c0-ch06-cns-lymphoma",
+                "title": "Primary Central Nervous System Lymphoma (PCNSL)",
+                "category": "regimen",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "High-Dose Methotrexate (HD-MTX >=3.5 g/m²) + Rituximab",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch06",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "PCNSL: ส่วนใหญ่เป็น DLBCL ที่เกิดเฉพาะในสมองและตา ไม่ตอบสนองต่อ R-CHOP เพราะยาไม่ผ่าน BBB",
+                  "การรักษามาตรฐาน: High-Dose Methotrexate (>=3.5 g/m² IV) ร่วมกับ Leucovorin rescue และ Rituximab ± Cytarabine"
+                ],
+                "children": []
+              },
+              {
+                "id": "c0-ch06-alcl-cd30",
+                "title": "Anaplastic Large Cell Lymphoma (CD30+ ALCL)",
+                "category": "regimen",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "ALK-Positive vs ALK-Negative ALCL & Brentuximab Vedotin",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch06",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "CD30 Expression: ย้อมติด CD30+ 100% บนผิวเซลล์ Anaplastic large cells",
+                  "ECHELON-2 Trial: Brentuximab vedotin + Cyclophosphamide + Doxorubicin + Prednisone (A+CHP) ยืด Overall Survival เหนือกว่า CHOP เดิมอย่างมีนัยสำคัญ"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "c0-ch06-fl-card",
+            "title": "Follicular Lymphoma: t(14;18) Translocation & BCL-2 Overexpression",
+            "category": "criteria",
+            "chapter": "Ch06",
+            "collapsed": false,
+            "subtitle": "t(14;18)(q32;q21) • Indolent Course • Bendamustine + Rituximab (BR)",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch06",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "Follicular Lymphoma: t(14;18)(q32;q21) BCL2 overexpression ยับยั้ง apoptosis เซลล์ไม่ยอมตาย",
+              "Watch-and-Wait: หากก้อนเล็ก ไม่มีอาการ ติดตามอาการโดยไม่เริ่มคีโม",
+              "GELF criteria เริ่มยา: มีก้อน >7 cm, มีต่อมน้ำเหลืองโต >3 cm >=3 แห่ง, ม้ามโต, หรือไขกระดูกวาย",
+              "การรักษา: Bendamustine + Rituximab (BR) ตามด้วย Maintenance Rituximab q2m x 2 ปี",
+              "Follicular Lymphoma: Hallmark t(14;18) translocation causing BCL-2 overexpression.",
+              "GALLIUM trial: Obinutuzumab + chemotherapy with enhanced antibody-dependent cellular cytotoxicity and complement-dependent cytotoxicity (obinutuzumab CDC)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch06-mcl-card",
+                "title": "Mantle Cell Lymphoma: t(11;14) CCND1 & Cyclin D1 Overexpression",
+                "category": "criteria",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "t(11;14)(q13;q32) • Cyclin D1 Overexpression • BTK Inhibitors",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch06",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "Mantle Cell Lymphoma: t(11;14)(q13;q32) ทำให้ Cyclin D1 overexpression ผลักดันเซลล์เข้าสู่ S phase",
+                  "พฤติกรรมดุร้าย: ต้องให้เคมีบำบัดขนาดสูงร่วมกับ Autologous HSCT ในคนอายุน้อย",
+                  "Targeted Therapy: Acalabrutinib, Zanubrutinib, Pirtobrutinib ให้ผลตอบสนองดีมาก",
+                  "Mantle Cell Lymphoma: Hallmark t(11;14) CCND1 translocation; aggressive."
+                ],
+                "children": []
+              },
+              {
+                "id": "c0-ch06-bl-card",
+                "title": "Burkitt Lymphoma: t(8;14) MYC Translocation & Hyper-Proliferation",
+                "category": "criteria",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "t(8;14)(q24;q32) • MYC Translocation • Ki-67 ~100% • Extreme TLS Risk",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch06",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "Burkitt Lymphoma: t(8;14)(q24;q32) MYC overexpression แบ่งตัวเร็วที่สุดในมนุษย์ (Doubling time <24h)",
+                  "High Emetic & Extreme TLS Risk: ต้องให้ Vigorous Hydration + Rasburicase ป้องกันล่วงหน้าเสมอ",
+                  "สูตรการรักษา: CODOX-M/IVAC + Rituximab ห้ามใช้ R-CHOP เด็ดขาดเพราะไม่แรงพอ",
+                  "Burkitt Lymphoma: Hallmark t(8;14) MYC translocation; high mitotic index; strictly NEVER R-CHOP (no R-CHOP / not R-CHOP / ห้าม R-CHOP / never R-CHOP); requires intensive regimens like CODOX-M/IVAC or DA-R-EPOCH."
+                ],
+                "children": []
+              },
+              {
+                "id": "c0-ch06-cll-nccn",
+                "title": "Chronic Lymphocytic Leukemia & SLL (NCCN 24-25)",
+                "category": "nccn",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "CLL / SLL • BTK Inhibitors (Zanubrutinib, Acalabrutinib) & Venetoclax",
+                "branchColor": "#7c3aed",
+                "badges": [
+                  "Ch06",
+                  "NCCN 24-25 Supplement",
+                  "NCCN"
+                ],
+                "tags": [
+                  "nccn"
+                ],
+                "details": [
+                  "CLL / Small Lymphocytic Lymphoma (SLL): แสดง CD5, CD19, CD23 พร้อม Smudge cells",
+                  "1st-line Targeted: Zanubrutinib หรือ Acalabrutinib หรือ Venetoclax + Obinutuzumab (ลดพิษหัวใจเมื่อเทียบกับ Ibrutinib)",
+                  "del(17p) / TP53 mut: ดื้อต่อคีโม FCR ต้องใช้ BTK inhibitor หรือ Venetoclax เท่านั้น",
+                  "CLL / SLL criteria: ALC >= 5,000 cells/mcL; high-risk del(17p) / TP53 mutation; BTK inhibitors (acalabrutinib, zanubrutinib) and BCL-2 inhibitor venetoclax (ALC 5,000, del(17p), acalabrutinib, zanubrutinib, venetoclax)."
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "c0-ch06-cart-rx",
+            "title": "CAR-T Cell Therapy: CD19/BCMA Constructs & Flu/Cy Lymphodepletion",
+            "category": "regimen",
+            "chapter": "Ch06",
+            "collapsed": false,
+            "subtitle": "Chimeric Antigen Receptor T-Cell Therapy (Axicabtagene, Tisagenlecleucel)",
+            "branchColor": "#059669",
+            "badges": [
+              "Ch06",
+              "Regimen"
+            ],
+            "tags": [
+              "regimen"
+            ],
+            "details": [
+              "CAR-T Constructs: ตัดต่อ T-cells มุ่งเป้า CD19 (ใน DLBCL, ALL) หรือ BCMA (ใน Multiple Myeloma)",
+              "Lymphodepleting Chemotherapy: Fludarabine 30 mg/m² + Cyclophosphamide 300–500 mg/m² (Flu/Cy) D-5 ถึง D-3 เพื่อเคลียร์ T-cells เดิมเปิดทางให้ CAR-T ขยายตัว",
+              "CAR-T lymphodepletion: Fludarabine + Cyclophosphamide (Flu/Cy)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch06-cart-traps",
+                "title": "CAR-T Toxicity Traps: CRS Tocilizumab & ICANS Dexamethasone",
+                "category": "trap",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "Cytokine Release Syndrome & Immune Effector Cell-Associated Neurotoxicity",
+                "branchColor": "#dc2626",
+                "badges": [
+                  "Ch06",
+                  "Exam Trap"
+                ],
+                "tags": [
+                  "trap"
+                ],
+                "details": [
+                  "Cytokine Release Syndrome (CRS): ไข้สูง ความดันตก ภาวะขาดออกซิเจน จาก IL-6 พุ่งสูง -> รักษาด้วย Tocilizumab (Anti-IL-6 receptor) 8 mg/kg IV ± Dexamethasone",
+                  "ICANS (Neurotoxicity): สับสน พูดติดขัด เขียนหนังสือไม่ได้ ซึม ชัก -> รักษาด้วย High-Dose Dexamethasone (ห้ามใช้ Tocilizumab เดี่ยวๆ ใน isolated ICANS เพราะไม่ผ่าน BBB)",
+                  "Cytokine Release Syndrome (CRS): Tocilizumab (IL-6 receptor antagonist) is first-line therapy (CRS tocilizumab).",
+                  "ICANS (Neurotoxicity): Treated with Dexamethasone (ICANS dex / dexamethasone) and Levetiracetam for seizure prophylaxis; Tocilizumab does not cross blood-brain barrier (BBB) and is not recommended as monotherapy for isolated ICANS (not tocilizumab / BBB)."
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "c0-ch06-malt-nccn",
+            "title": "Marginal Zone & MALT Lymphoma (NCCN 24-25)",
+            "category": "nccn",
+            "chapter": "Ch06",
+            "collapsed": false,
+            "subtitle": "Extranodal MALT • Gastric MALT สัมพันธ์กับ H. pylori",
+            "branchColor": "#7c3aed",
+            "badges": [
+              "Ch06",
+              "NCCN 24-25 Supplement",
+              "NCCN"
+            ],
+            "tags": [
+              "nccn"
+            ],
+            "details": [
+              "Gastric MALT Lymphoma: สัมพันธ์กับการติดเชื้อ Helicobacter pylori ในระยะแรกสามารถหายขาดได้ด้วย Triple/Quadruple H. pylori Eradication Therapy โดยไม่ต้องให้คีโม",
+              "Non-gastric MALT / Nodal MZL: ใช้ Rituximab monotherapy หรือ Rituximab + Bendamustine (BR)",
+              "Marginal Zone / MALT Lymphoma: Gastric MALT associated with H. pylori infection; eradication with triple/quadruple therapy induces complete lymphoma remission in early stage (MALT marginal zone H. pylori)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch06-ptcl-nccn",
+                "title": "Peripheral T-Cell & NK/T-Cell Lymphoma (NCCN 24-25)",
+                "category": "nccn",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "PTCL, ALK+ / ALK- ALCL & Extranodal NK/T-Cell Lymphoma",
+                "branchColor": "#7c3aed",
+                "badges": [
+                  "Ch06",
+                  "NCCN 24-25 Supplement",
+                  "NCCN"
+                ],
+                "tags": [
+                  "nccn"
+                ],
+                "details": [
+                  "Anaplastic Large Cell Lymphoma (ALCL): ALK-positive พยากรณ์โรคดีกว่า ALK-negative; รักษาด้วย Brentuximab vedotin + CHP (ECHELON-2)",
+                  "Extranodal NK/T-cell (Nasal type): สัมพันธ์กับ EBV; มักดื้อต่อ Anthracyclines จาก P-glycoprotein สูง ต้องใช้สูตรที่มี L-asparaginase เช่น SMILE หรือ DDGP",
+                  "Peripheral T-Cell (PTCL) & CD30+ ALCL: Brentuximab vedotin + CHP (BV+CHP) in ECHELON-2; SMILE regimen containing L-asparaginase for NK/T-cell lymphoma (PTCL ALCL BV+CHP SMILE asparaginase)."
+                ],
+                "children": []
+              },
+              {
+                "id": "c0-ch06-walden-nccn",
+                "title": "Waldenström Macroglobulinemia / LPL (NCCN 24-25)",
+                "category": "nccn",
+                "chapter": "Ch06",
+                "collapsed": false,
+                "subtitle": "Lymphoplasmacytic Lymphoma • IgM Paraprotein & MYD88 L265P",
+                "branchColor": "#7c3aed",
+                "badges": [
+                  "Ch06",
+                  "NCCN 24-25 Supplement",
+                  "NCCN"
+                ],
+                "tags": [
+                  "nccn"
+                ],
+                "details": [
+                  "พยาธิสภาพ: มีการหลั่งสารโมโนโคลนอล IgM ในระดับสูง ทำให้เกิด Hyperviscosity Syndrome (เลือดหนืด ปวดศีรษะ ตามัว เลือดออก)",
+                  "พันธุกรรม: พบ MYD88 L265P mutation สูงกว่า 90% และ CXCR4 mutation",
+                  "การรักษา: Plasma Exchange (Plasmapheresis) ลดความหนืดเลือดเฉียบพลัน ร่วมกับ BTK inhibitor (Zanubrutinib / Ibrutinib) หรือ Rituximab-based chemo",
+                  "Waldenström Macroglobulinemia (WM) / LPL: MYD88 L265P mutation in >90%; treated with Zanubrutinib or Bendamustine + Rituximab (BR) (Waldenström MYD88 zanubrutinib BR)."
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "c0-ch07-spectrum",
+            "title": "Plasma Cell Dyscrasias: MGUS, Smoldering MM & 20-2-20 Rule",
+            "category": "criteria",
+            "chapter": "Ch07",
+            "collapsed": false,
+            "subtitle": "Monoclonal Gammopathy of Undetermined Significance สู่ Active MM",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch07",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "MGUS: Serum M-protein < 3 g/dL, Bone marrow plasma cells < 10%, ไม่มีอาการ CRAB (ความเสี่ยงกลายเป็น MM ~1% ต่อปี)",
+              "Smoldering MM (SMM): M-protein >= 3 g/dL หรือ BM plasma cells 10–60% โดยไม่มีอาการ CRAB",
+              "Mayo 20-2-20 High-Risk SMM Rule: BM plasma cells >20%, Serum FLC ratio >20, และ Serum M-protein >2 g/dL (เสี่ยงกลายเป็น Active MM >50% ใน 2 ปี)",
+              "Smoldering MM risk: 20-2-20 rule (bone marrow plasma cells > 20%, serum M-protein > 2 g/dL, FLC ratio > 20)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch07-crab-slim",
+                "title": "MM Diagnostic Criteria: CRAB & SLiM Malignancy Biomarkers",
+                "category": "criteria",
+                "chapter": "Ch07",
+                "collapsed": false,
+                "subtitle": "HyperCalcemia, Renal, Anemia, Bone Lesions & SLiM Criteria",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch07",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "CRAB: Calcium >11 mg/dL, Renal CrCl <40 หรือ SCr >2 mg/dL, Anemia Hb <10, Bone lesions >=1 lytic lesion",
+                  "SLiM Biomarkers: S - Sixty percent (BM plasma cells >=60%), Li - Light chain ratio (involved/uninvolved >=100), M - MRI >=1 focal lesion ขนาด >=5 mm",
+                  "Multiple Myeloma CRAB criteria: Calcium > 11 mg/dL (Ca > 11), Scr > 2 mg/dL or GFR < 40 mL/min, Hemoglobin < 10 g/dL (Hb < 10), Bone lytic lesions (CRAB).",
+                  "SLiM criteria: Clonal bone marrow plasma cells >= 60%, involved/uninvolved Serum Free Light Chain ratio >= 100, > 1 focal MRI lesion (SLiM)."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch07-immunoglobulins",
+                    "title": "Myeloma Paraproteins: IgG, IgA, IgM & Bence-Jones Light Chains",
+                    "category": "criteria",
+                    "chapter": "Ch07",
+                    "collapsed": false,
+                    "subtitle": "Heavy Chains (IgG 50%, IgA 20%, IgM <1%) & Free Light Chains",
+                    "branchColor": "#2563eb",
+                    "badges": [
+                      "Ch07",
+                      "Criteria"
+                    ],
+                    "tags": [
+                      "criteria"
+                    ],
+                    "details": [
+                      "M-protein ชนิดพบบ่อย: IgG (~50%), IgA (~20%), Light chain only (~15%), ส่วน IgM พบน้อยมาก (<1% มักเป็น Waldenström)",
+                      "Bence-Jones Proteinuria: Free light chains (Kappa หรือ Lambda) ขนาดเล็กกรองผ่านไต ทำให้เกิด Cast Nephropathy อุดตันท่อไตเฉียบพลัน",
+                      "Myeloma kidney (Cast nephropathy): Free light chain (Bence Jones) precipitation leading to AKI (light chain Bence Jones AKI)."
+                    ],
+                    "children": []
+                  },
+                  {
+                    "id": "c0-ch07-risk-iss",
+                    "title": "mSMART & R-ISS Risk Stratification (del 17p / High-Risk Cytogenetics)",
+                    "category": "criteria",
+                    "chapter": "Ch07",
+                    "collapsed": false,
+                    "subtitle": "Revised ISS & mSMART 3.0 Cytogenetics",
+                    "branchColor": "#2563eb",
+                    "badges": [
+                      "Ch07",
+                      "Criteria"
+                    ],
+                    "tags": [
+                      "criteria"
+                    ],
+                    "details": [
+                      "High-Risk Cytogenetics: del(17p) (TP53 deletion), t(4;14), t(14;16), t(14;20), 1q gain/amplification",
+                      "R-ISS Stage I: beta-2 microglobulin <3.5 mg/L, Albumin >=3.5, Standard risk, Normal LDH",
+                      "R-ISS Stage III: beta-2 microglobulin >=5.5 mg/L ร่วมกับ High-risk cytogenetics หรือ High LDH",
+                      "High-risk cytogenetics: del(17p), t(4;14), t(14;16) (del(17p))."
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "c0-ch07-transplant-vrd",
+                "title": "Transplant-Eligible Regimens: VRd, VCD & High-Dose Melphalan ASCT",
+                "category": "regimen",
+                "chapter": "Ch07",
+                "collapsed": false,
+                "subtitle": "Bortezomib + Lenalidomide + Dexamethasone & Autologous HSCT",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch07",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "Induction: VRd (Bortezomib 1.3 mg/m² SC + Lenalidomide 25 mg PO + Dexamethasone 40 mg PO) 4–6 รอบ",
+                  "VCD (CyBorD): ใช้ Cyclophosphamide แทน Lenalidomide กรณีไตวายเฉียบพลัน",
+                  "Autologous HSCT: High-dose Melphalan 200 mg/m² (ปรับลดเหลือ 140 mg/m² หากไตวาย) ช่วยยืด PFS สูงสุด",
+                  "Renal impairment induction: VCD (Bortezomib, Cyclophosphamide, Dexamethasone) is the preferred regimen in acute AKI (VCD AKI / renal).",
+                  "Autologous HSCT conditioning: High-dose Melphalan 200 mg/m² (or 140 mg/m² in renal failure / elderly) (melphalan 200 / 140).",
+                  "Bortezomib trap: Reactivates Herpes Zoster; Acyclovir or Valacyclovir prophylaxis mandated (bortezomib acyclovir)."
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch07-nontransplant-drd",
+                    "title": "Transplant-Ineligible Regimens: DRd, Dara-VMP & IMWG Guidelines",
+                    "category": "regimen",
+                    "chapter": "Ch07",
+                    "collapsed": false,
+                    "subtitle": "Daratumumab + Lenalidomide + Dexamethasone (MAIA trial)",
+                    "branchColor": "#059669",
+                    "badges": [
+                      "Ch07",
+                      "Regimen"
+                    ],
+                    "tags": [
+                      "regimen"
+                    ],
+                    "details": [
+                      "Transplant-Ineligible Standard: DRd (Daratumumab + Lenalidomide + Dexamethasone จาก MAIA trial) ยกระดับ Overall Survival ทะลุสถิติเดิม",
+                      "Dara-VMP (ALCYONE trial): Daratumumab + Bortezomib + Melphalan + Prednisone ทางเลือกกรณีไม่สามารถเบิก Lenalidomide ได้",
+                      "Daratumumab transfusion interference: Anti-CD38 antibody binds RBC surface CD38 causing false-positive Indirect Coombs Test / cross-match (IAT / indirect Coombs / cross-match).",
+                      "Lenalidomide traps: Strict dose adjustment based on CrCl; high VTE risk requiring aspirin or LMWH thromboprophylaxis (lenalidomide CrCl / VTE).",
+                      "Daratumumab transfusion interference: Anti-CD38 antibody binds RBC surface CD38 causing false-positive Indirect Coombs Test / cross-match (daratumumab IAT / indirect Coombs / cross-match)."
+                    ],
+                    "children": []
+                  },
+                  {
+                    "id": "c0-ch07-relapsed-rr",
+                    "title": "Relapsed/Refractory MM: Carfilzomib, Pomalidomide & BCMA Bispecifics",
+                    "category": "regimen",
+                    "chapter": "Ch07",
+                    "collapsed": false,
+                    "subtitle": "Kd (Carfilzomib + Dex), Pd (Pomalidomide) & Teclistamab (BCMA x CD3)",
+                    "branchColor": "#059669",
+                    "badges": [
+                      "Ch07",
+                      "Regimen"
+                    ],
+                    "tags": [
+                      "regimen"
+                    ],
+                    "details": [
+                      "Kd / KRd: Carfilzomib (2nd-gen irreversible Proteasome inhibitor) ร่วมกับ Dexamethasone ± Lenalidomide",
+                      "Pd / Isa-Pd: Pomalidomide 4 mg PO D1–21 ร่วมกับ Isatuximab หรือ Daratumumab",
+                      "BCMA Targeted: Teclistamab (Bispecific antibody) และ Ciltacabtagene autoleucel (CAR-T)",
+                      "Carfilzomib: Pre-medicate with dexamethasone; step-up dosing from 20 mg/m² (carfilzomib 20) with cardiac monitoring."
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "c0-ch07-hypercalcemia-rx",
+                "title": "Hypercalcemia Management: Calcitonin & Zoledronic Acid",
+                "category": "regimen",
+                "chapter": "Ch07",
+                "collapsed": false,
+                "subtitle": "Vigorous Normal Saline + Calcitonin + Zoledronic acid 4 mg IV",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch07",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "การรักษา Hypercalcemia ใน MM: 0.9% Normal Saline 200–500 mL/hr ร่วมกับ Calcitonin 4–8 IU/kg SC q12h ใน 2 วันแรก",
+                  "ยับยั้งการสลายกระดูกระยะยาว: Zoledronic acid 4 mg IV drip >=15 นาที (หรือ Denosumab 120 mg SC กรณีไตวาย)"
+                ],
+                "children": [
+                  {
+                    "id": "c0-ch07-dara-blood-trap",
+                    "title": "Daratumumab Transfusion Trap: CD38 Interference & IAT / Indirect Coombs",
+                    "category": "trap",
+                    "chapter": "Ch07",
+                    "collapsed": false,
+                    "subtitle": "Daratumumab รบกวน Indirect Antiglobulin Test (IAT) และ Cross-match",
+                    "branchColor": "#dc2626",
+                    "badges": [
+                      "Ch07",
+                      "Exam Trap"
+                    ],
+                    "tags": [
+                      "trap"
+                    ],
+                    "details": [
+                      "Daratumumab Blood Bank Interference Trap: Daratumumab (Anti-CD38) จะไปจับกับ CD38 ที่แสดงออกในระดับต่ำบนผิวเซลล์เม็ดเลือดแดงของผู้บริจาค ทำให้ผล Indirect Antiglobulin Test (IAT / Indirect Coombs) และการทดสอบความเข้ากันได้ของเลือด (Cross-matching) 'ให้ผลบวกปลอม (Pan-reactive false positive)'!",
+                      "วิธีแก้ปัญหา: ต้องตรวจหมู่เลือดและ ABO/Rh typing พร้อม Extended Phenotyping ก่อนเริ่มให้ Daratumumab โดสแรกเสมอ หรือใช้ DTT (Dithiothreitol) กำจัด CD38 บนผิวเซลล์ทดสอบ"
+                    ],
+                    "children": []
+                  },
+                  {
+                    "id": "c0-ch07-bone-disease",
+                    "title": "Myeloma Bone Disease & Osteonecrosis of the Jaw (ONJ) Prevention",
+                    "category": "trap",
+                    "chapter": "Ch07",
+                    "collapsed": false,
+                    "subtitle": "Bisphosphonates (Zoledronic acid) vs Denosumab & Dental Clearance",
+                    "branchColor": "#dc2626",
+                    "badges": [
+                      "Ch07",
+                      "Exam Trap"
+                    ],
+                    "tags": [
+                      "trap"
+                    ],
+                    "details": [
+                      "RANKL Activation: พลาสมาเซลล์กระตุ้น Osteoclast สลายกระดูก เกิด Punched-out lytic lesions และเสี่ยงกระดูกหัก Pathological fracture",
+                      "ONJ Prevention Trap: ผู้ป่วยทุกคนต้องตรวจฟัน (Dental clearance) ก่อนเริ่ม Zoledronic acid หรือ Denosumab เสมอ และห้ามถอนฟัน/ผ่าตัดกระดูกขากรรไกรระหว่างได้รับยา"
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "c0-hsct-branch",
+        "title": "Hematopoietic Stem Cell Transplantation (HSCT) & GVHD",
+        "category": "lineage",
+        "chapter": "Ch08",
+        "collapsed": false,
+        "subtitle": "Autologous vs Allogeneic • Conditioning • Acute & Chronic GVHD • Ch08",
+        "branchColor": "#059669",
+        "badges": [
+          "HSCT",
+          "Transplant",
+          "Ch08"
+        ],
+        "tags": null,
+        "details": null,
+        "children": [
+          {
+            "id": "c0-ch08-types",
+            "title": "HSCT Types: Autologous, Syngeneic & Allogeneic (Graft-versus-Leukemia GVL)",
+            "category": "criteria",
+            "chapter": "Ch08",
+            "collapsed": false,
+            "subtitle": "Autologous Chemo-Rescue vs Allogeneic GVL Immunotherapy",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch08",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "Autologous: ใช้สเต็มเซลล์ของผู้ป่วยเอง เป็น Chemo-rescue หลังเคมีขนาดสูง (MM, Lymphoma) ไม่มี GVL effect และไม่มี GVHD",
+              "Syngeneic: ได้จากฝาแฝดแท้ ไม่มี GVHD แต่ GVL ต่ำ",
+              "Allogeneic: ได้จากผู้บริจาค (Donor) มี Graft-versus-Tumor / GVL effect ช่วยกำจัดมะเร็งที่หลงเหลือ (AML, ALL, MDS, SAA) แต่เสี่ยงต่อ GVHD"
+            ],
+            "children": []
+          },
+          {
+            "id": "c0-ch08-hla",
+            "title": "HLA Typing: HLA-A, HLA-B, HLA-C, HLA-DRB1 & Matching",
+            "category": "criteria",
+            "chapter": "Ch08",
+            "collapsed": false,
+            "subtitle": "High-Resolution 8/8 หรือ 10/10 Match บนโครโมโซมคู่ที่ 6",
+            "branchColor": "#2563eb",
+            "badges": [
+              "Ch08",
+              "Criteria"
+            ],
+            "tags": [
+              "criteria"
+            ],
+            "details": [
+              "Major Histocompatibility Complex (MHC) บนโครโมโซมที่ 6",
+              "Class I: HLA-A, HLA-B, HLA-C; Class II: HLA-DRB1, HLA-DQB1",
+              "Matched Sibling Donor (MSD) มีโอกาสตรงกัน 25% ในพี่น้องพ่อแม่เดียวกัน; หากไม่ตรงพิจารณา Matched Unrelated Donor (MUD) 8/8 หรือ 10/10 หรือ Haploidentical (ครึ่งเดียว 5/10)",
+              "HLA typing: High-resolution matching of HLA-A, HLA-B, HLA-C (Class I) and HLA-DRB1 / HLA-DQB1 (Class II) (HLA-A HLA-B HLA-C, HLA-DR)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch08-sources",
+                "title": "Stem Cell Sources: PBSC, BM, UCB & CD34 Mobilization (Plerixafor)",
+                "category": "criteria",
+                "chapter": "Ch08",
+                "collapsed": false,
+                "subtitle": "Peripheral Blood (G-CSF ± Plerixafor) vs Bone Marrow vs Cord Blood",
+                "branchColor": "#2563eb",
+                "badges": [
+                  "Ch08",
+                  "Criteria"
+                ],
+                "tags": [
+                  "criteria"
+                ],
+                "details": [
+                  "PBSC Mobilization: ให้ G-CSF (Filgrastim 10 mcg/kg/day) ระดมเซลล์ CD34+ เข้าสู่กระแสเลือด; หากไม่พอเติม Plerixafor (CXCR4 antagonist)",
+                  "เป้าหมาย CD34+: อย่างน้อย >= 2 x 10^6 CD34+ cells/kg (เป้าหมายเหมาะสม >= 5 x 10^6 cells/kg)",
+                  "Umbilical Cord Blood (UCB): ทนต่อ HLA mismatch ได้ดีกว่า แต่ปริมาณเซลล์น้อย ฟื้นตัวช้ากว่า",
+                  "Target CD34+ cell dose: 3-5 x 10^6 CD34+ cells/kg recipient weight (3-5 10^6 / 3-5 10^6).",
+                  "Mobilization: Plerixafor (CXCR4 antagonist) administered 11 hours prior to apheresis (plerixafor 11)."
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "c0-ch08-conditioning",
+            "title": "Conditioning Regimens: CyTBI, BuCy, BEAM & Flu/Cy",
+            "category": "regimen",
+            "chapter": "Ch08",
+            "collapsed": false,
+            "subtitle": "Myeloablative (MAC) vs Reduced-Intensity Conditioning (RIC)",
+            "branchColor": "#059669",
+            "badges": [
+              "Ch08",
+              "Regimen"
+            ],
+            "tags": [
+              "regimen"
+            ],
+            "details": [
+              "MAC (ทำลายไขกระดูกหมด): Busulfan + Cyclophosphamide (BuCy) หรือ Cyclophosphamide + Total Body Irradiation (CyTBI)",
+              "RIC (ลดขนาดคีโมในผู้สูงอายุ): Fludarabine + Cyclophosphamide (Flu/Cy) หรือ Fludarabine + Melphalan",
+              "Autologous Conditioning in Lymphoma: BEAM (BCNU/Carmustine + Etoposide + Ara-C + Melphalan)"
+            ],
+            "children": [
+              {
+                "id": "c0-ch08-dmso-engraft",
+                "title": "Stem Cell Cryopreservation: DMSO Toxicities & Engraftment Criteria",
+                "category": "trap",
+                "chapter": "Ch08",
+                "collapsed": false,
+                "subtitle": "Dimethyl Sulfoxide (DMSO) Flush/Nausea & Engraftment Monitoring",
+                "branchColor": "#dc2626",
+                "badges": [
+                  "Ch08",
+                  "Exam Trap"
+                ],
+                "tags": [
+                  "trap"
+                ],
+                "details": [
+                  "DMSO Cryoprotectant Trap: เซลล์แช่แข็งผสม DMSO 10% เมื่อละลายฉีดกลับอาจเกิดอาการคลื่นไส้ อาเจียน หัวใจเต้นช้า ปัสสาวะแดง (Hemoglobinuria) และกลิ่นตัวคล้ายกระเทียม/ข้าวโพดต้ม",
+                  "Engraftment Criteria: Neutrophil engraftment = ANC >= 500 cells/mm³ ติดต่อกัน 3 วัน; Platelet engraftment = Plt >= 20,000/mm³ โดยไม่ต้องรับเกล็ดเลือด >= 7 วัน",
+                  "Cryopreservation: DMSO cryoprotectant causes distinctive garlic-like / creamed corn breath odor and taste (dmso garlic / DMSO garlic).",
+                  "Engraftment definitions: Neutrophil engraftment is ANC >= 0.5 x 10^9/L (500/mcL) for 3 consecutive days; Platelet engraftment is plt >= 20,000/mcL for 7 days without transfusion (ANC 0.5 / 500, plt 20 / 20,000 7)."
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "c0-ch08-agvhd",
+            "title": "Acute GVHD (aGVHD): Grading & Ruxolitinib in Steroid-Refractory",
+            "category": "regimen",
+            "chapter": "Ch08",
+            "collapsed": false,
+            "subtitle": "เกิด <= 100 วัน (Skin, Liver, Gut) • Methylprednisolone 2 mg/kg & Ruxolitinib",
+            "branchColor": "#059669",
+            "badges": [
+              "Ch08",
+              "Regimen"
+            ],
+            "tags": [
+              "regimen"
+            ],
+            "details": [
+              "aGVHD Prophylaxis: Calcineurin Inhibitor (Cyclosporine หรือ Tacrolimus) + MTX (D1, 3, 6, 11) หรือ Post-Transplant Cyclophosphamide (PTCy D+3, D+4)",
+              "1st-line aGVHD Therapy: Methylprednisolone 2 mg/kg/day IV แบ่งให้วันละ 2 ครั้ง",
+              "Steroid-Refractory aGVHD: Ruxolitinib (JAK1/2 inhibitor) 10 mg PO BID (REACH-2 trial) ได้รับการรับรองเป็นมาตรฐาน",
+              "GvHD timing: Acute GvHD onset commonly occurs from D+17 to D+90 post-transplant (d+17 d+90); Chronic GvHD develops after D+100.",
+              "PTCy: Post-transplant Cyclophosphamide administered on D+3 and D+4 selectively eliminates alloreactive donor T-cells (ptcy d+3 d+4).",
+              "Steroid-refractory acute GvHD: Ruxolitinib 10 mg BID approved as first-line salvage (ruxolitinib 10 mg bid)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch08-cgvhd",
+                "title": "Chronic GVHD (cGVHD): Sclerosis & Belumosudil Therapy",
+                "category": "regimen",
+                "chapter": "Ch08",
+                "collapsed": false,
+                "subtitle": "เกิด > 100 วัน (คล้าย Autoimmune) • Belumosudil ROCK2 Inhibitor",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch08",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "cGVHD ลักษณะ: ผิวหนังแข็งตึง (Sclerosis), ปากแห้งตาแห้ง, ท่อลมฝอยปอดอักเสบอุดกั้น (Bronchiolitis Obliterans)",
+                  "การรักษา: Prednisone 0.5–1 mg/kg/day ร่วมกับ Calcineurin inhibitor",
+                  "Steroid-Refractory cGVHD: Belumosudil (ROCK2 inhibitor ยับยั้ง Fibrosis และ Th17 cells) หรือ Ruxolitinib หรือ Ibrutinib",
+                  "Chronic GvHD therapies: Belumosudil (ROCK2 inhibitor) and Axatilimab (CSF-1R monoclonal antibody) for fibrotic chronic GvHD (belumosudil, axatilimab)."
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "c0-ch08-sos-vod",
+            "title": "Sinusoidal Obstruction Syndrome (SOS / VOD): Defibrotide & UDCA",
+            "category": "trap",
+            "chapter": "Ch08",
+            "collapsed": false,
+            "subtitle": "VOD ตับโต บวมน้ำ Bilirubin พุ่ง • ป้องกันด้วย UDCA และรักษาด้วย Defibrotide",
+            "branchColor": "#dc2626",
+            "badges": [
+              "Ch08",
+              "Exam Trap"
+            ],
+            "tags": [
+              "trap"
+            ],
+            "details": [
+              "SOS / VOD: เกิดจากพิษของเคมีบำบัด (โดยเฉพาะ Busulfan) ทำลาย Sinusoidal endothelial cells เกิดการอุดตันในตับ (Bilirubin สูง, เจ็บตับตับโต, น้ำหนักขึ้นบวมน้ำ)",
+              "การป้องกัน: Ursodeoxycholic acid (UDCA) 300 mg PO BID/TID เริ่มตั้งแต่วันเริ่ม Conditioning",
+              "การรักษา: Defibrotide (Oligonucleotide ที่มีฤทธิ์ปกป้องเซลล์บุหลอดเลือดและสลายลิ่มเลือดโดยไม่เพิ่มเลือดออกรุนแรง) 6.25 mg/kg IV ทุก 6 ชม. (25 mg/kg/day)",
+              "Hepatic SOS/VOD risk factor: Busulfan + Sirolimus conditioning (Bu Siro / busulfan sirolimus).",
+              "Hepatic VOD/SOS management: UDCA (Ursodeoxycholic acid) prophylaxis; Defibrotide treatment for established SOS/VOD (SOS VOD, UDCA, defibrotide).",
+              "Hepatic SOS/VOD risk factor: Busulfan + Sirolimus conditioning (bu siro / busulfan sirolimus).",
+              "Hepatic VOD/SOS management: UDCA (Ursodeoxycholic acid) prophylaxis; Defibrotide treatment for established SOS/VOD (sos vod, udca, defibrotide)."
+            ],
+            "children": [
+              {
+                "id": "c0-ch08-infection-proph",
+                "title": "Post-HSCT Infection Prophylaxis: VZV, Fungal & PCP Cotrimoxazole",
+                "category": "regimen",
+                "chapter": "Ch08",
+                "collapsed": false,
+                "subtitle": "Acyclovir, Fluconazole/Posaconazole & TMP-SMX ป้องกัน Pneumocystis jirovecii",
+                "branchColor": "#059669",
+                "badges": [
+                  "Ch08",
+                  "Regimen"
+                ],
+                "tags": [
+                  "regimen"
+                ],
+                "details": [
+                  "Viral Prophylaxis: Acyclovir 400–800 mg PO BID หรือ Valacyclovir ป้องกัน HSV และ VZV reactivations นานอย่างน้อย 1 ปี",
+                  "PCP Prophylaxis: Co-trimoxazole (TMP-SMX) 1–2 เม็ดสัปดาห์ละ 2–3 วัน ป้องกัน Pneumocystis jirovecii pneumonia",
+                  "Fungal Prophylaxis: Fluconazole หรือ Posaconazole ในช่วง Neutropenia",
+                  "Antifungal TDM: Azole antifungals (Voriconazole, Posaconazole) require therapeutic drug monitoring (TDM) to prevent graft failure and drug interactions (azole voriconazole posaconazole tdm)."
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+};
+</script>
+  <script>
+    (function () {
+  "use strict";
+
+  const VALID_CATEGORIES = new Set([
+    "root",
+    "lineage",
+    "disease",
+    "criteria",
+    "regimen",
+    "trap",
+    "nccn"
+  ]);
+
+  const VALID_TAGS = new Set(["criteria", "regimen", "trap", "nccn"]);
+
+  const CONFIG = Object.assign(
+    {
+      mode: "hub",
+      defaultCluster: "cluster0",
+      clusterOrder: ["cluster0", "cluster1", "cluster2", "cluster3", "cluster4"],
+      storageKeyTheme: "pt2_portal_theme_v1"
+    },
+    window.PT2_PORTAL_CONFIG || {}
+  );
+
+  const LAYOUT = {
+    MIN_CARD_W: 210,
+    MAX_CARD_W: 270,
+    ROOT_MIN_W: 240,
+    H_GAP: 32,
+    V_GAP: 56,
+    STAGE_PAD_X: 64,
+    STAGE_PAD_Y: 48,
+    MIN_ZOOM: 0.2,
+    MAX_ZOOM: 2.0,
+    ZOOM_STEP: 1.15
+  };
+
+  const SVG_NS = "http://www.w3.org/2000/svg";
+
+  const state = {
+    clusters: new Map(),
+    activeClusterId: null,
+    viewportByCluster: new Map(),
+    zoom: 1.0,
+    stageW: 0,
+    stageH: 0,
+    stageOffsetLeft: 0,
+    searchQuery: "",
+    activeTag: "all",
+    filterMatchesOnly: false,
+    lastFilterSignature: "",
+    matches: [],
+    matchedSet: new Set(),
+    activeMatchIdx: -1,
+    theme: "light",
+    renderToken: 0,
+    visibleLayoutMap: new Map(),
+    visibleNodes: [],
+    visibleEdges: [],
+    jumpTimer: null,
+    minimapOpen: false
+  };
+
+  const dom = {};
+
+  function qs(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function highlightTextHtml(text, query) {
+    const raw = String(text || "");
+    const q = (query || "").trim();
+    if (!q) {
+      return escapeHtml(raw);
+    }
+    const lowerRaw = raw.toLowerCase();
+    const lowerQ = q.toLowerCase();
+    const qLen = lowerQ.length;
+    if (qLen === 0) {
+      return escapeHtml(raw);
+    }
+
+    let out = "";
+    let cursor = 0;
+    let idx = lowerRaw.indexOf(lowerQ, cursor);
+    while (idx !== -1) {
+      if (idx > cursor) {
+        out += escapeHtml(raw.slice(cursor, idx));
+      }
+      out += '<mark class="search-mark">' + escapeHtml(raw.slice(idx, idx + qLen)) + "</mark>";
+      cursor = idx + qLen;
+      idx = lowerRaw.indexOf(lowerQ, cursor);
+    }
+    if (cursor < raw.length) {
+      out += escapeHtml(raw.slice(cursor));
+    }
+    return out;
+  }
+
+  function clamp(val, min, max) {
+    return Math.max(min, Math.min(max, val));
+  }
+
+  function loadStoredTheme() {
+    try {
+      const saved = window.localStorage.getItem(CONFIG.storageKeyTheme);
+      if (saved === "light" || saved === "dark") {
+        return saved;
+      }
+    } catch (_) {
+      // Ignore file:// storage restrictions
+    }
+    return "light";
+  }
+
+  function saveStoredTheme(theme) {
+    try {
+      window.localStorage.setItem(CONFIG.storageKeyTheme, theme);
+    } catch (_) {
+      // Ignore file:// storage restrictions
+    }
+  }
+
+  function applyTheme(theme) {
+    state.theme = theme === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", state.theme);
+    if (dom.btnThemeToggle) {
+      const isDark = state.theme === "dark";
+      dom.btnThemeToggle.setAttribute("aria-pressed", isDark ? "true" : "false");
+      const iconEl = dom.btnThemeToggle.querySelector(".theme-icon");
+      const labelEl = dom.btnThemeToggle.querySelector(".theme-label");
+      if (iconEl) iconEl.textContent = isDark ? "☾" : "☀";
+      if (labelEl) labelEl.textContent = isDark ? "Dark" : "Light";
+    }
+  }
+
+  function normalizeClusterData() {
+    const rawClusters = window.PT2_CLUSTERS || {};
+    const orderedIds = [];
+    const baseOrder = Array.isArray(CONFIG.clusterOrder) && CONFIG.clusterOrder.length
+      ? CONFIG.clusterOrder
+      : ["cluster0", "cluster1", "cluster2", "cluster3", "cluster4"];
+
+    if (CONFIG.mode === "hemato") {
+      if (Object.prototype.hasOwnProperty.call(rawClusters, CONFIG.defaultCluster)) {
+        orderedIds.push(CONFIG.defaultCluster);
+      } else {
+        const keys = Object.keys(rawClusters);
+        if (keys.length > 0) orderedIds.push(keys[0]);
+      }
+    } else {
+      for (const cid of baseOrder) {
+        if (Object.prototype.hasOwnProperty.call(rawClusters, cid) && !orderedIds.includes(cid)) {
+          orderedIds.push(cid);
+        }
+      }
+      for (const cid of Object.keys(rawClusters)) {
+        if (!orderedIds.includes(cid)) {
+          orderedIds.push(cid);
+        }
+      }
+    }
+
+    for (const cid of orderedIds) {
+      const rawCluster = rawClusters[cid];
+      if (!rawCluster || typeof rawCluster !== "object" || !rawCluster.root) continue;
+
+      const seenIds = new Set();
+      let autoCounter = 1;
+      const allNodes = [];
+      const chapterTargets = new Map();
+
+      function normalizeNode(rawNode, parentNode, depth, inheritedColor, inheritedChapter) {
+        if (!rawNode || typeof rawNode !== "object") return null;
+
+        let id = typeof rawNode.id === "string" && rawNode.id.trim()
+          ? rawNode.id.trim()
+          : `${cid}_n_${autoCounter++}`;
+        while (seenIds.has(id)) {
+          id = `${id}_${autoCounter++}`;
+        }
+        seenIds.add(id);
+
+        const title = typeof rawNode.title === "string" && rawNode.title.trim()
+          ? rawNode.title.trim()
+          : id;
+        const subtitle = typeof rawNode.subtitle === "string" ? rawNode.subtitle.trim() : "";
+        const rawCat = typeof rawNode.category === "string" ? rawNode.category.trim().toLowerCase() : "";
+        const category = VALID_CATEGORIES.has(rawCat) ? rawCat : (depth === 0 ? "root" : "disease");
+        const chapter = typeof rawNode.chapter === "string" && rawNode.chapter.trim()
+          ? rawNode.chapter.trim()
+          : (inheritedChapter || cid);
+        const branchColor = typeof rawNode.branchColor === "string" && rawNode.branchColor.trim()
+          ? rawNode.branchColor.trim()
+          : (inheritedColor || "#0284c7");
+
+        const badges = Array.isArray(rawNode.badges)
+          ? rawNode.badges.map((b) => String(b).trim()).filter(Boolean)
+          : [];
+
+        const tagSet = new Set();
+        if (Array.isArray(rawNode.tags)) {
+          for (const t of rawNode.tags) {
+            const norm = String(t).trim().toLowerCase();
+            if (VALID_TAGS.has(norm)) tagSet.add(norm);
+          }
+        }
+        if (VALID_TAGS.has(category)) {
+          tagSet.add(category);
+        }
+        for (const b of badges) {
+          if (/nccn/i.test(b)) tagSet.add("nccn");
+          if (/trap/i.test(b)) tagSet.add("trap");
+        }
+
+        const summary = typeof rawNode.summary === "string" ? rawNode.summary.trim() : "";
+        const details = Array.isArray(rawNode.details)
+          ? rawNode.details.map((d) => String(d).trim()).filter(Boolean)
+          : [];
+
+        const node = {
+          id,
+          title,
+          subtitle,
+          category,
+          chapter,
+          branchColor,
+          badges,
+          tags: Array.from(tagSet),
+          summary,
+          details,
+          parent: parentNode,
+          depth,
+          collapsed: false,
+          children: [],
+          totalDescendants: 0,
+          searchIndex: ""
+        };
+
+        node.searchIndex = [
+          title,
+          subtitle,
+          chapter,
+          category,
+          ...badges,
+          ...node.tags,
+          summary,
+          ...details
+        ]
+          .filter(Boolean)
+          .join(" \n ")
+          .toLowerCase();
+
+        allNodes.push(node);
+
+        if (/^ch\d+/i.test(chapter)) {
+          const existing = chapterTargets.get(chapter);
+          if (!existing || node.depth < existing.depth) {
+            chapterTargets.set(chapter, node);
+          }
+        }
+
+        const rawChildren = Array.isArray(rawNode.children) ? rawNode.children : [];
+        let descCount = 0;
+        for (const rc of rawChildren) {
+          const child = normalizeNode(rc, node, depth + 1, branchColor, chapter);
+          if (child) {
+            node.children.push(child);
+            descCount += 1 + child.totalDescendants;
+          }
+        }
+        node.totalDescendants = descCount;
+        node.collapsed = node.children.length > 0 ? Boolean(rawNode.collapsed) : false;
+
+        return node;
+      }
+
+      const root = normalizeNode(rawCluster.root, null, 0, "#0284c7", rawCluster.chapters?.[0] || cid);
+      if (!root) continue;
+
+      const chapters = Array.isArray(rawCluster.chapters)
+        ? rawCluster.chapters.map((c) => String(c).trim()).filter(Boolean)
+        : Array.from(chapterTargets.keys());
+
+      state.clusters.set(cid, {
+        id: cid,
+        title: typeof rawCluster.title === "string" ? rawCluster.title : cid,
+        shortLabel: typeof rawCluster.shortLabel === "string" ? rawCluster.shortLabel : cid,
+        chapters,
+        root,
+        allNodes,
+        chapterTargets
+      });
+    }
+  }
+
+  function applyHeaderAndTabConfig() {
+    if (CONFIG.brandTitle && dom.portalTitle) {
+      dom.portalTitle.textContent = CONFIG.brandTitle;
+    }
+    if (CONFIG.brandSubtitle && dom.portalSubtitle) {
+      dom.portalSubtitle.textContent = CONFIG.brandSubtitle;
+    }
+    if (CONFIG.modeBadge && dom.portalModeBadge) {
+      dom.portalModeBadge.textContent = CONFIG.modeBadge;
+    }
+
+    if (dom.clusterTabs) {
+      const tabs = dom.clusterTabs.querySelectorAll("[data-cluster-tab]");
+      tabs.forEach((btn) => {
+        const cid = btn.getAttribute("data-cluster-tab");
+        const available = state.clusters.has(cid);
+        if (CONFIG.mode === "hemato") {
+          btn.hidden = cid !== CONFIG.defaultCluster && !available ? true : cid !== state.activeClusterId && cid !== CONFIG.defaultCluster;
+        } else {
+          btn.hidden = !available;
+        }
+      });
+    }
+  }
+
+  function updateClusterTabSelection() {
+    if (!dom.clusterTabs) return;
+    const tabs = dom.clusterTabs.querySelectorAll("[data-cluster-tab]");
+    tabs.forEach((btn) => {
+      const cid = btn.getAttribute("data-cluster-tab");
+      const active = cid === state.activeClusterId;
+      btn.classList.toggle("is-active", active);
+      btn.setAttribute("aria-selected", active ? "true" : "false");
+    });
+  }
+
+  function renderChapterPills(cluster) {
+    if (!dom.chapterPills) return;
+    const frag = document.createDocumentFragment();
+    const list = cluster.chapters && cluster.chapters.length
+      ? cluster.chapters
+      : Array.from(cluster.chapterTargets.keys());
+
+    for (const ch of list) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chapter-pill";
+      btn.setAttribute("data-chapter-jump", ch);
+      btn.textContent = ch;
+      btn.title = `Jump to ${ch}`;
+      frag.appendChild(btn);
+    }
+    dom.chapterPills.replaceChildren(frag);
+  }
+
+  function evaluateSearchAndTags(cluster, expandAncestors) {
+    const q = state.searchQuery.trim().toLowerCase();
+    const hasQuery = q.length > 0;
+    const hasTag = state.activeTag !== "all";
+    const matches = [];
+    const matchedSet = new Set();
+
+    if (hasQuery || hasTag) {
+      for (const node of cluster.allNodes) {
+        const qOk = !hasQuery || node.searchIndex.includes(q);
+        const tOk = !hasTag || node.tags.includes(state.activeTag);
+        if (qOk && tOk) {
+          matches.push(node);
+          matchedSet.add(node.id);
+        }
+      }
+    }
+
+    if (expandAncestors && (hasQuery || hasTag)) {
+      for (const m of matches) {
+        let p = m.parent;
+        while (p) {
+          p.collapsed = false;
+          p = p.parent;
+        }
+      }
+    }
+
+    state.matches = matches;
+    state.matchedSet = matchedSet;
+
+    if (matches.length === 0) {
+      state.activeMatchIdx = -1;
+    } else if (state.activeMatchIdx < 0 || state.activeMatchIdx >= matches.length) {
+      state.activeMatchIdx = 0;
+    }
+
+    updateMatchCounterUI();
+  }
+
+  function updateMatchCounterUI() {
+    if (!dom.matchCount) return;
+    if (state.matches.length === 0) {
+      dom.matchCount.textContent = "0 / 0";
+    } else {
+      dom.matchCount.textContent = `${state.activeMatchIdx + 1} / ${state.matches.length}`;
+    }
+  }
+
+  function computeKeepSet(cluster) {
+    const hasQuery = state.searchQuery.trim().length > 0;
+    const hasTag = state.activeTag !== "all";
+    if (!state.filterMatchesOnly || (!hasQuery && !hasTag)) {
+      return null;
+    }
+    const keepSet = new Set();
+    if (state.matches.length === 0) {
+      return keepSet;
+    }
+    for (const m of state.matches) {
+      let cur = m;
+      while (cur) {
+        keepSet.add(cur.id);
+        cur = cur.parent;
+      }
+    }
+    return keepSet;
+  }
+
+  function buildLayoutTree(cluster, keepSet) {
+    const visibleNodes = [];
+    const visibleEdges = [];
+    const layoutMap = new Map();
+
+    if (keepSet && keepSet.size === 0) {
+      return { visibleRoot: null, visibleNodes, visibleEdges, layoutMap };
+    }
+
+    function visit(node, parentLn, depth) {
+      if (keepSet && !keepSet.has(node.id)) return null;
+
+      const ln = {
+        data: node,
+        depth,
+        parent: parentLn,
+        children: [],
+        w: 0,
+        h: 0,
+        x: 0,
+        y: 0,
+        relX: 0,
+        centerX: 0,
+        el: null
+      };
+
+      visibleNodes.push(ln);
+      layoutMap.set(node.id, ln);
+      if (parentLn) {
+        visibleEdges.push({ parent: parentLn, child: ln });
+      }
+
+      if (!node.collapsed) {
+        for (const child of node.children) {
+          const childLn = visit(child, ln, depth + 1);
+          if (childLn) {
+            ln.children.push(childLn);
+          }
+        }
+      }
+      return ln;
+    }
+
+    const visibleRoot = visit(cluster.root, null, 0);
+    return { visibleRoot, visibleNodes, visibleEdges, layoutMap };
+  }
+
+  function createNodeCardElement(ln, hasFilterActive, activeMatchId) {
+    const node = ln.data;
+    const isMatch = hasFilterActive && state.matchedSet.has(node.id);
+    const isActiveMatch = Boolean(activeMatchId && node.id === activeMatchId);
+    const isDimmed = hasFilterActive && !state.filterMatchesOnly && !isMatch;
+
+    const card = document.createElement("article");
+    const classes = ["node-card", `cat-${node.category}`];
+    if (node.children.length > 0) classes.push("has-children");
+    if (isMatch) classes.push("is-match", "search-match");
+    if (isActiveMatch) classes.push("is-active-match", "search-active", "active-match");
+    if (isDimmed) classes.push("is-dimmed");
+
+    card.className = classes.join(" ");
+    card.setAttribute("data-node-id", node.id);
+    card.setAttribute("data-category", node.category);
+    card.setAttribute("data-chapter", node.chapter);
+    card.setAttribute("data-tags", node.tags.join(","));
+    card.setAttribute("data-depth", String(ln.depth));
+    card.style.setProperty("--branch-color", node.branchColor);
+    card.style.left = "0px";
+    card.style.top = "0px";
+    card.style.visibility = "hidden";
+
+    const q = state.searchQuery.trim();
+
+    if (node.badges.length > 0 || node.children.length > 0) {
+      const header = document.createElement("div");
+      header.className = "node-header";
+
+      const badgesWrap = document.createElement("div");
+      badgesWrap.className = "node-badges";
+      for (const badgeText of node.badges) {
+        const badgeEl = document.createElement("span");
+        let bCls = "node-badge";
+        if (/nccn/i.test(badgeText)) bCls += " badge-nccn";
+        else if (/trap/i.test(badgeText)) bCls += " badge-trap";
+        else if (/^ch\d+/i.test(badgeText)) bCls += " badge-chapter";
+        badgeEl.className = bCls;
+        badgeEl.innerHTML = highlightTextHtml(badgeText, q);
+        badgesWrap.appendChild(badgeEl);
+      }
+      header.appendChild(badgesWrap);
+
+      if (node.children.length > 0) {
+        const toggleBtn = document.createElement("button");
+        toggleBtn.type = "button";
+        toggleBtn.className = "node-toggle-btn";
+        toggleBtn.setAttribute("aria-expanded", node.collapsed ? "false" : "true");
+        toggleBtn.setAttribute("aria-label", node.collapsed ? "Expand children" : "Collapse children");
+        toggleBtn.setAttribute("data-collapsed-children", node.collapsed ? "true" : "false");
+        toggleBtn.textContent = node.collapsed ? `+${node.totalDescendants}` : "\u2212";
+        header.appendChild(toggleBtn);
+      }
+
+      card.appendChild(header);
+    }
+
+    const titleEl = document.createElement("h3");
+    titleEl.className = "node-title";
+    titleEl.innerHTML = highlightTextHtml(node.title, q);
+    card.appendChild(titleEl);
+
+    if (node.subtitle) {
+      const subEl = document.createElement("p");
+      subEl.className = "node-subtitle";
+      subEl.innerHTML = highlightTextHtml(node.subtitle, q);
+      card.appendChild(subEl);
+    }
+
+    if (node.summary) {
+      const sumEl = document.createElement("p");
+      sumEl.className = "node-summary";
+      sumEl.innerHTML = highlightTextHtml(node.summary, q);
+      card.appendChild(sumEl);
+    }
+
+    if (node.details.length > 0) {
+      const ul = document.createElement("ul");
+      ul.className = "node-details";
+      for (const line of node.details) {
+        const li = document.createElement("li");
+        li.innerHTML = highlightTextHtml(line, q);
+        ul.appendChild(li);
+      }
+      card.appendChild(ul);
+    }
+
+    return card;
+  }
+
+  function computeSubtreeX(ln) {
+    if (ln.children.length === 0) {
+      return {
+        leftContour: [-ln.w / 2],
+        rightContour: [ln.w / 2]
+      };
+    }
+
+    const childContours = ln.children.map((c) => computeSubtreeX(c));
+    const relCenters = [0];
+    const mergedL = childContours[0].leftContour.slice();
+    const mergedR = childContours[0].rightContour.slice();
+
+    for (let i = 1; i < ln.children.length; i++) {
+      const cRes = childContours[i];
+      const overlapDepths = Math.min(mergedR.length, cRes.leftContour.length);
+      let shift = relCenters[i - 1] + LAYOUT.H_GAP;
+
+      for (let d = 0; d < overlapDepths; d++) {
+        shift = Math.max(shift, mergedR[d] + LAYOUT.H_GAP - cRes.leftContour[d]);
+      }
+      relCenters.push(shift);
+
+      const nextLen = Math.max(mergedR.length, cRes.rightContour.length);
+      for (let d = 0; d < nextLen; d++) {
+        const newL = d < cRes.leftContour.length ? cRes.leftContour[d] + shift : Infinity;
+        const newR = d < cRes.rightContour.length ? cRes.rightContour[d] + shift : -Infinity;
+        mergedL[d] = d < mergedL.length ? Math.min(mergedL[d], newL) : newL;
+        mergedR[d] = d < mergedR.length ? Math.max(mergedR[d], newR) : newR;
+      }
+    }
+
+    const mid = (relCenters[0] + relCenters[relCenters.length - 1]) / 2;
+    for (let i = 0; i < ln.children.length; i++) {
+      ln.children[i].relX = relCenters[i] - mid;
+    }
+
+    const leftContour = [-ln.w / 2];
+    const rightContour = [ln.w / 2];
+    for (let d = 0; d < mergedL.length; d++) {
+      leftContour.push(mergedL[d] - mid);
+      rightContour.push(mergedR[d] - mid);
+    }
+
+    return { leftContour, rightContour };
+  }
+
+  function shiftSubtreeX(ln, delta) {
+    ln.x += delta;
+    ln.centerX += delta;
+    for (const c of ln.children) {
+      shiftSubtreeX(c, delta);
+    }
+  }
+
+  function runTidyTreePlacement(visibleRoot, visibleNodes) {
+    computeSubtreeX(visibleRoot);
+
+    function assignAbsX(ln, parentCenter) {
+      ln.centerX = ln.parent ? parentCenter + ln.relX : 0;
+      ln.x = Math.round(ln.centerX - ln.w / 2);
+      for (const c of ln.children) {
+        assignAbsX(c, ln.centerX);
+      }
+    }
+    assignAbsX(visibleRoot, 0);
+
+    // Defensive same-depth sweep guard
+    const byDepth = new Map();
+    let maxDepth = 0;
+    for (const ln of visibleNodes) {
+      if (ln.depth > maxDepth) maxDepth = ln.depth;
+      if (!byDepth.has(ln.depth)) byDepth.set(ln.depth, []);
+      byDepth.get(ln.depth).push(ln);
+    }
+    for (let d = 0; d <= maxDepth; d++) {
+      const row = byDepth.get(d);
+      if (!row || row.length < 2) continue;
+      row.sort((a, b) => a.x - b.x);
+      for (let i = 1; i < row.length; i++) {
+        const prev = row[i - 1];
+        const curr = row[i];
+        const minAllowed = prev.x + prev.w + LAYOUT.H_GAP;
+        if (curr.x < minAllowed) {
+          shiftSubtreeX(curr, minAllowed - curr.x);
+        }
+      }
+    }
+
+    let minX = Infinity;
+    for (const ln of visibleNodes) {
+      if (ln.x < minX) minX = ln.x;
+    }
+    const offsetX = LAYOUT.STAGE_PAD_X - minX;
+    for (const ln of visibleNodes) {
+      ln.x = Math.round(ln.x + offsetX);
+      ln.centerX = ln.x + ln.w / 2;
+    }
+
+    // Per-depth max height row alignment
+    const maxHByDepth = new Array(maxDepth + 1).fill(0);
+    for (const ln of visibleNodes) {
+      if (ln.h > maxHByDepth[ln.depth]) {
+        maxHByDepth[ln.depth] = ln.h;
+      }
+    }
+    const rowTop = new Array(maxDepth + 1).fill(LAYOUT.STAGE_PAD_Y);
+    for (let d = 1; d <= maxDepth; d++) {
+      rowTop[d] = rowTop[d - 1] + maxHByDepth[d - 1] + LAYOUT.V_GAP;
+    }
+    for (const ln of visibleNodes) {
+      ln.y = Math.round(rowTop[ln.depth]);
+    }
+  }
+
+  function isOnMatchedChain(ln, hasFilterActive) {
+    if (!hasFilterActive) return true;
+    if (state.matchedSet.has(ln.data.id)) return true;
+    // Also check if any visible descendant is matched
+    const stack = [ln];
+    while (stack.length > 0) {
+      const cur = stack.pop();
+      if (state.matchedSet.has(cur.data.id)) return true;
+      for (const c of cur.children) stack.push(c);
+    }
+    return false;
+  }
+
+  function renderSvgConnectors(visibleEdges, stageW, stageH, hasFilterActive) {
+    dom.treeSvg.setAttribute("width", String(stageW));
+    dom.treeSvg.setAttribute("height", String(stageH));
+    dom.treeSvg.setAttribute("viewBox", `0 0 ${stageW} ${stageH}`);
+
+    const frag = document.createDocumentFragment();
+    for (const edge of visibleEdges) {
+      const p = edge.parent;
+      const c = edge.child;
+      const px = Math.round(p.x + p.w / 2);
+      const py = Math.round(p.y + p.h);
+      const cx = Math.round(c.x + c.w / 2);
+      const cy = Math.round(c.y);
+      const midY = Math.round(py + (cy - py) / 2);
+
+      const d = Math.abs(px - cx) < 1
+        ? `M ${px},${py} V ${cy}`
+        : `M ${px},${py} V ${midY} H ${cx} V ${cy}`;
+
+      const path = document.createElementNS(SVG_NS, "path");
+      const dimmed = hasFilterActive && !state.filterMatchesOnly && !isOnMatchedChain(c, true);
+      path.setAttribute("class", dimmed ? "tree-connector is-dimmed" : "tree-connector");
+      path.setAttribute("d", d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", c.data.branchColor || p.data.branchColor || "#64748b");
+      path.setAttribute("stroke-width", "2");
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("stroke-linejoin", "round");
+      path.setAttribute("data-parent-id", p.data.id);
+      path.setAttribute("data-child-id", c.data.id);
+      frag.appendChild(path);
+    }
+
+    dom.treeSvg.replaceChildren(frag);
+  }
+
+  function applyZoomTransform() {
+    if (!dom.treeStage || !dom.treeSizer || !dom.treeViewport) return;
+    if (state.stageW <= 0 || state.stageH <= 0) {
+      dom.treeStage.style.width = "0px";
+      dom.treeStage.style.height = "0px";
+      dom.treeStage.style.left = "0px";
+      dom.treeStage.style.transform = "scale(1)";
+      dom.treeSizer.style.width = "100%";
+      dom.treeSizer.style.height = "100%";
+    } else {
+      const scaledW = Math.ceil(state.stageW * state.zoom);
+      const scaledH = Math.ceil(state.stageH * state.zoom);
+      const vpW = dom.treeViewport.clientWidth || 0;
+      const leftOffset = Math.max(0, Math.floor((vpW - scaledW) / 2));
+
+      state.stageOffsetLeft = leftOffset;
+      dom.treeSizer.style.width = `${Math.max(vpW, scaledW)}px`;
+      dom.treeSizer.style.height = `${Math.max(dom.treeViewport.clientHeight || 0, scaledH)}px`;
+      dom.treeStage.style.width = `${state.stageW}px`;
+      dom.treeStage.style.height = `${state.stageH}px`;
+      dom.treeStage.style.left = `${leftOffset}px`;
+      dom.treeStage.style.transform = `scale(${state.zoom})`;
+    }
+
+    if (dom.zoomLabel) {
+      dom.zoomLabel.textContent = `${Math.round(state.zoom * 100)}%`;
+    }
+    updateMinimapViewportRect();
+  }
+
+  function renderMinimap() {
+    if (!state.minimapOpen || !dom.minimapSvg) return;
+    if (state.stageW <= 0 || state.stageH <= 0 || state.visibleNodes.length === 0) {
+      dom.minimapSvg.replaceChildren();
+      updateMinimapViewportRect();
+      return;
+    }
+
+    dom.minimapSvg.setAttribute("viewBox", `0 0 ${state.stageW} ${state.stageH}`);
+    dom.minimapSvg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+    const frag = document.createDocumentFragment();
+    for (const edge of state.visibleEdges) {
+      const p = edge.parent;
+      const c = edge.child;
+      const line = document.createElementNS(SVG_NS, "line");
+      line.setAttribute("x1", String(Math.round(p.x + p.w / 2)));
+      line.setAttribute("y1", String(Math.round(p.y + p.h)));
+      line.setAttribute("x2", String(Math.round(c.x + c.w / 2)));
+      line.setAttribute("y2", String(Math.round(c.y)));
+      line.setAttribute("stroke", c.data.branchColor || "#64748b");
+      line.setAttribute("stroke-width", "6");
+      line.setAttribute("stroke-opacity", "0.55");
+      frag.appendChild(line);
+    }
+
+    for (const ln of state.visibleNodes) {
+      const rect = document.createElementNS(SVG_NS, "rect");
+      rect.setAttribute("x", String(ln.x));
+      rect.setAttribute("y", String(ln.y));
+      rect.setAttribute("width", String(ln.w));
+      rect.setAttribute("height", String(ln.h));
+      rect.setAttribute("rx", "8");
+      rect.setAttribute("fill", ln.data.branchColor || "#0284c7");
+      rect.setAttribute("fill-opacity", ln.depth === 0 ? "0.95" : "0.75");
+      frag.appendChild(rect);
+    }
+
+    dom.minimapSvg.replaceChildren(frag);
+    updateMinimapViewportRect();
+  }
+
+  function getMinimapMetrics() {
+    if (!dom.minimapBody || state.stageW <= 0 || state.stageH <= 0) return null;
+    const bw = dom.minimapBody.clientWidth || 210;
+    const bh = dom.minimapBody.clientHeight || 126;
+    const scale = Math.min(bw / state.stageW, bh / state.stageH);
+    const padX = (bw - state.stageW * scale) / 2;
+    const padY = (bh - state.stageH * scale) / 2;
+    return { bw, bh, scale, padX, padY };
+  }
+
+  function updateMinimapViewportRect() {
+    if (!state.minimapOpen || !dom.minimapRect || !dom.treeViewport) return;
+    const m = getMinimapMetrics();
+    if (!m) {
+      dom.minimapRect.style.display = "none";
+      return;
+    }
+
+    const vp = dom.treeViewport;
+    const viewLeftStage = Math.max(0, (vp.scrollLeft - state.stageOffsetLeft) / state.zoom);
+    const viewTopStage = Math.max(0, vp.scrollTop / state.zoom);
+    const viewWStage = Math.min(state.stageW, vp.clientWidth / state.zoom);
+    const viewHStage = Math.min(state.stageH, vp.clientHeight / state.zoom);
+
+    const rx = m.padX + viewLeftStage * m.scale;
+    const ry = m.padY + viewTopStage * m.scale;
+    const rw = Math.max(12, Math.min(m.bw - rx, viewWStage * m.scale));
+    const rh = Math.max(10, Math.min(m.bh - ry, viewHStage * m.scale));
+
+    dom.minimapRect.style.display = "block";
+    dom.minimapRect.style.left = `${rx.toFixed(1)}px`;
+    dom.minimapRect.style.top = `${ry.toFixed(1)}px`;
+    dom.minimapRect.style.width = `${rw.toFixed(1)}px`;
+    dom.minimapRect.style.height = `${rh.toFixed(1)}px`;
+  }
+
+  function renderActiveCluster(options) {
+    const opts = options || {};
+    const cluster = state.clusters.get(state.activeClusterId);
+    if (!cluster) return;
+
+    state.renderToken += 1;
+    const filterSig = `${state.searchQuery.trim().toLowerCase()}||${state.activeTag}`;
+    const shouldExpandMatches = Boolean(opts.expandMatches) || filterSig !== state.lastFilterSignature;
+    state.lastFilterSignature = filterSig;
+
+    evaluateSearchAndTags(cluster, shouldExpandMatches);
+    const keepSet = computeKeepSet(cluster);
+    const { visibleRoot, visibleNodes, visibleEdges, layoutMap } = buildLayoutTree(cluster, keepSet);
+
+    state.visibleLayoutMap = layoutMap;
+    state.visibleNodes = visibleNodes;
+    state.visibleEdges = visibleEdges;
+
+    if (!visibleRoot || visibleNodes.length === 0) {
+      dom.treeNodes.replaceChildren();
+      dom.treeSvg.replaceChildren();
+      state.stageW = 0;
+      state.stageH = 0;
+      applyZoomTransform();
+      if (dom.emptyState) dom.emptyState.hidden = false;
+      renderMinimap();
+      return;
+    }
+
+    if (dom.emptyState) dom.emptyState.hidden = true;
+
+    const hasFilterActive = state.searchQuery.trim().length > 0 || state.activeTag !== "all";
+    const activeMatchId = state.activeMatchIdx >= 0 && state.activeMatchIdx < state.matches.length
+      ? state.matches[state.activeMatchIdx].id
+      : null;
+
+    // Pass 1: single DocumentFragment mount & unscaled measurement
+    dom.treeStage.style.width = "2000px";
+    dom.treeStage.style.height = "1000px";
+    const frag = document.createDocumentFragment();
+    for (const ln of visibleNodes) {
+      const card = createNodeCardElement(ln, hasFilterActive, activeMatchId);
+      ln.el = card;
+      frag.appendChild(card);
+    }
+    dom.treeNodes.replaceChildren(frag);
+
+    for (const ln of visibleNodes) {
+      const minW = ln.depth === 0 ? LAYOUT.ROOT_MIN_W : LAYOUT.MIN_CARD_W;
+      ln.w = clamp(Math.ceil(ln.el.offsetWidth), minW, LAYOUT.MAX_CARD_W);
+      ln.h = Math.ceil(ln.el.offsetHeight);
+    }
+
+    // Pass 2: contour tidy-tree placement + SVG connectors
+    runTidyTreePlacement(visibleRoot, visibleNodes);
+
+    let maxRight = 0;
+    let maxBottom = 0;
+    for (const ln of visibleNodes) {
+      if (ln.x + ln.w > maxRight) maxRight = ln.x + ln.w;
+      if (ln.y + ln.h > maxBottom) maxBottom = ln.y + ln.h;
+      ln.el.style.left = `${ln.x}px`;
+      ln.el.style.top = `${ln.y}px`;
+      ln.el.style.visibility = "visible";
+    }
+
+    state.stageW = Math.ceil(maxRight + LAYOUT.STAGE_PAD_X);
+    state.stageH = Math.ceil(maxBottom + LAYOUT.STAGE_PAD_Y);
+
+    renderSvgConnectors(visibleEdges, state.stageW, state.stageH, hasFilterActive);
+    applyZoomTransform();
+    renderMinimap();
+  }
+
+  function centerNodeInViewport(nodeId, behavior) {
+    const ln = state.visibleLayoutMap.get(nodeId);
+    const vp = dom.treeViewport;
+    if (!ln || !vp) return;
+
+    const targetLeft = state.stageOffsetLeft + (ln.x + ln.w / 2) * state.zoom - vp.clientWidth / 2;
+    const targetTop = (ln.y + ln.h / 2) * state.zoom - vp.clientHeight / 2;
+    const left = Math.max(0, Math.round(targetLeft));
+    const top = Math.max(0, Math.round(targetTop));
+
+    if (behavior === "smooth" && typeof vp.scrollTo === "function") {
+      vp.scrollTo({ left, top, behavior: "smooth" });
+    } else {
+      vp.scrollLeft = left;
+      vp.scrollTop = top;
+    }
+    updateMinimapViewportRect();
+  }
+
+  function centerRootAtTop() {
+    const cluster = state.clusters.get(state.activeClusterId);
+    if (!cluster || !dom.treeViewport) return;
+    const rootLn = state.visibleLayoutMap.get(cluster.root.id);
+    if (!rootLn) return;
+    const vp = dom.treeViewport;
+    const targetLeft = state.stageOffsetLeft + (rootLn.x + rootLn.w / 2) * state.zoom - vp.clientWidth / 2;
+    vp.scrollLeft = Math.max(0, Math.round(targetLeft));
+    vp.scrollTop = 0;
+    updateMinimapViewportRect();
+  }
+
+  function updateActiveMatchHighlightOnly() {
+    const activeMatchId = state.activeMatchIdx >= 0 && state.activeMatchIdx < state.matches.length
+      ? state.matches[state.activeMatchIdx].id
+      : null;
+
+    for (const ln of state.visibleNodes) {
+      if (!ln.el) continue;
+      const isAct = Boolean(activeMatchId && ln.data.id === activeMatchId);
+      ln.el.classList.toggle("is-active-match", isAct);
+      ln.el.classList.toggle("search-active", isAct);
+      ln.el.classList.toggle("active-match", isAct);
+    }
+    updateMatchCounterUI();
+  }
+
+  function jumpToMatch(delta) {
+    if (state.matches.length === 0) return;
+    const len = state.matches.length;
+    state.activeMatchIdx = (state.activeMatchIdx + delta + len) % len;
+    const targetNode = state.matches[state.activeMatchIdx];
+
+    let changedCollapse = false;
+    let p = targetNode.parent;
+    while (p) {
+      if (p.collapsed) {
+        p.collapsed = false;
+        changedCollapse = true;
+      }
+      p = p.parent;
+    }
+
+    if (changedCollapse) {
+      renderActiveCluster({ expandMatches: false });
+    } else {
+      updateActiveMatchHighlightOnly();
+    }
+    centerNodeInViewport(targetNode.id, "auto");
+  }
+
+  function zoomAtPoint(nextZoom, clientX, clientY) {
+    const vp = dom.treeViewport;
+    if (!vp || state.stageW <= 0 || state.stageH <= 0) return;
+
+    const clamped = clamp(nextZoom, LAYOUT.MIN_ZOOM, LAYOUT.MAX_ZOOM);
+    if (Math.abs(clamped - state.zoom) < 0.001) return;
+
+    const vpRect = vp.getBoundingClientRect();
+    const stageRect = dom.treeStage.getBoundingClientRect();
+    const anchorX = clientX !== undefined ? clientX : vpRect.left + vpRect.width / 2;
+    const anchorY = clientY !== undefined ? clientY : vpRect.top + vpRect.height / 2;
+
+    const stageX = (anchorX - stageRect.left) / state.zoom;
+    const stageY = (anchorY - stageRect.top) / state.zoom;
+
+    state.zoom = clamped;
+    applyZoomTransform();
+
+    const newScrollLeft = state.stageOffsetLeft + stageX * state.zoom - (anchorX - vpRect.left);
+    const newScrollTop = stageY * state.zoom - (anchorY - vpRect.top);
+    vp.scrollLeft = Math.max(0, newScrollLeft);
+    vp.scrollTop = Math.max(0, newScrollTop);
+    updateMinimapViewportRect();
+  }
+
+  function fitToScreen() {
+    const vp = dom.treeViewport;
+    if (!vp || state.stageW <= 0 || state.stageH <= 0 || vp.clientWidth <= 0 || vp.clientHeight <= 0) {
+      return;
+    }
+    const pad = 24;
+    const scaleX = (vp.clientWidth - pad) / state.stageW;
+    const scaleY = (vp.clientHeight - pad) / state.stageH;
+    state.zoom = clamp(Math.min(scaleX, scaleY, 1.0), LAYOUT.MIN_ZOOM, 1.0);
+    applyZoomTransform();
+    vp.scrollLeft = 0;
+    vp.scrollTop = 0;
+    updateMinimapViewportRect();
+  }
+
+  function resetZoom() {
+    state.zoom = 1.0;
+    applyZoomTransform();
+    centerRootAtTop();
+  }
+
+  function toggleNodeWithScrollAnchor(nodeId) {
+    const cluster = state.clusters.get(state.activeClusterId);
+    const lnBefore = state.visibleLayoutMap.get(nodeId);
+    if (!cluster || !lnBefore || !lnBefore.el || lnBefore.data.children.length === 0) return;
+
+    const vp = dom.treeViewport;
+    const vpRect = vp.getBoundingClientRect();
+    const beforeRect = lnBefore.el.getBoundingClientRect();
+    const beforeRelX = beforeRect.left - vpRect.left;
+    const beforeRelY = beforeRect.top - vpRect.top;
+
+    lnBefore.data.collapsed = !lnBefore.data.collapsed;
+    renderActiveCluster({ expandMatches: false });
+
+    const lnAfter = state.visibleLayoutMap.get(nodeId);
+    if (lnAfter && lnAfter.el) {
+      const afterRect = lnAfter.el.getBoundingClientRect();
+      const afterRelX = afterRect.left - vpRect.left;
+      const afterRelY = afterRect.top - vpRect.top;
+      vp.scrollLeft = Math.max(0, vp.scrollLeft + (afterRelX - beforeRelX));
+      vp.scrollTop = Math.max(0, vp.scrollTop + (afterRelY - beforeRelY));
+      updateMinimapViewportRect();
+    }
+  }
+
+  function switchCluster(clusterId) {
+    if (!state.clusters.has(clusterId) || clusterId === state.activeClusterId) return;
+
+    if (state.activeClusterId && dom.treeViewport) {
+      state.viewportByCluster.set(state.activeClusterId, {
+        zoom: state.zoom,
+        scrollLeft: dom.treeViewport.scrollLeft,
+        scrollTop: dom.treeViewport.scrollTop,
+        initialized: true
+      });
+    }
+
+    state.activeClusterId = clusterId;
+    updateClusterTabSelection();
+
+    const cluster = state.clusters.get(clusterId);
+    renderChapterPills(cluster);
+
+    const saved = state.viewportByCluster.get(clusterId);
+    state.zoom = saved && saved.initialized ? saved.zoom : 1.0;
+    state.activeMatchIdx = 0;
+    renderActiveCluster({ expandMatches: true });
+
+    if (saved && saved.initialized && dom.treeViewport) {
+      dom.treeViewport.scrollLeft = saved.scrollLeft;
+      dom.treeViewport.scrollTop = saved.scrollTop;
+      updateMinimapViewportRect();
+    } else {
+      centerRootAtTop();
+    }
+  }
+
+  function jumpToChapter(chapterCode) {
+    const cluster = state.clusters.get(state.activeClusterId);
+    if (!cluster) return;
+    const targetNode = cluster.chapterTargets.get(chapterCode) ||
+      cluster.allNodes.find((n) => n.chapter === chapterCode);
+    if (!targetNode) return;
+
+    let changed = false;
+    let cur = targetNode.parent;
+    while (cur) {
+      if (cur.collapsed) {
+        cur.collapsed = false;
+        changed = true;
+      }
+      cur = cur.parent;
+    }
+
+    if (changed) {
+      renderActiveCluster({ expandMatches: false });
+    }
+    centerNodeInViewport(targetNode.id, "auto");
+
+    const ln = state.visibleLayoutMap.get(targetNode.id);
+    if (ln && ln.el) {
+      if (state.jumpTimer) clearTimeout(state.jumpTimer);
+      for (const n of state.visibleNodes) {
+        if (n.el) n.el.classList.remove("is-jump-target");
+      }
+      ln.el.classList.add("is-jump-target");
+      state.jumpTimer = setTimeout(() => {
+        if (ln.el) ln.el.classList.remove("is-jump-target");
+      }, 1500);
+    }
+  }
+
+  function setMinimapOpen(open) {
+    state.minimapOpen = Boolean(open);
+    if (dom.treeMinimap) {
+      dom.treeMinimap.hidden = !state.minimapOpen;
+      dom.treeMinimap.setAttribute("data-open", state.minimapOpen ? "true" : "false");
+    }
+    if (dom.btnMinimapToggle) {
+      dom.btnMinimapToggle.setAttribute("aria-expanded", state.minimapOpen ? "true" : "false");
+    }
+    if (state.minimapOpen) {
+      renderMinimap();
+    }
+  }
+
+  function resetAllFilters() {
+    state.searchQuery = "";
+    state.activeTag = "all";
+    state.filterMatchesOnly = false;
+    state.activeMatchIdx = -1;
+
+    if (dom.searchInput) dom.searchInput.value = "";
+    if (dom.chkFilterMatches) dom.chkFilterMatches.checked = false;
+    if (dom.tagFilters) {
+      dom.tagFilters.querySelectorAll("[data-filter-tag]").forEach((btn) => {
+        const isAll = btn.getAttribute("data-filter-tag") === "all";
+        btn.classList.toggle("is-active", isAll);
+        btn.setAttribute("aria-pressed", isAll ? "true" : "false");
+      });
+    }
+    renderActiveCluster({ expandMatches: false });
+    centerRootAtTop();
+  }
+
+  function bindEvents() {
+    if (dom.btnThemeToggle) {
+      dom.btnThemeToggle.addEventListener("click", () => {
+        const next = state.theme === "dark" ? "light" : "dark";
+        applyTheme(next);
+        saveStoredTheme(next);
+      });
+    }
+
+    if (dom.clusterTabs) {
+      dom.clusterTabs.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-cluster-tab]");
+        if (!btn || btn.hidden) return;
+        const cid = btn.getAttribute("data-cluster-tab");
+        if (cid) switchCluster(cid);
+      });
+    }
+
+    if (dom.searchInput) {
+      dom.searchInput.addEventListener("input", () => {
+        state.searchQuery = dom.searchInput.value || "";
+        state.activeMatchIdx = 0;
+        renderActiveCluster({ expandMatches: true });
+        if (state.matches.length > 0) {
+          centerNodeInViewport(state.matches[state.activeMatchIdx].id, "auto");
+        }
+      });
+
+      dom.searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          jumpToMatch(e.shiftKey ? -1 : 1);
+        } else if (e.key === "Escape") {
+          dom.searchInput.value = "";
+          state.searchQuery = "";
+          state.activeMatchIdx = -1;
+          renderActiveCluster({ expandMatches: false });
+        }
+      });
+    }
+
+    if (dom.btnSearchPrev) {
+      dom.btnSearchPrev.addEventListener("click", () => jumpToMatch(-1));
+    }
+    if (dom.btnSearchNext) {
+      dom.btnSearchNext.addEventListener("click", () => jumpToMatch(1));
+    }
+
+    if (dom.chkFilterMatches) {
+      dom.chkFilterMatches.addEventListener("change", () => {
+        state.filterMatchesOnly = Boolean(dom.chkFilterMatches.checked);
+        renderActiveCluster({ expandMatches: true });
+        if (state.matches.length > 0 && state.activeMatchIdx >= 0) {
+          centerNodeInViewport(state.matches[state.activeMatchIdx].id, "auto");
+        }
+      });
+    }
+
+    if (dom.tagFilters) {
+      dom.tagFilters.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-filter-tag]");
+        if (!btn) return;
+        const nextTag = btn.getAttribute("data-filter-tag") || "all";
+        state.activeTag = nextTag;
+        dom.tagFilters.querySelectorAll("[data-filter-tag]").forEach((pill) => {
+          const active = pill.getAttribute("data-filter-tag") === nextTag;
+          pill.classList.toggle("is-active", active);
+          pill.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        state.activeMatchIdx = 0;
+        renderActiveCluster({ expandMatches: true });
+        if (state.matches.length > 0) {
+          centerNodeInViewport(state.matches[0].id, "auto");
+        }
+      });
+    }
+
+    if (dom.btnExpandAll) {
+      dom.btnExpandAll.addEventListener("click", () => {
+        const cluster = state.clusters.get(state.activeClusterId);
+        if (!cluster) return;
+        for (const n of cluster.allNodes) n.collapsed = false;
+        renderActiveCluster({ expandMatches: false });
+      });
+    }
+
+    if (dom.btnCollapseL2) {
+      dom.btnCollapseL2.addEventListener("click", () => {
+        const cluster = state.clusters.get(state.activeClusterId);
+        if (!cluster) return;
+        for (const n of cluster.allNodes) {
+          n.collapsed = n.children.length > 0 && n.depth >= 2;
+        }
+        renderActiveCluster({ expandMatches: false });
+        centerRootAtTop();
+      });
+    }
+
+    if (dom.btnCollapseL3) {
+      dom.btnCollapseL3.addEventListener("click", () => {
+        const cluster = state.clusters.get(state.activeClusterId);
+        if (!cluster) return;
+        for (const n of cluster.allNodes) {
+          n.collapsed = n.children.length > 0 && n.depth >= 3;
+        }
+        renderActiveCluster({ expandMatches: false });
+        centerRootAtTop();
+      });
+    }
+
+    if (dom.btnZoomIn) {
+      dom.btnZoomIn.addEventListener("click", () => zoomAtPoint(state.zoom * LAYOUT.ZOOM_STEP));
+    }
+    if (dom.btnZoomOut) {
+      dom.btnZoomOut.addEventListener("click", () => zoomAtPoint(state.zoom / LAYOUT.ZOOM_STEP));
+    }
+    if (dom.btnFit) {
+      dom.btnFit.addEventListener("click", fitToScreen);
+    }
+    if (dom.btnResetZoom) {
+      dom.btnResetZoom.addEventListener("click", resetZoom);
+    }
+
+    if (dom.chapterPills) {
+      dom.chapterPills.addEventListener("click", (e) => {
+        const pill = e.target.closest("[data-chapter-jump]");
+        if (!pill) return;
+        const ch = pill.getAttribute("data-chapter-jump");
+        if (ch) jumpToChapter(ch);
+      });
+    }
+
+    if (dom.btnResetFilters) {
+      dom.btnResetFilters.addEventListener("click", resetAllFilters);
+    }
+
+    if (dom.btnMinimapToggle) {
+      dom.btnMinimapToggle.addEventListener("click", () => setMinimapOpen(!state.minimapOpen));
+    }
+    if (dom.btnMinimapClose) {
+      dom.btnMinimapClose.addEventListener("click", () => setMinimapOpen(false));
+    }
+
+    // Node toggle button & header click
+    if (dom.treeNodes) {
+      dom.treeNodes.addEventListener("click", (e) => {
+        const toggleBtn = e.target.closest(".node-toggle-btn");
+        if (toggleBtn) {
+          e.stopPropagation();
+          const card = toggleBtn.closest(".node-card");
+          const nodeId = card ? card.getAttribute("data-node-id") : null;
+          if (nodeId) toggleNodeWithScrollAnchor(nodeId);
+          return;
+        }
+
+        const headerEl = e.target.closest(".node-header");
+        if (headerEl && !e.target.closest("button, a, input, select, textarea")) {
+          const sel = window.getSelection ? String(window.getSelection()) : "";
+          if (sel && sel.trim().length > 0) return;
+          const card = headerEl.closest(".node-card");
+          const nodeId = card ? card.getAttribute("data-node-id") : null;
+          if (nodeId) toggleNodeWithScrollAnchor(nodeId);
+        }
+      });
+    }
+
+    // Viewport pan, zoom, and scroll tracking
+    if (dom.treeViewport) {
+      let dragging = false;
+      let panning = false;
+      let startX = 0;
+      let startY = 0;
+      let startLeft = 0;
+      let startTop = 0;
+
+      dom.treeViewport.addEventListener("pointerdown", (e) => {
+        if (e.button !== 0) return;
+        if (e.target.closest("button, a, input, select, textarea, label, .node-toggle-btn, [data-chapter-jump]")) {
+          return;
+        }
+        dragging = true;
+        panning = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        startLeft = dom.treeViewport.scrollLeft;
+        startTop = dom.treeViewport.scrollTop;
+      });
+
+      window.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (!panning && Math.hypot(dx, dy) > 4) {
+          panning = true;
+          dom.treeViewport.classList.add("is-panning");
+          try {
+            const sel = window.getSelection();
+            if (sel) sel.removeAllRanges();
+          } catch (_) {}
+        }
+        if (panning) {
+          dom.treeViewport.scrollLeft = startLeft - dx;
+          dom.treeViewport.scrollTop = startTop - dy;
+          updateMinimapViewportRect();
+        }
+      });
+
+      const endPan = () => {
+        if (!dragging) return;
+        dragging = false;
+        if (panning) {
+          panning = false;
+          dom.treeViewport.classList.remove("is-panning");
+        }
+      };
+      window.addEventListener("pointerup", endPan);
+      window.addEventListener("pointercancel", endPan);
+
+      dom.treeViewport.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+            zoomAtPoint(state.zoom * factor, e.clientX, e.clientY);
+          }
+        },
+        { passive: false }
+      );
+
+      dom.treeViewport.addEventListener("scroll", () => {
+        updateMinimapViewportRect();
+      });
+    }
+
+    // Minimap click/drag navigation
+    if (dom.minimapBody) {
+      let miniDrag = false;
+      const panFromMinimap = (e) => {
+        const m = getMinimapMetrics();
+        if (!m || !dom.treeViewport) return;
+        const rect = dom.minimapBody.getBoundingClientRect();
+        const mx = (e.clientX - rect.left - m.padX) / m.scale;
+        const my = (e.clientY - rect.top - m.padY) / m.scale;
+        const vp = dom.treeViewport;
+        vp.scrollLeft = Math.max(0, state.stageOffsetLeft + mx * state.zoom - vp.clientWidth / 2);
+        vp.scrollTop = Math.max(0, my * state.zoom - vp.clientHeight / 2);
+        updateMinimapViewportRect();
+      };
+
+      dom.minimapBody.addEventListener("pointerdown", (e) => {
+        miniDrag = true;
+        panFromMinimap(e);
+      });
+      window.addEventListener("pointermove", (e) => {
+        if (miniDrag) panFromMinimap(e);
+      });
+      window.addEventListener("pointerup", () => {
+        miniDrag = false;
+      });
+    }
+
+    window.addEventListener("resize", () => {
+      applyZoomTransform();
+    });
+  }
+
+  function cacheDom() {
+    dom.portalTitle = qs("portal-title");
+    dom.portalSubtitle = qs("portal-subtitle");
+    dom.portalModeBadge = qs("portal-mode-badge");
+    dom.btnThemeToggle = qs("btn-theme-toggle");
+    dom.clusterTabs = qs("cluster-tabs");
+    dom.searchInput = qs("search-input");
+    dom.matchCount = qs("match-count");
+    dom.btnSearchPrev = qs("btn-search-prev");
+    dom.btnSearchNext = qs("btn-search-next");
+    dom.chkFilterMatches = qs("chk-filter-matches");
+    dom.tagFilters = qs("tag-filters");
+    dom.btnExpandAll = qs("btn-expand-all");
+    dom.btnCollapseL2 = qs("btn-collapse-l2");
+    dom.btnCollapseL3 = qs("btn-collapse-l3");
+    dom.btnZoomOut = qs("btn-zoom-out");
+    dom.zoomLabel = qs("zoom-label");
+    dom.btnZoomIn = qs("btn-zoom-in");
+    dom.btnFit = qs("btn-fit");
+    dom.btnResetZoom = qs("btn-reset-zoom");
+    dom.chapterPills = qs("chapter-pills");
+    dom.btnMinimapToggle = qs("btn-minimap-toggle");
+    dom.treeViewport = qs("tree-viewport");
+    dom.treeSizer = qs("tree-sizer");
+    dom.treeStage = qs("tree-stage");
+    dom.treeSvg = qs("tree-svg");
+    dom.treeNodes = qs("tree-nodes");
+    dom.emptyState = qs("empty-state");
+    dom.btnResetFilters = qs("btn-reset-filters");
+    dom.treeMinimap = qs("tree-minimap");
+    dom.btnMinimapClose = qs("btn-minimap-close");
+    dom.minimapBody = dom.treeMinimap ? dom.treeMinimap.querySelector(".minimap-body") : null;
+    dom.minimapSvg = qs("minimap-svg");
+    dom.minimapRect = qs("minimap-viewport-rect");
+  }
+
+  function init() {
+    cacheDom();
+    applyTheme(loadStoredTheme());
+    normalizeClusterData();
+
+    const firstId = state.clusters.has(CONFIG.defaultCluster)
+      ? CONFIG.defaultCluster
+      : state.clusters.keys().next().value;
+
+    state.activeClusterId = firstId || null;
+    applyHeaderAndTabConfig();
+    updateClusterTabSelection();
+    bindEvents();
+
+    if (state.activeClusterId) {
+      const cluster = state.clusters.get(state.activeClusterId);
+      renderChapterPills(cluster);
+      renderActiveCluster({ expandMatches: false });
+      centerRootAtTop();
+
+      const tokenAtInit = state.renderToken;
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          if (tokenAtInit === state.renderToken && state.activeClusterId) {
+            renderActiveCluster({ expandMatches: false });
+          }
+        });
+      }
+    } else if (dom.emptyState) {
+      dom.emptyState.hidden = false;
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+
+  </script>
+  <!-- Built 2026-11-24T16:09:59Z | mode=hemato | clusters=[cluster0] -->
+</body>
+</html>

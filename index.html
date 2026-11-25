@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>PharmaCU Practice — คลังข้อสอบ & แฟลชการ์ดเตรียมสอบใบประกอบวิชาชีพ</title>
+  <title>PharmaCU Practice — คลังข้อสอบ แฟลชการ์ด และสื่อการสอนมะเร็งวิทยา</title>
   
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -26,10 +26,19 @@
       --primary: #0284C7;
       --primary-hover: #0369A1;
       --primary-light: #E0F2FE;
+      
       --quiz-accent: #2563EB;
       --quiz-light: #EFF6FF;
+      
       --flashcard-accent: #0D9488;
       --flashcard-light: #F0FDFA;
+      
+      --mindmap-accent: #7C3AED;
+      --mindmap-light: #F5F3FF;
+      
+      --hub-accent: #E11D48;
+      --hub-light: #FFF1F2;
+      
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
       --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
@@ -72,11 +81,12 @@
     }
     .upn-container {
       width: 100%;
-      max-width: 1100px;
-      padding: 0 20px;
+      max-width: 1200px;
+      padding: 0 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
     }
     .upn-brand {
       display: flex;
@@ -86,6 +96,7 @@
       color: var(--text-main);
       font-size: 15px;
       font-weight: 600;
+      flex-shrink: 0;
       transition: opacity 0.15s;
     }
     .upn-brand:hover { opacity: 0.85; }
@@ -93,21 +104,26 @@
     .upn-brand-text strong { color: var(--primary); }
     .upn-tabs {
       display: flex;
-      gap: 6px;
+      gap: 4px;
       background: #F1F5F9;
       padding: 3px;
       border-radius: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+    .upn-tabs::-webkit-scrollbar { display: none; }
     .upn-tab {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      font-size: 13px;
+      gap: 5px;
+      padding: 6px 11px;
+      font-size: 12.5px;
       font-weight: 600;
       color: var(--text-muted);
       text-decoration: none;
-      border-radius: 9px;
+      border-radius: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
       transition: all 0.2s ease;
     }
     .upn-tab:hover {
@@ -123,9 +139,9 @@
     .portal-main {
       flex: 1;
       width: 100%;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 36px 20px 60px;
+      padding: 32px 16px 60px;
       display: flex;
       flex-direction: column;
       gap: 32px;
@@ -133,7 +149,7 @@
 
     .hero-banner {
       text-align: center;
-      padding: 24px 16px 8px;
+      padding: 20px 16px 8px;
     }
     .hero-badge {
       display: inline-flex;
@@ -146,7 +162,7 @@
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.3px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .hero-title {
       font-size: 32px;
@@ -156,29 +172,29 @@
       margin-bottom: 10px;
     }
     .hero-title span {
-      background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%);
+      background: linear-gradient(135deg, #0284C7 0%, #2563EB 50%, #7C3AED 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .hero-desc {
-      font-size: 16px;
+      font-size: 15.5px;
       color: var(--text-muted);
-      max-width: 620px;
+      max-width: 680px;
       margin: 0 auto;
     }
 
-    /* ══ CORE APPLICATION LAUNCH CARDS ══ */
+    /* ══ CORE APPLICATION LAUNCH CARDS (4-CARD GRID) ══ */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
 
     .app-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 28px;
+      padding: 24px;
       box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
@@ -190,23 +206,23 @@
     .app-card:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-hover);
-      border-color: rgba(2, 132, 199, 0.3);
+      border-color: rgba(2, 132, 199, 0.35);
     }
 
     .card-top {
       display: flex;
       align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 18px;
+      gap: 14px;
+      margin-bottom: 16px;
     }
     .card-icon-box {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 26px;
       flex-shrink: 0;
     }
     .card-icon-quiz {
@@ -219,68 +235,79 @@
       color: var(--flashcard-accent);
       border: 1px solid #99F6E4;
     }
+    .card-icon-mindmap {
+      background: var(--mindmap-light);
+      color: var(--mindmap-accent);
+      border: 1px solid #DDD6FE;
+    }
+    .card-icon-hub {
+      background: var(--hub-light);
+      color: var(--hub-accent);
+      border: 1px solid #FECDD3;
+    }
 
     .card-title-group h2 {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 700;
       color: #0F172A;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .card-tagline {
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 500;
       color: var(--text-muted);
     }
 
     .card-description {
-      font-size: 14.5px;
+      font-size: 13.5px;
       color: #475569;
-      line-height: 1.6;
-      margin-bottom: 20px;
+      line-height: 1.55;
+      margin-bottom: 16px;
+      min-height: 42px;
     }
 
     .card-features {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 24px;
+      gap: 6px;
+      margin-bottom: 18px;
     }
     .card-features li {
-      font-size: 13.5px;
+      font-size: 13px;
       color: #334155;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
     .feature-check {
       color: #10B981;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .card-stats-row {
       display: flex;
-      gap: 12px;
-      padding: 12px 14px;
+      gap: 8px;
+      padding: 10px 12px;
       background: #F8FAFC;
       border-radius: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
       border: 1px solid #F1F5F9;
     }
     .card-stat {
       flex: 1;
     }
     .stat-label {
-      font-size: 11px;
+      font-size: 10.5px;
       text-transform: uppercase;
       font-weight: 600;
       color: #94A3B8;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       display: block;
     }
     .stat-val {
-      font-size: 16px;
+      font-size: 14.5px;
       font-weight: 700;
       color: #0F172A;
       font-family: 'IBM Plex Mono', monospace;
@@ -292,9 +319,9 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      font-size: 15px;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
       font-weight: 600;
       text-decoration: none;
       transition: all 0.2s ease;
@@ -323,24 +350,102 @@
       transform: translateY(-1px);
     }
 
+    .launch-btn-mindmap {
+      background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+    }
+    .launch-btn-mindmap:hover {
+      background: linear-gradient(135deg, #6D28D9 0%, #5B21B6 100%);
+      box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .launch-btn-hub {
+      background: linear-gradient(135deg, #E11D48 0%, #BE123C 100%);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+    }
+    .launch-btn-hub:hover {
+      background: linear-gradient(135deg, #BE123C 0%, #9F1239 100%);
+      box-shadow: 0 6px 16px rgba(225, 29, 72, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* ══ QUICK ACCESS RESOURCE BAR ══ */
+    .resources-banner {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .resources-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #0F172A;
+    }
+    .resources-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .res-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .res-pill-purple {
+      background: #F5F3FF;
+      color: #7C3AED;
+      border: 1px solid #DDD6FE;
+    }
+    .res-pill-purple:hover { background: #EDE9FE; }
+    .res-pill-rose {
+      background: #FFF1F2;
+      color: #E11D48;
+      border: 1px solid #FECDD3;
+    }
+    .res-pill-rose:hover { background: #FFE4E6; }
+    .res-pill-blue {
+      background: #EFF6FF;
+      color: #2563EB;
+      border: 1px solid #BFDBFE;
+    }
+    .res-pill-blue:hover { background: #DBEAFE; }
+
     /* ══ CLOUD SYNC & CONFIG INFO ══ */
     .sync-card {
       background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 24px;
+      padding: 22px;
       box-shadow: var(--shadow-sm);
     }
     .sync-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       flex-wrap: wrap;
       gap: 8px;
     }
     .sync-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #0F172A;
       display: flex;
@@ -348,35 +453,35 @@
       gap: 8px;
     }
     .sync-badge {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 600;
       background: #DCFCE7;
       color: #166534;
-      padding: 3px 10px;
+      padding: 3px 9px;
       border-radius: 9999px;
     }
     .sync-items {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
     }
     .sync-box {
       background: #F8FAFC;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 10px 12px;
     }
     .sync-box-label {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       color: #64748B;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
     .sync-box-link {
-      font-size: 12px;
+      font-size: 11.5px;
       color: #0284C7;
       text-decoration: none;
       word-break: break-all;
@@ -387,8 +492,8 @@
     /* ══ FOOTER ══ */
     .portal-footer {
       text-align: center;
-      padding: 24px 20px;
-      font-size: 13px;
+      padding: 24px 16px;
+      font-size: 12.5px;
       color: #94A3B8;
       border-top: 1px solid #E2E8F0;
       background: #FFFFFF;
@@ -400,11 +505,10 @@
     .portal-footer a:hover { color: #0284C7; }
 
     @media (max-width: 640px) {
-      .hero-title { font-size: 26px; }
-      .portal-main { padding: 24px 16px 40px; }
-      .app-card { padding: 20px; }
-      .upn-brand-text strong { display: inline; }
-      .upn-tab span.upn-label { font-size: 12px; }
+      .hero-title { font-size: 25px; }
+      .portal-main { padding: 20px 14px 40px; }
+      .app-card { padding: 18px; }
+      .upn-brand-text { display: none; }
     }
   </style>
 </head>
@@ -419,16 +523,24 @@
       </a>
       <nav class="upn-tabs">
         <a href="index.html" class="upn-tab active">
-          <span class="upn-icon">🏠</span>
+          <span>🏠</span>
           <span class="upn-label">หน้าหลัก</span>
         </a>
         <a href="quiz.html" class="upn-tab">
-          <span class="upn-icon">📝</span>
+          <span>📝</span>
           <span class="upn-label">คลังข้อสอบ</span>
         </a>
         <a href="flashcard.html" class="upn-tab">
-          <span class="upn-icon">🗂️</span>
+          <span>🗂️</span>
           <span class="upn-label">แฟลชการ์ด</span>
+        </a>
+        <a href="ALL_ONCOLOGY_DRUGS_AND_REGIMENS_MINDMAP.html" class="upn-tab">
+          <span>🗺️</span>
+          <span class="upn-label">ผังยามะเร็ง</span>
+        </a>
+        <a href="PT2_ONCOLOGY_MASTER_PORTAL_HUB.html" class="upn-tab">
+          <span>🧬</span>
+          <span class="upn-label">Oncology Hub</span>
         </a>
       </nav>
     </div>
@@ -439,52 +551,45 @@
 
     <section class="hero-banner">
       <div class="hero-badge">
-        <span>⚡</span> Personal Study Hub (2-in-1 Platform)
+        <span>⚡</span> Comprehensive Oncology & Licensing Exam Suite (4-in-1)
       </div>
       <h1 class="hero-title">
-        PharmaCU <span>Practice Portal</span>
+        PharmaCU <span>Learning & Practice Portal</span>
       </h1>
       <p class="hero-desc">
-        ระบบคลังข้อสอบและแฟลชการ์ดเตรียมสอบใบประกอบวิชาชีพเภสัชกรรม รวมครบในเว็บเดียว เชื่อมต่อ Google Sheets สด พร้อมระบบ Offline PWA ใช้งานได้ทุกที่
+        ศูนย์รวมคลังข้อสอบ แฟลชการ์ดความจำ แผนผังจำแนกยาเคมีบำบัด และเนื้อหามะเร็งวิทยา PT2 รวบรวมครบจบในที่เดียว รองรับการใช้งานทั้ง Online & Offline PWA
       </p>
     </section>
 
-    <!-- ══ APP LAUNCH CARDS ══ -->
+    <!-- ══ APP LAUNCH CARDS (4 CORE APPS) ══ -->
     <section class="cards-grid">
       
-      <!-- QUIZ CARD -->
+      <!-- 1. QUIZ CARD -->
       <article class="app-card">
         <div>
           <div class="card-top">
-            <div class="card-icon-box card-icon-quiz">
-              📝
-            </div>
+            <div class="card-icon-box card-icon-quiz">📝</div>
             <div class="card-title-group">
               <h2>คลังข้อสอบจำลอง</h2>
               <div class="card-tagline">PLE-CC Quiz Practice Engine</div>
             </div>
           </div>
           <p class="card-description">
-            ฝึกทำข้อสอบปรนัย 5 ตัวเลือก ครอบคลุมทั้งสายบริบาลและสายผลิต จับเวลาเสมือนจริง พร้อมเฉลยละเอียดและเหตุผลประกอบทางคลินิก/เภสัชศาสตร์
+            ฝึกทำข้อสอบปรนัย 5 ตัวเลือก ครอบคลุมเคสมะเร็งวิทยาและวิชาชีพ พร้อมเฉลยกล่องสี 5 ส่วนตามแบบฉบับ PLE CC
           </p>
           <ul class="card-features">
             <li><span class="feature-check">✓</span> โหมดจำลองสอบจับเวลาจริง (30, 60, 100 ข้อ)</li>
-            <li><span class="feature-check">✓</span> ระบบกรอง 32 หมวดวิชา (Clinic, Product, SAP)</li>
-            <li><span class="feature-check">✓</span> รองรับสมการเคมีและคณิตศาสตร์ด้วย KaTeX</li>
-            <li><span class="feature-check">✓</span> สถิติวิเคราะห์จุดแข็ง-จุดอ่อนแยกตามหมวด</li>
+            <li><span class="feature-check">✓</span> เฉลยแยก 5 ส่วน (ถูก/ผิด/จุดจำ/Guideline)</li>
+            <li><span class="feature-check">✓</span> รองรับสูตรเคมีและคณิตศาสตร์ด้วย KaTeX</li>
           </ul>
           <div class="card-stats-row">
             <div class="card-stat">
               <span class="stat-label">คลังข้อสอบ</span>
-              <span class="stat-val">4,897 ข้อ</span>
+              <span class="stat-val">225 ข้อ Onco</span>
             </div>
             <div class="card-stat">
-              <span class="stat-label">หมวดวิชา</span>
-              <span class="stat-val">32 หมวด</span>
-            </div>
-            <div class="card-stat">
-              <span class="stat-label">ระบบสอบ</span>
-              <span class="stat-val">Live & Offline</span>
+              <span class="stat-label">สิทธิ์ใช้งาน</span>
+              <span class="stat-val">Full Admin</span>
             </div>
           </div>
         </div>
@@ -493,35 +598,28 @@
         </a>
       </article>
 
-      <!-- FLASHCARD CARD -->
+      <!-- 2. FLASHCARD CARD -->
       <article class="app-card">
         <div>
           <div class="card-top">
-            <div class="card-icon-box card-icon-flashcard">
-              🗂️
-            </div>
+            <div class="card-icon-box card-icon-flashcard">🗂️</div>
             <div class="card-title-group">
               <h2>แฟลชการ์ดสรุปประเด็น</h2>
-              <div class="card-tagline">PLE-CC Spaced Repetition Flashcards</div>
+              <div class="card-tagline">Spaced Repetition Flashcards</div>
             </div>
           </div>
           <p class="card-description">
-            ท่องจำประเด็นสำคัญ High-Yield, กลไกยา, Drug of Choice, ข้อห้ามใช้ และสูตรคำนวณ ด้วยระบบการ์ด 3D พลิกหน้า-หลัง สัมผัสปัดคล่องมือ
+            ท่องจำ High-Yield facts, กลไกยา, Drug of Choice, ข้อห้ามใช้ และสูตรตำรับ ด้วยระบบ 3D Flip Card พลิกหน้า-หลัง
           </p>
           <ul class="card-features">
-            <li><span class="feature-check">✓</span> แอนิเมชัน 3D Flip Card พลิกดูคำตอบได้ทันที</li>
-            <li><span class="feature-check">✓</span> จัดหมวดหมู่ 28 รายวิชา (16 Clinic + 12 Product)</li>
-            <li><span class="feature-check">✓</span> กรองย่อยตาม Subtopics รายโรค/รายตำรับ</li>
-            <li><span class="feature-check">✓</span> บันทึกสถานะการจำ (ยังจำไม่ได้ / จำได้แม่นยำ)</li>
+            <li><span class="feature-check">✓</span> แอนิเมชัน 3D Flip Card พลิกคำตอบทันที</li>
+            <li><span class="feature-check">✓</span> จัดหมวดหมู่ 28 รายวิชา (Clinic + Product)</li>
+            <li><span class="feature-check">✓</span> กรองย่อยตาม Subtopics และติดตามความแม่น</li>
           </ul>
           <div class="card-stats-row">
             <div class="card-stat">
               <span class="stat-label">การ์ดทบทวน</span>
               <span class="stat-val">1,000+ ใบ</span>
-            </div>
-            <div class="card-stat">
-              <span class="stat-label">หมวดหมู่</span>
-              <span class="stat-val">28 หมวด</span>
             </div>
             <div class="card-stat">
               <span class="stat-label">รูปแบบ</span>
@@ -530,10 +628,96 @@
           </div>
         </div>
         <a href="flashcard.html" class="launch-btn launch-btn-flashcard">
-          <span>🚀 เริ่มท่องแฟลชการ์ด (Launch Cards)</span>
+          <span>🚀 เริ่มท่องการ์ด (Launch Cards)</span>
         </a>
       </article>
 
+      <!-- 3. ONCOLOGY MINDMAP CARD -->
+      <article class="app-card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-box card-icon-mindmap">🗺️</div>
+            <div class="card-title-group">
+              <h2>แผนผังยา & สูตรเคมีบำบัด</h2>
+              <div class="card-tagline">Oncology Drugs & Regimens Bible</div>
+            </div>
+          </div>
+          <p class="card-description">
+            แผนผังจำแนกยาเคมีบำบัด, ยาพุ่งเป้า (Targeted Therapy), ฮอร์โมนบำบัด และ Immunotherapy ตามกลไกและตามชนิดมะเร็ง
+          </p>
+          <ul class="card-features">
+            <li><span class="feature-check">✓</span> แผนผัง Mindmap Interactive ค้นหาทันใจ</li>
+            <li><span class="feature-check">✓</span> รวมสูตรยาสำคัญ (AC, FOLFOX, R-CHOP, etc.)</li>
+            <li><span class="feature-check">✓</span> พิษสะสมสูงสุด (Cumulative Doses) & Biomarkers</li>
+          </ul>
+          <div class="card-stats-row">
+            <div class="card-stat">
+              <span class="stat-label">ตัวยา & สูตร</span>
+              <span class="stat-val">150+ รายการ</span>
+            </div>
+            <div class="card-stat">
+              <span class="stat-label">ธีมการแสดงผล</span>
+              <span class="stat-val">Dark Glass UI</span>
+            </div>
+          </div>
+        </div>
+        <a href="ALL_ONCOLOGY_DRUGS_AND_REGIMENS_MINDMAP.html" class="launch-btn launch-btn-mindmap">
+          <span>🗺️ เปิดแผนผังยามะเร็ง (Open Mindmap)</span>
+        </a>
+      </article>
+
+      <!-- 4. ONCOLOGY MASTER HUB CARD -->
+      <article class="app-card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-box card-icon-hub">🧬</div>
+            <div class="card-title-group">
+              <h2>ศูนย์รวมเนื้อหามะเร็งวิทยา</h2>
+              <div class="card-tagline">PT2 Oncology & Hemato Master Hub</div>
+            </div>
+          </div>
+          <p class="card-description">
+            แหล่งเรียนรู้เจาะลึก 19 บท รวบรวมแนวทางเวชปฏิบัติ NCCN/ESMO, การจัดการ CINV, Extravasation, และ Febrile Neutropenia
+          </p>
+          <ul class="card-features">
+            <li><span class="feature-check">✓</span> รวบรวม 19 บท Solid Tumors & Hemato</li>
+            <li><span class="feature-check">✓</span> ตารางการป้องกัน CINV และ Antidote ยารั่ว</li>
+            <li><span class="feature-check">✓</span> เชื่อมโยง Org-Chart และแผนผัง Hemato</li>
+          </ul>
+          <div class="card-stats-row">
+            <div class="card-stat">
+              <span class="stat-label">เนื้อหาบทเรียน</span>
+              <span class="stat-val">19 Chapters</span>
+            </div>
+            <div class="card-stat">
+              <span class="stat-label">รูปแบบ</span>
+              <span class="stat-val">Master Org-Chart</span>
+            </div>
+          </div>
+        </div>
+        <a href="PT2_ONCOLOGY_MASTER_PORTAL_HUB.html" class="launch-btn launch-btn-hub">
+          <span>🧬 เปิด Oncology Master Hub (Open Hub)</span>
+        </a>
+      </article>
+
+    </section>
+
+    <!-- ══ QUICK ACCESS RESOURCE BAR ══ -->
+    <section class="resources-banner">
+      <div class="resources-title">
+        <span>💡</span> ทางลัดสื่อการเรียนรู้ด่วน (Quick Mindmaps & Shortcuts):
+      </div>
+      <div class="resources-links">
+        <a href="ALL_ONCOLOGY_DRUGS_AND_REGIMENS_MINDMAP.html" class="res-pill res-pill-purple">
+          <span>🗺️</span> ผังสูตรยามะเร็งทั้งหมด & Biomarkers
+        </a>
+        <a href="HEMATO_STEM_CELL_COMPREHENSIVE_MINDMAP.html" class="res-pill res-pill-rose">
+          <span>🩸</span> ผัง Hemato Malignancies & Stem Cell (HSCT)
+        </a>
+        <a href="PT2_ONCOLOGY_MASTER_PORTAL_HUB.html" class="res-pill res-pill-blue">
+          <span>📖</span> สรุป 19 Chapters NCCN Guidelines
+        </a>
+      </div>
     </section>
 
     <!-- ══ CLOUD CONNECTION & STATUS ══ -->
@@ -542,7 +726,7 @@
         <div class="sync-title">
           <span>🔗</span> ข้อมูลการเชื่อมต่อระบบคลาวด์ส่วนตัว (Personal Config)
         </div>
-        <span class="sync-badge">✓ Configured</span>
+        <span class="sync-badge">✓ Live & Pushed</span>
       </div>
       <div class="sync-items">
         <div class="sync-box">
